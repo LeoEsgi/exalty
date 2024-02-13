@@ -1,10 +1,12 @@
-import React, { useState } from "react";
-import "./TopBar.css";
-import svgExa from "./asset/exalty.svg";
-import { Link } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import IconButton from "@mui/material/IconButton";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
+import svgExa from "./asset/exalty.svg";
+
+import "./TopBar.css";
 
 function TopBar() {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -29,7 +31,7 @@ function TopBar() {
       </IconButton>
       {!showMobileMenu && (
         <div>
-          <Link to="/shop">Boutiques</Link>
+          <Link to="/shop">Boutique</Link>
         </div>
       )}{" "}
       {!showMobileMenu && (
