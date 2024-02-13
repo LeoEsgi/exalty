@@ -1,0 +1,78 @@
+.BottomBar {
+  background-color: black;
+  display: flex;
+  color: white;
+  padding: 3em;
+  padding-top: 15rem;
+  padding-bottom: 0.1em;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.BottomBar .contact {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 1em;
+}
+
+.slogan {
+  width: fit-content;
+  font-size: 5.5rem;
+}
+
+.BottomBar .contact a {
+  background-color: transparent;
+  text-decoration: none;
+  border: none;
+  color: white;
+  border-radius: 1em;
+  font-size: 1.5rem;
+  padding: 1em;
+  padding-right: 2em;
+  padding-left: 2em;
+  width: fit-content;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+
+.BottomBar .contact a:hover {
+  background-color: #bbb76e;
+  cursor: pointer;
+}
+
+.social {
+  display: flex;
+  flex-direction: row;
+  background-color: black;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+  margin-top: 10rem;
+  width: 100%;
+  font-size: 2em;
+}
+
+.social a {
+  color: white;
+  text-decoration: none;
+  opacity: 0.9;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.social a:hover {
+  cursor: pointer;
+  color: #bbb76e;
+  opacity: 1;
+}
+
+.right {
+  font-size: 1.2rem;
+  padding: 2em;
+}
+
+.logo {
+  width: 7em;
+}

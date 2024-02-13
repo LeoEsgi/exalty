@@ -1,0 +1,109 @@
+.HomePage {
+  padding-top: 10em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.jersey {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding-bottom: 3em;
+}
+
+.jersey-content {
+  display: flex;
+  flex-direction: column;
+  margin: 1.5em;
+}
+
+.discover {
+  display: flex;
+  font-size: 5em;
+  justify-content: left;
+  align-items: flex-end;
+  color: white;
+}
+
+.btn {
+  background-color: #928f57;
+  border: none;
+  color: white;
+  border-radius: 1em;
+  font-size: 1.5em;
+  padding: 1em;
+  padding-right: 4em;
+  padding-left: 4em;
+  width: fit-content;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  text-decoration: none;
+}
+
+@keyframes scrollBackground {
+  from {
+    background-position: 0 100%;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+.bandoliere {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #130843;
+  position: absolute;
+  top: 0;
+  border: solid 0.5em #928f57;
+  border-top: none;
+  width: 20em;
+  animation: scrollBackground 10s linear infinite;
+}
+
+.btn:hover {
+  background-color: #bbb76e;
+  cursor: pointer;
+}
+
+.event {
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  color: white;
+}
+
+.event-title {
+  font-size: 5em;
+  margin: 1em;
+}
+
+.event1-content {
+  text-decoration: none;
+  color: white;
+  font-size: 2em;
+  margin: 1em;
+}
+
+.event1 {
+  width: 50%;
+}
+
+.event-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 1400px) {
+  .btn {
+    font-size: 1em;
+  }
+}
