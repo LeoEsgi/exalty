@@ -29,7 +29,7 @@ function TopBar() {
       </IconButton>
       {!showMobileMenu && (
         <div>
-          <Link to="/shop">Boutique</Link>
+          <Link to="/shop">Boutiques</Link>
         </div>
       )}{" "}
       {!showMobileMenu && (
