@@ -1,0 +1,55 @@
+{
+    "name": "backend",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "npx tsc",
+        "start": "node dist/server.js",
+        "generate": "npx prisma generate",
+        "migrate": "npx prisma migrate dev --name init",
+        "pullSchema": "npx prisma db pull",
+        "dev": "npx tsc && node dist/server.js ",
+        "aio": "npx prisma db push --accept-data-loss && npx tsc && node dist/server.js ",
+        "nodemon": "nodemon -L -e ts,prisma,json --exec npm run dev",
+        "compose": "docker compose up db -d",
+        "studio": "npx prisma studio"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@prisma/client": "^4.10.1",
+        "@types/bcrypt": "^5.0.0",
+        "@types/jsonwebtoken": "^9.0.1",
+        "alchemy-sdk": "^2.4.3",
+        "bcrypt": "^5.1.0",
+        "body-parser": "^1.20.2",
+        "cors": "^2.8.5",
+        "ethers": "^5.7.0",
+        "express": "^4.18.2",
+        "jsonwebtoken": "^9.0.0",
+        "prettier": "^2.8.8",
+        "ws": "^8.12.1"
+    },
+    "devDependencies": {
+        "@types/cors": "^2.8.13",
+        "@types/express": "^4.17.17",
+        "@types/node": "^18.14.0",
+        "@types/ws": "^8.5.4",
+        "dotenv": "^16.0.3",
+        "nodemon": "^2.0.21",
+        "prisma": "^4.10.1",
+        "typescript": "^4.9.5"
+    },
+    "nodemonConfig": {
+        "ignore": [
+            "**/dist/**"
+        ],
+        "watch": [
+            "src",
+            "prisma"
+        ]
+    }
+}

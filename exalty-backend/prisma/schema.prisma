@@ -1,0 +1,282 @@
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+model address {
+    id                                       Int      @id @default(autoincrement())
+    address                                  String   @db.VarChar(255)
+    zipcode                                  String   @db.VarChar(5)
+    city                                     String   @db.VarChar(150)
+    recipient                                String   @db.VarChar(255)
+    created_at                               DateTime @default(now()) @db.DateTime(6)
+    updated_at                               DateTime @default(now()) @db.DateTime(6)
+    order_order_shipping_address_idToaddress order?   @relation("order_shipping_address_idToaddress")
+    order_order_billing_address_idToaddress  order?   @relation("order_billing_address_idToaddress")
+}
+
+model adjustment {
+    id                   Int             @id @default(autoincrement())
+    type                 adjustment_type
+    label                String          @db.VarChar(255)
+    amount_without_taxes Int
+    amount_with_taxes    Int
+    tax                  Int
+    created_at           DateTime        @default(now()) @db.DateTime(6)
+    updated_at           DateTime        @default(now()) @db.DateTime(6)
+    order_id             Int?
+    order                order?          @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_a9bb2b5787842b6391501afdd5b")
+
+    @@index([order_id], map: "FK_a9bb2b5787842b6391501afdd5b")
+}
+
+model cart {
+    id         Int         @id @default(autoincrement())
+    created_at DateTime    @default(now()) @db.DateTime(6)
+    updated_at DateTime    @default(now()) @db.DateTime(6)
+    cart_line  cart_line[]
+}
+
+model cart_line {
+    id         Int             @id @default(autoincrement())
+    amount     Int
+    flocking   String?         @db.VarChar(255)
+    size       cart_line_size?
+    created_at DateTime        @default(now()) @db.DateTime(6)
+    updated_at DateTime        @default(now()) @db.DateTime(6)
+    cart_id    Int?
+    offer_id   Int?
+    offer      offer?          @relation(fields: [offer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_4fd40c77bee9243587b6203b8fa")
+    cart       cart?           @relation(fields: [cart_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_5455c0c2b993b0c06a1c0df4626")
+
+    @@index([offer_id], map: "FK_4fd40c77bee9243587b6203b8fa")
+    @@index([cart_id], map: "FK_5455c0c2b993b0c06a1c0df4626")
+}
+
+model message {
+    id          Int      @id @default(autoincrement())
+    pseudo      String   @db.VarChar(255)
+    discord_tag String?  @db.VarChar(255)
+    email       String   @db.VarChar(255)
+    subject     String   @db.VarChar(255)
+    text        String   @db.VarChar(255)
+    created_at  DateTime @default(now()) @db.DateTime(6)
+    updated_at  DateTime @default(now()) @db.DateTime(6)
+}
+
+model migrations {
+    id        Int    @id @default(autoincrement())
+    timestamp BigInt
+    name      String @db.VarChar(255)
+}
+
+model offer {
+    id         Int          @id @default(autoincrement())
+    published  Int          @default(0) @db.TinyInt
+    unit_price Int
+    created_at DateTime     @default(now()) @db.DateTime(6)
+    updated_at DateTime     @default(now()) @db.DateTime(6)
+    deleted_at DateTime?    @db.DateTime(6)
+    cart_line  cart_line[]
+    order_line order_line[]
+    product    product[]
+}
+
+model order {
+    id                                         Int                  @id @default(autoincrement())
+    discount                                   Int
+    price_ht                                   Int
+    price_ttc                                  Int
+    paid_price_ht                              Int
+    paid_price_ttc                             Int
+    payment_status                             order_payment_status @default(NONE)
+    status                                     order_status         @default(IN_PROGRESS)
+    subscription                               order_subscription?
+    created_at                                 DateTime             @default(now()) @db.DateTime(6)
+    updated_at                                 DateTime             @default(now()) @db.DateTime(6)
+    user_id                                    Int?
+    billing_address_id                         Int?                 @unique(map: "REL_5568d3b9ce9f7abeeb37511ecf")
+    shipping_address_id                        Int?                 @unique(map: "REL_19b0c6293443d1b464f604c331")
+    adjustment                                 adjustment[]
+    user                                       user?                @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_199e32a02ddc0f47cd93181d8fd")
+    address_order_shipping_address_idToaddress address?             @relation("order_shipping_address_idToaddress", fields: [shipping_address_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_19b0c6293443d1b464f604c3316")
+    address_order_billing_address_idToaddress  address?             @relation("order_billing_address_idToaddress", fields: [billing_address_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_5568d3b9ce9f7abeeb37511ecf2")
+    order_line                                 order_line[]
+    payment                                    payment[]
+
+    @@index([user_id], map: "FK_199e32a02ddc0f47cd93181d8fd")
+}
+
+model order_line {
+    id         Int              @id @default(autoincrement())
+    amount     Int
+    flocking   String?          @db.VarChar(255)
+    offer_copy Json
+    size       order_line_size?
+    unit_price Int
+    tax        Int
+    created_at DateTime         @default(now()) @db.DateTime(6)
+    updated_at DateTime         @default(now()) @db.DateTime(6)
+    order_id   Int?
+    offer_id   Int?
+    order      order?           @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_ed8fae6d7239e9d730219215af7")
+    offer      offer?           @relation(fields: [offer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_f2c3b587357156a6727ecde7f38")
+
+    @@index([order_id], map: "FK_ed8fae6d7239e9d730219215af7")
+    @@index([offer_id], map: "FK_f2c3b587357156a6727ecde7f38")
+}
+
+model payment {
+    id           Int            @id @default(autoincrement())
+    amount       Int
+    status       payment_status
+    details      Json
+    created_at   DateTime       @default(now()) @db.DateTime(6)
+    updated_at   DateTime       @default(now()) @db.DateTime(6)
+    order_id     Int?
+    gateway_id   String?        @db.VarChar(40)
+    gateway_name String         @db.VarChar(40)
+    order        order?         @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_f5221735ace059250daac9d9803")
+
+    @@index([order_id], map: "FK_f5221735ace059250daac9d9803")
+}
+
+model product {
+    id           Int       @id @default(autoincrement())
+    flockingable Int       @db.TinyInt
+    description  String    @db.VarChar(255)
+    name         String    @db.VarChar(255)
+    sizable      Int       @db.TinyInt
+    created_at   DateTime  @default(now()) @db.DateTime(6)
+    updated_at   DateTime  @default(now()) @db.DateTime(6)
+    deleted_at   DateTime? @db.DateTime(6)
+    offer_id     Int?
+    offer        offer?    @relation(fields: [offer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_3cd690b6e2cbbbb21fef8b5a98a")
+    stock        stock[]
+
+    @@index([offer_id], map: "FK_3cd690b6e2cbbbb21fef8b5a98a")
+}
+
+model role {
+    id          Int         @id @default(autoincrement())
+    name        String      @unique(map: "IDX_ae4578dcaed5adff96595e6166") @db.VarChar(255)
+    permissions String      @db.Text
+    user_role   user_role[]
+}
+
+model stock {
+    id         Int         @id @default(autoincrement())
+    amount     Int
+    size       stock_size?
+    created_at DateTime    @default(now()) @db.DateTime(6)
+    updated_at DateTime    @default(now()) @db.DateTime(6)
+    deleted_at DateTime?   @db.DateTime(6)
+    product_id Int?
+    product    product?    @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_375ba760c8cff338fc8c94b416c")
+
+    @@index([product_id], map: "FK_375ba760c8cff338fc8c94b416c")
+}
+
+model user {
+    id              Int         @id @default(autoincrement())
+    discord_tag     String?     @unique(map: "IDX_ff2b782400a5c8bb402d5b12de") @db.VarChar(255)
+    email           String      @unique(map: "IDX_e12875dfb3b1d92d7d7c5377e2") @db.VarChar(255)
+    first_name      String      @db.VarChar(255)
+    last_name       String      @db.VarChar(255)
+    password        String      @db.VarChar(255)
+    pseudo          String      @db.VarChar(255)
+    tag             String      @db.VarChar(4)
+    last_connection DateTime    @default(now()) @db.DateTime(0)
+    created_at      DateTime    @default(now()) @db.DateTime(6)
+    updated_at      DateTime    @default(now()) @db.DateTime(6)
+    deleted_at      DateTime?   @db.DateTime(6)
+    order           order[]
+    user_role       user_role[]
+}
+
+model user_role {
+    user_id Int
+    role_id Int
+    role    role @relation(fields: [role_id], references: [id], onDelete: Cascade, map: "FK_32a6fc2fcb019d8e3a8ace0f55f")
+    user    user @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "FK_d0e5815877f7395a198a4cb0a46")
+
+    @@id([user_id, role_id])
+    @@index([role_id], map: "IDX_32a6fc2fcb019d8e3a8ace0f55")
+    @@index([user_id], map: "IDX_d0e5815877f7395a198a4cb0a4")
+}
+
+enum adjustment_type {
+    POOL
+}
+
+enum payment_status {
+    NEW
+    WAITING
+    PROCESSING
+    BLOCKED_FUNDS
+    PAID
+    CANCELED
+    FAILED
+    REFUNDED
+    REFUND_PENDING
+    PARTIALLY_REFUNDED
+    REFUND_FAILED
+}
+
+enum stock_size {
+    S
+    M
+    L
+    XL
+    XXL
+    XXXL  @map("3XL")
+    XXXXL @map("4XL")
+}
+
+enum cart_line_size {
+    S
+    M
+    L
+    XL
+    XXL
+    XXXL  @map("3XL")
+    XXXXL @map("4XL")
+}
+
+enum order_line_size {
+    S
+    M
+    L
+    XL
+    XXL
+    XXXL  @map("3XL")
+    XXXXL @map("4XL")
+}
+
+enum order_payment_status {
+    NONE
+    AWAITING
+    PARTIALLY
+    PAID
+    TO_BE_REFUNDED
+    POOLED
+    PAYMENT_FAILED
+    REFUNDED
+}
+
+enum order_status {
+    IN_PROGRESS
+    CANCELLED
+    VALIDATED
+}
+
+enum order_subscription {
+    CONTRIBUTOR
+    ADHERENT
+    PREMIUM_ADHERENT
+}
