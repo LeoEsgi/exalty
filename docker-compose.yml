@@ -1,0 +1,11 @@
+version: '3'
+services:
+  react-docker:
+    container_name: exalty-frontend
+    build:
+      context: ./exalty-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./exalty-frontend:/usr/src/app/exalty-frontend
+      - /usr/src/app/exalty-frontend/node_modules
