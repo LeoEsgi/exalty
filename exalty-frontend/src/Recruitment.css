@@ -1,0 +1,66 @@
+.Recruitment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding-bottom: 30em;
+  background-color: black;
+  color: white;
+  padding-top: 10em;
+}
+
+.btnInfo {
+  background-color: #928f57;
+  color: white;
+  padding: 1em;
+  border-radius: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  font-size: 1.4rem;
+  border: none;
+  cursor: pointer;
+}
+
+.categorie {
+  display: flex;
+  flex-direction: column;
+  padding: 2em;
+}
+
+.functions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.function {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  border: solid 1px #928f57;
+  border-radius: 3em;
+}
+
+.Recruitment .card-r {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  border: solid 1px #928f57;
+  padding-left: 0.9em;
+  padding-right: 0.9em;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  border-radius: 3em;
+  flex-wrap: wrap;
+  margin: 1em;
+  flex: auto;
+}
+
+.categorie-title {
+  font-size: 1.5rem;
+}

@@ -1,0 +1,107 @@
+.Contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding-bottom: 30em;
+  background-color: black;
+  color: white;
+  padding-top: 10em;
+}
+
+.form {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+  margin-top: 5em;
+}
+
+.form .contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-basis: 50%;
+}
+
+.join {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-basis: 50%;
+}
+
+.formMsg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  color: white;
+  flex-basis: 50%;
+}
+
+.formMsg input {
+  padding: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  font-size: 1rem;
+  background-color: transparent;
+  color: white;
+}
+
+.formMsg textarea {
+  padding: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  font-size: 1rem;
+  color: white;
+  background-color: transparent;
+}
+
+.social-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  flex-basis: 50%;
+}
+
+.social-item {
+  flex-basis: calc(50% - 10px);
+  font-size: 1.5em;
+}
+
+.other {
+  padding-top: 5em;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.other a {
+  color: white;
+  opacity: 0.9;
+}
+
+@media screen and (max-width: 800px) {
+  .form {
+    flex-direction: column;
+    align-items: center;
+  }
+  .form .contact {
+    flex-basis: 100%;
+  }
+  .join {
+    flex-basis: 100%;
+  }
+  .formMsg {
+    flex-basis: 100%;
+  }
+  .social-list {
+    flex-basis: 100%;
+    text-align: center;
+  }
+}
