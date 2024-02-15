@@ -7,19 +7,16 @@ import { Link } from "react-router-dom";
 import svgExa from "./asset/exalty.svg";
 
 import "./TopBar.css";
-
-function TopBar() {
+interface TopBarProps {
+  isHomePageVisible?: boolean;
+}
+function TopBar({ isHomePageVisible }: TopBarProps) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showDropdown2, setShowDropdown2] = useState(false);
   const [showDropdown3, setShowDropdown3] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   return (
     <div className="TopBar">
-      <div className="logoExaMobile">
-        <Link to="/">
-          <img className="logoExa" src={svgExa} alt=""></img>
-        </Link>
-      </div>
       <IconButton
         color="inherit"
         aria-label="open drawer"
@@ -29,6 +26,11 @@ function TopBar() {
       >
         <MenuIcon />
       </IconButton>
+      <div className="logoExaMobile">
+        <Link to="/">
+          <img className="logoExa" src={svgExa} alt=""></img>
+        </Link>
+      </div>
       {!showMobileMenu && (
         <div>
           <Link to="/shop">Boutique</Link>
@@ -40,11 +42,11 @@ function TopBar() {
           onMouseLeave={() => setShowDropdown(false)}
           className="dropdown"
         >
-          Equipes
+          <Link to="/team">Equipes</Link>
           {showDropdown && (
             <div className="dropdownMenu">
-              <Link to="/teamInfo">Valorant</Link>
-              <Link to="/teamInfo">League of Legends</Link>
+              <Link to="/teamInfo?game=Valorant">Valorant</Link>
+              <Link to="/teamInfo?game=Lol">League of Legends</Link>
             </div>
           )}
         </div>
@@ -54,7 +56,10 @@ function TopBar() {
           <Link to="/sponsor">Partenaires</Link>
         </div>
       )}
-      <div className="logoExaDiv">
+      <div
+        style={{ visibility: isHomePageVisible ? "hidden" : "visible" }}
+        className="logoExaDiv"
+      >
         <Link to="/">
           <img className="logoExa" src={svgExa} alt=""></img>
         </Link>

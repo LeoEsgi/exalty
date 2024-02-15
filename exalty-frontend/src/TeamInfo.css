@@ -12,7 +12,7 @@
   text-align: center;
 }
 
-.team-list {
+.TeamInfo .team-list {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;

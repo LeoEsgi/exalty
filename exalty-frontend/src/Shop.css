@@ -6,7 +6,7 @@
   height: auto;
 }
 
-.jersey {
+.Shop .jersey {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -92,38 +92,38 @@
 }
 
 @media screen and (max-width: 800px) {
-  .jersey {
+  .Shop .jersey {
     flex-direction: column;
     align-items: center;
     justify-content: center;
   }
-  .jersey > div {
+  .Shop .jersey > div {
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
-  .jersey img {
+  .Shop .jersey img {
     width: 20rem;
   }
-  .jersey-price {
+  .Shop .jersey-price {
     font-size: 2em;
   }
-  .jersey-size select {
+  .Shop .jersey-size select {
     width: 5em;
   }
-  .jersey-tag select {
+  .Shop .jersey-tag select {
     width: 5em;
   }
-  .jersey-size input {
+  .Shop .jersey-size input {
     width: 5em;
   }
-  .jersey-tag input {
+  .Shop .jersey-tag input {
     width: 5em;
   }
-  .jersey-infos select {
+  .Shop .jersey-infos select {
     width: 5em;
   }
-  .jersey-infos input {
+  .Shop .jersey-infos input {
     width: 5em;
   }
 }

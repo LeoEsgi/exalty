@@ -6,23 +6,70 @@
   justify-content: center;
 }
 
+.history {
+  animation: scrollBackground 60s linear infinite;
+  background-color: #130843;
+}
+
+.history-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  margin-left: 15%;
+  border-left: 0.4em solid #928f57;
+  background-color: black;
+  height: 100%;
+  padding-top: 15rem;
+  padding-bottom: 25rem;
+}
+
+.history-desc {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: 100%;
+  padding-top: 4rem;
+}
+
+.history-title {
+  font-size: 4.5rem;
+  padding-left: 1em;
+}
+
+.history-desc > div {
+  flex-basis: 50%;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.history-date {
+  font-size: 3rem;
+  margin: 1em;
+}
+
 .jersey {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  align-items: flex-end;
-  padding-bottom: 3em;
+  align-items: flex-start;
+  padding-bottom: 2.5em;
 }
 
 .jersey-content {
   display: flex;
   flex-direction: column;
   margin: 1.5em;
+  padding-left: 3em;
+  margin-bottom: 0;
 }
 
 .discover {
   display: flex;
-  font-size: 5em;
+  font-size: 4.5rem;
   justify-content: left;
   align-items: flex-end;
   color: white;
@@ -52,20 +99,6 @@
   }
 }
 
-.bandoliere {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: #130843;
-  position: absolute;
-  top: 0;
-  border: solid 0.5em #928f57;
-  border-top: none;
-  width: 20em;
-  animation: scrollBackground 10s linear infinite;
-}
-
 .btn:hover {
   background-color: #bbb76e;
   cursor: pointer;
@@ -74,20 +107,29 @@
 .event {
   display: flex;
   flex-direction: column;
-  background-color: black;
+  background-color: #130843;
   color: white;
+  animation: scrollBackground 60s linear infinite;
+}
+
+.event-content {
+  background-color: black;
+  width: 85vw;
+  border-right: 0.4em solid #928f57;
 }
 
 .event-title {
-  font-size: 5em;
-  margin: 1em;
+  font-size: 4rem;
+  padding: 1em;
 }
 
 .event1-content {
   text-decoration: none;
   color: white;
-  font-size: 2em;
+  font-size: 1.5rem;
   margin: 1em;
+  padding-top: 2em;
+  text-align: center;
 }
 
 .event1 {
@@ -102,8 +144,278 @@
   flex-wrap: wrap;
 }
 
+.eiffel {
+  background-color: #191219c7;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.eiffel-container {
+  background-color: #130843;
+  clip-path: polygon(
+    43% 0,
+    43% 55%,
+    22% 100%,
+    38% 100%,
+    50% 76%,
+    62% 100%,
+    78% 100%,
+    57% 55%,
+    57% 0
+  );
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+.eiffel-bg {
+  animation: slide-11c53a00 180s linear infinite;
+  background-size: 60%;
+  height: calc(3000px + 100%);
+  width: 100%;
+  animation: scrollBackground 60s linear infinite;
+}
+
+.eiffel-left {
+  background-color: #928f57;
+  clip-path: polygon(
+    calc(43% - 6px) 0,
+    calc(43% - 6px) calc(55% - 4px),
+    calc(22% - 6px) 100%,
+    22% 100%,
+    43% 55%,
+    43% 0
+  );
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+.eiffel-right {
+  background-color: #928f57;
+  clip-path: polygon(
+    calc(57% + 6px) 0,
+    calc(57% + 6px) calc(55% - 4px),
+    calc(78% + 6px) 100%,
+    78% 100%,
+    57% 55%,
+    57% 0
+  );
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+.eiffel-bottom {
+  background-color: #928f57;
+  clip-path: polygon(
+    calc(38% + 8px) 100%,
+    50% calc(76% + 8px),
+    calc(62% - 8px) 100%,
+    62% 100%,
+    50% 76%,
+    38% 100%
+  );
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+.eiffel-logo {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+}
+
+.eiffel-img {
+  background-color: #13084373;
+  border-radius: 100px;
+  box-shadow: 0 0 70px 70px #13084373;
+  padding: 100px 30px;
+  width: 560px;
+}
+
+.triangle {
+  background-color: #000;
+  clip-path: polygon(
+    0 100%,
+    0 44%,
+    50% calc(19% + 5px),
+    100% 44%,
+    100% 100%,
+    50% calc(76% + 5px)
+  );
+  height: 400%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 0.9s ease-in-out;
+  width: 100%;
+  z-index: 100;
+}
+
 @media screen and (max-width: 1400px) {
   .btn {
     font-size: 1em;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .history-content {
+    margin-left: 0;
+    border: none;
+  }
+  .history-desc > div {
+    flex-basis: 100%;
+  }
+  .event1-content {
+    font-size: 1.2rem;
+  }
+  .event-title {
+    font-size: 3rem;
+  }
+  .event1 {
+    width: 100%;
+  }
+  .event-list {
+    flex-direction: column;
+  }
+  .eiffel-img {
+    padding: 50px 15px;
+    width: 300px;
+  }
+  .eiffel-logo {
+    padding: 0;
+  }
+  .eiffel {
+    display: none;
+  }
+  .eiffel-container {
+    display: none;
+  }
+  .eiffel-bg {
+    display: none;
+  }
+  .eiffel-left {
+    display: none;
+  }
+  .eiffel-right {
+    display: none;
+  }
+  .eiffel-bottom {
+    display: none;
+  }
+  .triangle {
+    display: none;
+  }
+  .discover {
+    font-size: 3rem;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .history-content {
+    border: none;
+    padding-top: 8rem;
+    padding-bottom: 10rem;
+  }
+  .event-title {
+    font-size: 2.5rem;
+  }
+  .history-title {
+    font-size: 2.5rem;
+  }
+  .history-date {
+    font-size: 1.8rem;
+  }
+  .history-desc > div {
+    font-size: 1rem;
+  }
+  .jersey-content {
+    padding-left: 1em;
+  }
+  .jersey {
+    padding-bottom: 1em;
+  }
+  .jersey-infos select {
+    width: 7em;
+  }
+  .jersey-infos input {
+    width: 7em;
+  }
+  .discover {
+    font-size: 2.5rem;
+  }
+  .event1-content {
+    font-size: 1rem;
+  }
+  .event-title {
+    font-size: 2rem;
+  }
+  .event1 {
+    width: 100%;
+  }
+  .event-list {
+    flex-direction: column;
+  }
+  .eiffel-img {
+    padding: 50px 15px;
+    width: 300px;
+  }
+  .eiffel-logo {
+    padding: 0;
+  }
+  .eiffel {
+    display: none;
+  }
+  .eiffel-container {
+    display: none;
+  }
+  .eiffel-bg {
+    display: none;
+  }
+  .eiffel-left {
+    display: none;
+  }
+  .eiffel-right {
+    display: none;
+  }
+  .eiffel-bottom {
+    display: none;
+  }
+  .triangle {
+    display: none;
+  }
+  .social {
+    margin-top: 5rem;
+  }
+  .social a {
+    font-size: 0.8rem;
+  }
+  .right {
+    font-size: 1rem;
+  }
+  .logo {
+    width: 5em;
+  }
+  .BottomBar {
+    padding-top: 5rem;
+  }
+  .BottomBar .slogan {
+    font-size: 2.5rem;
+  }
+  .BottomBar .contact a {
+    font-size: 0.8rem;
+  }
+  .social {
+    font-size: 1.5rem;
+  }
+  .social a {
+    font-size: 0.8rem;
   }
 }

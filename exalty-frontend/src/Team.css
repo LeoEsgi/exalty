@@ -11,7 +11,7 @@
   padding-top: 10em;
 }
 
-.team-list {
+.Team .team-list {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -37,20 +37,63 @@
   height: 12em;
   background-color: black;
   transform: rotate(45deg);
-  border: solid 1.2em #928f57;
+  border: solid 0.8em #928f57;
   overflow: hidden;
 }
 
 .losange img {
   transform: rotate(-45deg);
-  /* remonte l'image */
   margin-top: -3.6em;
   margin-left: -10em;
 }
 
+@keyframes tremblement {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-10px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(10px);
+  }
+}
+
+@keyframes tournerEnRond {
+  0% {
+    transform: rotate(0deg) translateX(0);
+  }
+  25% {
+    transform: rotate(90deg) translateX(20px);
+  }
+  50% {
+    transform: rotate(180deg) translateX(0);
+  }
+  75% {
+    transform: rotate(270deg) translateX(-20px);
+  }
+  100% {
+    transform: rotate(360deg) translateX(0);
+  }
+}
+
 .losange:hover {
   cursor: pointer;
-  /* zoom */
-  transform: scale(1.5);
-  transition: transform 0.5s;
+}
+
+@media screen and (max-width: 800px) {
+  .Team .team-list {
+    flex-direction: column;
+  }
+  .Team .team {
+    padding-bottom: 10rem;
+  }
 }

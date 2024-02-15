@@ -6,18 +6,16 @@
   position: fixed;
   padding: 0 20px;
   height: 7rem;
-  background-color: black;
-  opacity: 0.8;
   line-height: 2rem;
   width: 100%;
   color: white;
+  z-index: 1000;
 }
 
 .TopBar a {
   color: white;
   font-size: 1.5rem;
   text-decoration: none;
-  opacity: 0.9;
   font-weight: bold;
 }
 
@@ -25,14 +23,12 @@
   color: white;
   font-size: 1.5rem;
   text-decoration: none;
-  opacity: 0.9;
   font-weight: bold;
 }
 
 .TopBar a:hover {
   cursor: pointer;
   color: #bbb76e;
-  opacity: 1;
 }
 
 .logoExa {

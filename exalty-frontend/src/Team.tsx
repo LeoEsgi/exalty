@@ -3,6 +3,7 @@ import lol from "./asset/game/lol.jpg";
 import valorant from "./asset/game/valorant.png";
 import balmain from "./asset/balmain.svg";
 import TopBar from "./TopBar";
+import { Link } from "react-router-dom";
 function Team() {
   return (
     <>
@@ -25,15 +26,17 @@ function Team() {
         <div className="team-list">
           <div className="team">
             <div className="losange">
-              <img src={valorant} alt="Valorant"></img>
+              <Link to="/teamInfo?game=Valorant">
+                <img src={valorant} alt="Valorant"></img>
+              </Link>
             </div>
-            <div className="team-game">Valorant</div>
           </div>
           <div className="team">
             <div className="losange">
-              <img src={lol} alt="League of Legends"></img>
+              <Link to="/teamInfo?game=Lol">
+                <img src={lol} alt="League of Legends"></img>
+              </Link>
             </div>
-            <div className="team-game">League of Legends</div>
           </div>
         </div>
       </div>
