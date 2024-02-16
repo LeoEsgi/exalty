@@ -87,9 +87,11 @@ function TeamInfo() {
           backgroundRepeat: "repeat",
         }}
       >
-        <div className="title">Notre Equipe</div>
-        <div className="title-desc">{selectGame.getTitle()}</div>
-        <div className="title-desc2">{selectGame.getDesc()}</div>
+        <div className="team-content">
+          <div className="title">Notre Equipe</div>
+          <div className="team-desc1">{selectGame.getTitle()}</div>
+          <div className="team-desc2">{selectGame.getDesc()}</div>
+        </div>
         <div className="team-list">
           {players.map((player) => (
             <div className="player">

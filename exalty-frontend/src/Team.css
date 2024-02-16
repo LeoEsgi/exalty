@@ -14,10 +14,14 @@
 .Team .team-list {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   width: 100%;
   margin-top: 5em;
+}
+
+.Team .team {
+  padding-left: 8rem;
 }
 
 .team-list img {

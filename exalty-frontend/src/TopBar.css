@@ -5,7 +5,7 @@
   flex-direction: row;
   position: fixed;
   padding: 0 20px;
-  height: 7rem;
+  height: 5rem;
   line-height: 2rem;
   width: 100%;
   color: white;
@@ -14,7 +14,7 @@
 
 .TopBar a {
   color: white;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   text-decoration: none;
   font-weight: bold;
 }
@@ -22,7 +22,7 @@
 .TopBar .dropdown {
   color: white;
   text-decoration: none;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: bold;
 }
 
@@ -32,27 +32,23 @@
 }
 
 .logoExa {
-  width: 10rem;
+  width: 8rem;
 }
 
-.dropdownMenu {
+.dropdown-menu {
+  display: flex;
+  flex-direction: column;
   position: absolute;
-  background-color: #000000;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  padding: 12px 16px;
   z-index: 1;
+  padding-left: 0.2em;
 }
 
-.dropdownMenu a {
-  padding: 12px 16px;
+.dropdown-menu a {
   text-decoration: none;
   display: block;
   color: white;
-  font-size: 1.2rem;
-}
-
-.dropdownMenu a:hover {
-  background-color: #ddd;
+  font-size: 0.9rem;
+  white-space: nowrap;
 }
 
 .dropdown:hover {
@@ -61,33 +57,24 @@
   opacity: 1;
 }
 
-.dropdownMenu-inverted {
+.dropdown-menu-inverted {
   width: max-content;
   display: flex;
   flex-direction: column;
   position: absolute;
-  background-color: #000000;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  padding: 12px 16px;
   z-index: 1;
   transform: translateX(-80%);
 }
 
-.dropdownMenu-inverted a {
-  padding: 12px 16px;
+.dropdown-menu-inverted a {
   text-decoration: none;
   display: inline-block;
   color: white;
   font-size: 1.2rem;
 }
 
-.dropdownMenu-inverted a:hover {
-  background-color: #ddd;
-}
-
-.dropdownMenu-inverted:hover {
+.dropdown-menu-inverted:hover {
   cursor: pointer;
-  color: #bbb76e;
   opacity: 1;
 }
 
@@ -105,6 +92,25 @@
   padding-left: 1rem;
 }
 
+.nav-item::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #bbb76e;
+  transition: width 0.3s ease-in-out;
+}
+
+.nav-item:hover::after {
+  width: 100%;
+}
+
+.menu-normal > div {
+  position: relative;
+}
+
 @media screen and (max-width: 1400px) {
   .TopBar {
     height: auto;
@@ -117,8 +123,8 @@
   .logoExa {
     width: 8rem;
   }
-  .dropdownMenu,
-  .dropdownMenu-inverted {
+  .dropdown-menu,
+  .dropdown-menu-inverted {
     transform: translateX(0%);
   }
 }
@@ -145,8 +151,8 @@
   .logoExa {
     width: 6rem;
   }
-  .dropdownMenu,
-  .dropdownMenu-inverted {
+  .dropdown-menu,
+  .dropdown-menu-inverted {
     transform: translateX(0%);
   }
 }

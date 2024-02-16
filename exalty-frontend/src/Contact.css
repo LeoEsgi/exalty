@@ -11,12 +11,30 @@
   padding-top: 10em;
 }
 
+.contact-content {
+  background-color: black;
+  padding-bottom: 3em;
+}
+
+.contact-desc {
+  font-size: 1.2rem;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  text-align: center;
+  line-height: 1.5em;
+}
+
+.contact-desc2 {
+  font-style: italic;
+  padding-bottom: 0.5em;
+}
+
 .form {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   width: 100%;
-  margin-top: 5em;
+  margin-top: 1em;
 }
 
 .form .contact {
@@ -76,12 +94,21 @@
 }
 
 .other {
-  padding-top: 5em;
-  font-size: 1.5em;
+  padding-top: 2em;
+  font-size: 1em;
   text-align: center;
 }
 
 .other a {
+  color: white;
+  opacity: 0.9;
+}
+
+.ask-faq {
+  font-weight: bold;
+}
+
+.ask-faq a {
   color: white;
   opacity: 0.9;
 }

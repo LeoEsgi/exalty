@@ -46,7 +46,7 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
               >
                 <Link to="/team">Equipes</Link>
                 {showDropdown && (
-                  <div className="dropdownMenu">
+                  <div className="dropdown-menu">
                     <Link to="/teamInfo?game=Valorant">Valorant</Link>
                     <Link to="/teamInfo?game=Lol">League of Legends</Link>
                   </div>
@@ -71,7 +71,7 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
               >
                 <AccountCircleIcon fontSize="large" />
                 {showDropdown3 && (
-                  <div className="dropdownMenu-inverted">
+                  <div className="dropdown-menu-inverted">
                     <Link to="/auth">Se Connecter</Link>
                     <Link to="/register">S'Inscrire</Link>
                   </div>
@@ -83,23 +83,27 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
 
         <div className="menu-normal">
           <div>
-            <Link to="/shop">Boutique</Link>
+            <Link to="/shop" className="nav-item">
+              Boutique
+            </Link>
           </div>{" "}
           <div
             onMouseEnter={() => setShowDropdown(true)}
             onMouseLeave={() => setShowDropdown(false)}
-            className="dropdown"
+            className="dropdown nav-item"
           >
             <Link to="/team">Equipes</Link>
             {showDropdown && (
-              <div className="dropdownMenu">
+              <div className="dropdown-menu">
                 <Link to="/teamInfo?game=Valorant">Valorant</Link>
                 <Link to="/teamInfo?game=Lol">League of Legends</Link>
               </div>
             )}
           </div>
           <div>
-            <Link to="/sponsor">Partenaires</Link>
+            <Link to="/sponsor" className="nav-item">
+              Partenaires
+            </Link>
           </div>
           <div
             style={{ visibility: isLogoVisible ? "visible" : "hidden" }}
@@ -112,18 +116,20 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
           <div
             onMouseEnter={() => setShowDropdown2(true)}
             onMouseLeave={() => setShowDropdown2(false)}
-            className="dropdown"
+            className="dropdown nav-item"
           >
             Devenir Membre
             {showDropdown2 && (
-              <div className="dropdownMenu">
+              <div className="dropdown-menu">
                 <Link to="/member">Devenir Adhérant</Link>
                 <Link to="/recruitment">Rejoindre Exalty</Link>
               </div>
             )}
           </div>
           <div>
-            <Link to="/contact">Contact</Link>
+            <Link to="/contact" className="nav-item">
+              Contact
+            </Link>
           </div>
           <div
             onMouseEnter={() => setShowDropdown3(true)}
@@ -132,7 +138,7 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
           >
             <AccountCircleIcon fontSize="large" />
             {showDropdown3 && (
-              <div className="dropdownMenu-inverted">
+              <div className="dropdown-menu-inverted">
                 <Link to="/auth">Se connecter</Link>
                 <Link to="/register">S'inscrire</Link>
               </div>
