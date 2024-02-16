@@ -10,41 +10,54 @@ import balmain from "./asset/balmain.svg";
 import svgExa from "./asset/exalty.svg";
 
 function HomePage() {
-  const [isHomePageVisible, setIsHomePageVisible] = useState(true);
-  const lastScrollY = useRef(0);
+  const [isLogoVisible, setIsLogoVisible] = useState(false);
+  const triangleRef = useRef<HTMLDivElement>(null);
+  const historyRef = useRef<HTMLDivElement>(null);
+  const homeRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      // Détermine si la page doit être visible en fonction de la direction du défilement.
-      const shouldBeVisible = currentScrollY < lastScrollY.current;
-
-      // Ne met à jour l'état que si la visibilité change.
-      if (shouldBeVisible !== isHomePageVisible) {
-        setIsHomePageVisible(shouldBeVisible);
+  const handleScrollDown = function () {
+    if (triangleRef.current != null) {
+      triangleRef.current!.style.transform = "translateY(-100%)";
+      if (historyRef.current != null) {
+        historyRef.current!.scrollIntoView();
+        setIsLogoVisible(true);
+        window.removeEventListener("scroll", handleScrollDown);
+        setTimeout(() => {
+          window.addEventListener("scroll", handleScrollUp);
+        }, 50);
       }
-
-      lastScrollY.current = currentScrollY;
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-    // Cette fois, nous ne mettons pas isHomePageVisible comme dépendance pour éviter l'effet de re-création.
-  }, []);
+    }
+  };
+  const handleScrollUp = function () {
+    if (triangleRef.current != null) {
+      if (
+        homeRef.current != null &&
+        historyRef.current != null &&
+        historyRef.current.getBoundingClientRect().top >= 0
+      ) {
+        triangleRef.current!.style.transform = "translateY(0%)";
+        console.log(homeRef.current.getBoundingClientRect().top);
+        homeRef.current!.scrollIntoView();
+        setIsLogoVisible(false);
+        window.removeEventListener("scroll", handleScrollUp);
+        setTimeout(() => {
+          window.addEventListener("scroll", handleScrollDown);
+        }, 50);
+      }
+    }
+  };
+  window.addEventListener("scroll", handleScrollDown);
 
   return (
     <>
-      <TopBar isHomePageVisible={isHomePageVisible} />
+      <TopBar isLogoVisible={isLogoVisible} />
       <div
         className="HomePage"
+        ref={homeRef}
         style={{
           backgroundImage: `url(${logo})`,
           height: "100vh",
           backgroundSize: "cover",
-          display: isHomePageVisible ? "flex" : "none",
         }}
       >
         <div className="eiffel">
@@ -68,14 +81,10 @@ function HomePage() {
           </div>
         </div>
       </div>
-      <div
-        className="triangle"
-        style={{
-          transform: isHomePageVisible ? "translateY(0%)" : "translateY(-100%)",
-        }}
-      />
+      <div className="triangle" ref={triangleRef} />
       <div
         className="history"
+        ref={historyRef}
         style={{
           backgroundImage: `url(${balmain})`,
           backgroundSize: "cover",

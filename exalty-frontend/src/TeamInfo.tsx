@@ -20,55 +20,21 @@ import sollaw from "./asset/team/lol/sollaw.png";
 import tolgear from "./asset/team/lol/tolgear.png";
 import sarkymm from "./asset/team/lol/sarkymm.png";
 import { useLocation } from "react-router-dom";
-
-// create list of player with their image and role
-
-class game {
-  constructor(public name: string, public title: string, public desc: string) {}
-
-  public getName() {
-    return this.name;
-  }
-  public getTitle() {
-    return this.title;
-  }
-  public getDesc() {
-    return this.desc;
-  }
-}
-
-class player {
-  constructor(
-    public name: string,
-    public role: string,
-    public image: string,
-    public game: game
-  ) {}
-
-  public getName() {
-    return this.name;
-  }
-  public getRole() {
-    return this.role;
-  }
-  public getImage() {
-    return this.image;
-  }
-  public getGame() {
-    return this.game;
-  }
-}
+import { game } from "./Team";
+import { player } from "./Team";
 
 const valorantGame = new game(
   "Valorant",
   "Sur valorant retrouvez les en VCT champions",
-  "Notre équipe Valorant représente l’essence même de la compétitivité et du travail d’équipe chez Exalty. Constituée de joueurs talentueux et dévoués, cette équipe allie habilement stratégie, rapidité et précision pour dominer dans l’arène de Valorant. Avec des performances remarquables dans divers tournois, notre équipe Valorant ne cesse de repousser les limites, démontrant leur compétence et leur passion pour le jeu. Leur esprit d’équipe et leur détermination font d’eux non seulement des compétiteurs redoutables, mais aussi des ambassadeurs inspirants de notre association."
+  "Notre équipe Valorant représente l’essence même de la compétitivité et du travail d’équipe chez Exalty. Constituée de joueurs talentueux et dévoués, cette équipe allie habilement stratégie, rapidité et précision pour dominer dans l’arène de Valorant. Avec des performances remarquables dans divers tournois, notre équipe Valorant ne cesse de repousser les limites, démontrant leur compétence et leur passion pour le jeu. Leur esprit d’équipe et leur détermination font d’eux non seulement des compétiteurs redoutables, mais aussi des ambassadeurs inspirants de notre association.",
+  ""
 );
 
 const lolGame = new game(
   "Lol",
   "Sur League of Legends retrouvez les sur la faille de l'invocateur",
-  "L’équipe League of Legends (LoL) chez Exalty est un symbole de persévérance et d’innovation dans l’esport. Nos joueurs, sélectionnés pour leur habileté exceptionnelle et leur esprit stratégique, excellent sur Summoner’s Rift, apportant fierté et prestige à notre association. Un fait marquant pour notre équipe est le retour de notre coaching staff original de 2021, qui avait mené l’équipe à sa meilleure performance historique, terminant top 9 à l’OTF. Leur retour symbolise un renouvellement d’engagement et de passion, apportant une expérience précieuse et une vision éprouvée qui galvanisent l’équipe. Cette fusion d’anciennes réussites et de nouvelles aspirations place notre équipe LoL sur la voie du succès continu et de la reconnaissance dans la scène compétitive de League of Legends."
+  "L’équipe League of Legends (LoL) chez Exalty est un symbole de persévérance et d’innovation dans l’esport. Nos joueurs, sélectionnés pour leur habileté exceptionnelle et leur esprit stratégique, excellent sur Summoner’s Rift, apportant fierté et prestige à notre association. Un fait marquant pour notre équipe est le retour de notre coaching staff original de 2021, qui avait mené l’équipe à sa meilleure performance historique, terminant top 9 à l’OTF. Leur retour symbolise un renouvellement d’engagement et de passion, apportant une expérience précieuse et une vision éprouvée qui galvanisent l’équipe. Cette fusion d’anciennes réussites et de nouvelles aspirations place notre équipe LoL sur la voie du succès continu et de la reconnaissance dans la scène compétitive de League of Legends.",
+  ""
 );
 
 const valorant = [

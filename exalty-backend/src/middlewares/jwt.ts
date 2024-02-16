@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import JwtService from "../services/jwt";
-import { user } from "@prisma/client";
+import { user, user_role } from "@prisma/client";
 import UserService from "../services/user";
 
 // Your custom "middleware" function:
