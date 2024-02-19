@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import JwtService from "../services/jwt";
 import { user, user_role } from "@prisma/client";
 import UserService from "../services/user";
+import RoleService from "../services/role";
 
 // Your custom "middleware" function:
 export async function verifyJwt(
@@ -26,7 +27,8 @@ export async function verifyJwt(
   }
 }
 
-export const checkRole = (allowedRoles: user["role"][]) => {
+export const checkRole = (allowedRoles: string[]) => {
+  // Changez le type ici selon la structure de votre rôle
   return async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
     if (!token) {
@@ -41,15 +43,27 @@ export const checkRole = (allowedRoles: user["role"][]) => {
       const user = await UserService.getInstance().getByEmail(
         userInToken.email
       );
+
       if (!user) {
         res.status(401).json({ message: "User not found" });
         return;
       }
 
-      if (allowedRoles.includes(user.role)) {
-        next();
+      // Récupère les rôles de l'utilisateur
+      const userRoles = await RoleService.getInstance().getById(user.id);
+      if (!userRoles) {
+        res.status(401).json({ message: "User not found" });
         return;
       }
+
+      // Vérifie si l'utilisateur a un rôle autorisé
+      // const hasAllowedRole = allowedRoles.some((role) => {
+      //   return userRoles.role_name === role;
+      // });
+      // if (hasAllowedRole) {
+      //   next();
+      //   return;
+      // }
 
       throw new Error("Wrong role");
     } catch (e) {

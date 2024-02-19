@@ -11,6 +11,11 @@
   padding-top: 10em;
 }
 
+.recruitment-content {
+  background-color: black;
+  padding-bottom: 3em;
+}
+
 .btnInfo {
   background-color: #928f57;
   color: white;

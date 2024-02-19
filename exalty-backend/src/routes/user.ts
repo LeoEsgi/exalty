@@ -14,22 +14,8 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/type", async (req, res) => {
-  const type = await prisma.type.findMany().catch((e: { message: any }) => {
-    prismaErrorHandler().errorHandler(e, req, res, (e) => {
-      console.log(e);
-    });
-  });
-  res.json(type);
-});
-
-router.post("/type", async (req, res) => {
-  const type_name = req.body.type;
-  const type = await prisma.type
-    .create({
-      data: {
-        type_name: type_name,
-      },
-    })
+  const type = await prisma.user_role
+    .findMany()
     .catch((e: { message: any }) => {
       prismaErrorHandler().errorHandler(e, req, res, (e) => {
         console.log(e);
@@ -37,5 +23,21 @@ router.post("/type", async (req, res) => {
     });
   res.json(type);
 });
+
+// router.post("/type", async (req, res) => {
+//   const type_name = req.body.type;
+//   const type = await prisma.user_role
+//     .create({
+//       data: {
+//         role_name: type_name,
+//       },
+//     })
+//     .catch((e: { message: any }) => {
+//       prismaErrorHandler().errorHandler(e, req, res, (e) => {
+//         console.log(e);
+//       });
+//     });
+//   res.json(type);
+// });
 
 export default router;

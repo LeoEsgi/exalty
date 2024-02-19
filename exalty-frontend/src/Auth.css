@@ -11,14 +11,20 @@
   padding-top: 10em;
 }
 
+.auth-content {
+  background-color: black;
+  padding: 3em;
+  padding-bottom: 5em;
+}
+
 .Auth input {
   padding: 0.8em;
   margin-top: 1em;
   margin-bottom: 1em;
-  font-size: 1.2rem;
-  width: 15em;
+  font-size: 1rem;
   background-color: transparent;
   color: white;
+  width: 100%;
 }
 
 .Auth a {
@@ -35,9 +41,40 @@
   justify-content: center;
   width: 100%;
   color: white;
-  padding-top: 5em;
+  padding-top: 2em;
 }
 
-.Auth .create {
-  font-size: 1.5rem;
+.Auth .create,
+.Auth .create a {
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+.auth-title {
+  font-size: 2.25rem;
+  text-align: center;
+}
+
+.auth-btn {
+  background-color: #928f57;
+  border: none;
+  color: white;
+  margin-top: 1rem;
+  border-radius: 1em;
+  font-size: 1.1rem;
+  padding-right: 2em;
+  padding-left: 2em;
+  padding: 1em;
+  width: -moz-fit-content;
+  width: fit-content;
+  text-decoration: none;
+  margin-bottom: 1rem;
+}
+
+.auth-btn:hover {
+  cursor: pointer;
+}
+
+.login-form > div {
+  width: 100%;
 }

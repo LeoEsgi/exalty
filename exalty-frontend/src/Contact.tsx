@@ -40,8 +40,19 @@ function Contact() {
                 <label htmlFor="email">Email</label>
                 <input type="email" id="email" name="email" required></input>
                 <label htmlFor="message">Message</label>
-                <textarea id="message" name="message" required></textarea>
-                <button className="btn">Envoyer</button>
+                <textarea
+                  style={{
+                    backgroundImage: `url(${balmain})`,
+                    backgroundPosition: "0% 0%",
+                    backgroundSize: "230%",
+                    backgroundRepeat: "repeat",
+                  }}
+                  id="message"
+                  name="message"
+                  required
+                ></textarea>
+                <div>* Champs obligatoires</div>
+                <button className="contact-btn">Envoyer</button>
               </form>
             </div>
             <div className="join">
@@ -56,6 +67,7 @@ function Contact() {
                 <div className="social-item">Exalty</div>
                 <div className="social-item">@Exalty</div>
               </div>
+              <div></div>
               <button className="btn">Rejoignez-Nous !</button>
             </div>
           </div>

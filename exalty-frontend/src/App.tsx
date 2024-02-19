@@ -1,6 +1,5 @@
-import React from "react";
 import "./App.css";
-import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./HomePage";
 import Member from "./Member";
 import Recruitment from "./Recruitment";
@@ -13,6 +12,7 @@ import Contact from "./Contact";
 import Auth from "./Auth";
 import Register from "./Register";
 import Unknown from "./404";
+import ValidateMail from "./ValidateMail";
 
 function App() {
   return (
@@ -29,6 +29,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/validate-email" element={<ValidateMail />} />
         <Route path="*" element={<Unknown />} />
       </Routes>
     </BrowserRouter>

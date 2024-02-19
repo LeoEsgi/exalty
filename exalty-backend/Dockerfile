@@ -1,10 +1,8 @@
 FROM node:18.10.0-alpine3.15
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/app/exalty-backend
 
-COPY ["package.json", "package-lock.json", "tsconfig.json", ".env", "./"]
-
-COPY ./src ./src
+COPY package*.json ./
 
 RUN npm install
 

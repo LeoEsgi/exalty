@@ -1,12 +1,13 @@
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import svgExa from "./asset/exalty.svg";
 
 import "./TopBar.css";
+import axios from "axios";
 interface TopBarProps {
   isLogoVisible?: boolean;
 }
@@ -15,6 +16,21 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
   const [showDropdown2, setShowDropdown2] = useState(false);
   const [showDropdown3, setShowDropdown3] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [user, setUser] = useState(null);
+
+  // useEffect(() => {
+  //   const getUsers = async () => {
+  //     try {
+  //       const response = await axios.get("http://localhost:5000/user");
+  //       console.log("Success:", response.data);
+  //       setUser(response.data);
+  //     } catch (error) {
+  //       console.error("Error getting user :", error);
+  //     }
+  //   };
+
+  //   getUsers();
+  // }, []);
   return (
     <>
       <div
@@ -131,19 +147,37 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
               Contact
             </Link>
           </div>
-          <div
-            onMouseEnter={() => setShowDropdown3(true)}
-            onMouseLeave={() => setShowDropdown3(false)}
-            className="dropdown"
-          >
-            <AccountCircleIcon fontSize="large" />
-            {showDropdown3 && (
-              <div className="dropdown-menu-inverted">
-                <Link to="/auth">Se connecter</Link>
-                <Link to="/register">S'inscrire</Link>
-              </div>
-            )}
-          </div>
+          {!user && (
+            <div
+              onMouseEnter={() => setShowDropdown3(true)}
+              onMouseLeave={() => setShowDropdown3(false)}
+              className="dropdown"
+            >
+              <AccountCircleIcon fontSize="large" />
+              {showDropdown3 && (
+                <div className="dropdown-menu-inverted">
+                  <Link to="/auth">Se connecter</Link>
+                  <Link to="/register">S'inscrire</Link>
+                </div>
+              )}
+            </div>
+          )}
+          {/* {user && (
+            <div
+              onMouseEnter={() => setShowDropdown3(true)}
+              onMouseLeave={() => setShowDropdown3(false)}
+              className="dropdown"
+            >
+              <AccountCircleIcon fontSize="large" />
+              {showDropdown3 && (
+                <div className="dropdown-menu-inverted">
+                  <b>{user[0]["pseudo"]}</b>
+                  <Link to="/profile">Profil</Link>
+                  <a onClick={() => setUser(null)}>Se déconnecter</a>
+                </div>
+              )}
+            </div>
+          )} */}
         </div>
       </div>
     </>

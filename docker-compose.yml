@@ -15,21 +15,21 @@ services:
     networks:
       - exalty-network
 
-  # api:
-  #   container_name: exalty-backend
-  #   build:
-  #     context: ./exalty-backend
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "5000:5000"
-  #   depends_on:
-  #     - db
-  #   volumes:
-  #     - ./exalty-backend:/usr/src/app
-  #   environment:
-  #     - NODE_ENV=production
-  #   networks:
-  #     - exalty-network
+  api:
+    container_name: exalty-backend
+    build:
+      context: ./exalty-backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    volumes:
+      - ./exalty-backend:/usr/src/app
+    environment:
+      - NODE_ENV=production
+    networks:
+      - exalty-network
 
   db:
     container_name: exalty_db

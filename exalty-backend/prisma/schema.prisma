@@ -183,31 +183,39 @@ model stock {
 }
 
 model user {
-    id              Int         @id @default(autoincrement())
-    discord_tag     String?     @unique(map: "IDX_ff2b782400a5c8bb402d5b12de") @db.VarChar(255)
-    email           String      @unique(map: "IDX_e12875dfb3b1d92d7d7c5377e2") @db.VarChar(255)
-    first_name      String      @db.VarChar(255)
-    last_name       String      @db.VarChar(255)
-    password        String      @db.VarChar(255)
-    pseudo          String      @db.VarChar(255)
-    tag             String      @db.VarChar(4)
-    last_connection DateTime    @default(now()) @db.DateTime(0)
-    created_at      DateTime    @default(now()) @db.DateTime(6)
-    updated_at      DateTime    @default(now()) @db.DateTime(6)
-    deleted_at      DateTime?   @db.DateTime(6)
-    order           order[]
-    user_role       user_role[]
+    id                 Int               @id @default(autoincrement())
+    discord_tag        String?           @unique(map: "IDX_ff2b782400a5c8bb402d5b12de") @db.VarChar(255)
+    email              String            @unique(map: "IDX_e12875dfb3b1d92d7d7c5377e2") @db.VarChar(255)
+    first_name         String            @db.VarChar(255)
+    last_name          String            @db.VarChar(255)
+    password           String            @db.VarChar(255)
+    pseudo             String            @db.VarChar(255)
+    last_connection    DateTime          @default(now()) @db.DateTime(0)
+    created_at         DateTime          @default(now()) @db.DateTime(6)
+    updated_at         DateTime          @default(now()) @db.DateTime(6)
+    deleted_at         DateTime?         @db.DateTime(6)
+    active             Boolean           @default(false)
+    token_verification String?           @unique @db.VarChar(255)
+    role_id            Int?
+    order              order[]
+    user_membership    user_membership[]
 }
 
 model user_role {
-    user_id Int
-    role_id Int
-    role    role @relation(fields: [role_id], references: [id], onDelete: Cascade, map: "FK_32a6fc2fcb019d8e3a8ace0f55f")
-    user    user @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "FK_d0e5815877f7395a198a4cb0a46")
+    role_id   Int    @id @default(autoincrement())
+    role_name String @db.VarChar(255)
+    role      role   @relation(fields: [role_id], references: [id], onDelete: Cascade, map: "FK_32a6fc2fcb019d8e3a8ace0f55f")
+}
 
-    @@id([user_id, role_id])
-    @@index([role_id], map: "IDX_32a6fc2fcb019d8e3a8ace0f55")
-    @@index([user_id], map: "IDX_d0e5815877f7395a198a4cb0a4")
+model user_membership {
+    membership_id   Int      @id @default(autoincrement())
+    start_date      DateTime @default(now()) @db.DateTime(6)
+    end_date        DateTime @db.DateTime(6)
+    membership_name String   @db.VarChar(255)
+    user_id         Int?
+    user            user?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_3e3e3e3e3e3e3e3e3e3e3e3e3e3e")
+
+    @@index([user_id], map: "FK_3e3e3e3e3e3e3e3e3e3e3e3e3e")
 }
 
 enum adjustment_type {

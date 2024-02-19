@@ -8,6 +8,7 @@ import BottomBar from "./BottomBar";
 import { Link } from "react-router-dom";
 import balmain from "./asset/balmain.svg";
 import svgExa from "./asset/exalty.svg";
+import SmokeEffect from "./SmokeEffect";
 
 function HomePage() {
   const [isLogoVisible, setIsLogoVisible] = useState(false);
@@ -51,6 +52,7 @@ function HomePage() {
   return (
     <>
       <TopBar isLogoVisible={isLogoVisible} />
+      <SmokeEffect />
       <div
         className="HomePage"
         ref={homeRef}
