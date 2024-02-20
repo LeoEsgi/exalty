@@ -218,6 +218,26 @@ model user_membership {
     @@index([user_id], map: "FK_3e3e3e3e3e3e3e3e3e3e3e3e3e")
 }
 
+model matches {
+    id            Int          @id @default(autoincrement())
+    title         String       @db.VarChar(255)
+    opponent      String       @db.VarChar(255)
+    opponent_logo String       @db.VarChar(255)
+    date          DateTime     @default(now()) @db.DateTime(6)
+    link          String       @db.VarChar(255)
+    status        match_status @default(NOT_STARTED)
+    created_at    DateTime     @default(now()) @db.DateTime(6)
+    updated_at    DateTime     @default(now()) @db.DateTime(6)
+}
+
+enum match_status {
+    NOT_STARTED
+    WIN
+    LOOSE
+    DRAW
+    IN_PROGRESS
+}
+
 enum adjustment_type {
     POOL
 }

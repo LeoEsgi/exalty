@@ -3,7 +3,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
 import svgExa from "./asset/exalty.svg";
 
 import "./TopBar.css";

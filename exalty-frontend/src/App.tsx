@@ -13,6 +13,7 @@ import Auth from "./Auth";
 import Register from "./Register";
 import Unknown from "./404";
 import ValidateMail from "./ValidateMail";
+import Matches from "./Matches";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/auth" element={<Auth />} />
         <Route path="/register" element={<Register />} />
         <Route path="/validate-email" element={<ValidateMail />} />
+        <Route path="/matches" element={<Matches />} />
         <Route path="*" element={<Unknown />} />
       </Routes>
     </BrowserRouter>
