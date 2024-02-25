@@ -2,6 +2,52 @@ import { PrismaClient, price_occurence } from "@prisma/client";
 import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 async function main() {
+  await prisma.role.upsert({
+    where: { id: 2 },
+    update: {},
+    create: {
+      name: "user",
+    },
+  });
+
+  await prisma.role.upsert({
+    where: { id: 2 },
+    update: {},
+    create: {
+      name: "admin",
+    },
+  });
+
+  await prisma.role.upsert({
+    where: { id: 3 },
+    update: {},
+    create: {
+      name: "moderator",
+    },
+  });
+  await prisma.user.upsert({
+    where: { id: 1 },
+    update: {
+      email: "admin@test.fr",
+      password: await bcrypt.hash("admin", 10),
+      pseudo: "admin",
+      first_name: "admin",
+      last_name: "admin",
+      discord_tag: "admin",
+      active: true,
+      role_id: 2,
+    },
+    create: {
+      email: "admin@test.fr",
+      password: await bcrypt.hash("admin", 10),
+      pseudo: "admin",
+      first_name: "admin",
+      last_name: "admin",
+      discord_tag: "admin",
+      active: true,
+      role_id: 2,
+    },
+  });
   await prisma.recruitement_category.upsert({
     where: { id: 1 },
     update: {},
@@ -135,30 +181,6 @@ async function main() {
     },
   });
 
-  await prisma.role.upsert({
-    where: { id: 2 },
-    update: {},
-    create: {
-      name: "user",
-    },
-  });
-
-  await prisma.role.upsert({
-    where: { id: 2 },
-    update: {},
-    create: {
-      name: "admin",
-    },
-  });
-
-  await prisma.role.upsert({
-    where: { id: 3 },
-    update: {},
-    create: {
-      name: "moderator",
-    },
-  });
-
   await prisma.user_membership.upsert({
     where: { id: 1 },
     update: {
@@ -172,30 +194,6 @@ async function main() {
       membership_id: 1,
       start_date: new Date(),
       end_date: new Date("2024-05-15"),
-    },
-  });
-
-  await prisma.user.upsert({
-    where: { id: 1 },
-    update: {
-      email: "admin@test.fr",
-      password: await bcrypt.hash("admin", 10),
-      pseudo: "admin",
-      first_name: "admin",
-      last_name: "admin",
-      discord_tag: "admin",
-      active: true,
-      role_id: 2,
-    },
-    create: {
-      email: "admin@test.fr",
-      password: await bcrypt.hash("admin", 10),
-      pseudo: "admin",
-      first_name: "admin",
-      last_name: "admin",
-      discord_tag: "admin",
-      active: true,
-      role_id: 2,
     },
   });
 
