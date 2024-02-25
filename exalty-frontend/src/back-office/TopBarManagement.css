@@ -1,0 +1,268 @@
+.TopBarManagement {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+  position: fixed;
+  padding: 0 20px;
+  height: 5rem;
+  line-height: 2rem;
+  width: 100%;
+  color: white;
+  z-index: 1000;
+}
+
+.TopBarManagement a {
+  color: white;
+  font-size: 1rem;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.TopBarManagement .dropdown {
+  color: white;
+  text-decoration: none;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.TopBarManagement a:hover {
+  cursor: pointer;
+  color: #bbb76e;
+}
+
+.TopBarManagement .logoExa {
+  width: 8rem;
+}
+
+.TopBarManagement .dropdown-menu {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  z-index: 1;
+  padding-left: 0.2em;
+}
+
+.TopBarManagement .dropdown-menu a {
+  text-decoration: none;
+  display: block;
+  color: white;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.TopBarManagement .dropdown:hover {
+  cursor: pointer;
+  color: #bbb76e;
+  opacity: 1;
+}
+
+.TopBarManagement .dropdown-menu-inverted {
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  z-index: 1;
+  transform: translateX(-80%);
+}
+
+.TopBarManagement.dropdown-menu-inverted a {
+  text-decoration: none;
+  display: inline-block;
+  color: white;
+  font-size: 0.9rem;
+}
+
+.TopBarManagement .dropdown-menu-inverted:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+
+.TopBarManagement .menu-normal {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+}
+
+.TopBarManagement.nav-item {
+  display: inline-block;
+  position: relative;
+}
+
+.TopBarManagement .dropdown-menu .nav-item {
+  display: inline-block;
+  position: relative;
+  width: fit-content;
+}
+
+.TopBarManagement .dropdown-menu-inverted .nav-item {
+  display: inline-block;
+  position: relative;
+  width: fit-content;
+}
+
+.TopBarManagement .nav-item::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #bbb76e;
+  transition: width 0.3s ease-in-out;
+}
+
+.TopBarManagement .nav-item:hover::after {
+  width: 100%;
+}
+
+.menu-normal .left-panel,
+.menu-normal .right-panel {
+  flex-basis: 40%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.menu-normal .center-panel {
+  flex-basis: 20%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.menu-mobile {
+  display: none;
+  width: 100%;
+}
+
+.menu-mobile button {
+  background-color: #bbb76e;
+  border-radius: 0;
+}
+
+.menu-mobile-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  line-height: 4em;
+  height: 100vh;
+}
+
+.menu-mobile-content div {
+  border-bottom: 0.1px solid #bbb76e52;
+  width: 100%;
+  padding-left: 3em;
+}
+
+.menu-mobile-content .dropdown {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 3em;
+}
+
+.dropdown-title {
+  padding-left: 0 !important;
+  border-bottom: none !important;
+}
+
+.menu-mobile-content .dropdown-menu {
+  padding: 0;
+  position: relative;
+  border-bottom: none;
+  background-color: #36353517;
+}
+
+.menu-mobile-content .dropdown-menu a {
+  line-height: 2.5em;
+  padding-left: 3rem;
+  width: 100%;
+  border-bottom: 0.1px solid #bbb76e52;
+}
+
+.menuButton {
+  width: 3em;
+  height: 3em;
+}
+
+.menuButton:hover {
+  cursor: pointer;
+  background-color: #bbb76eb0 !important;
+}
+
+@media screen and (max-width: 1400px) {
+  .TopBarManagement {
+    height: auto;
+    padding: 10px 5px;
+  }
+  .TopBarManagement a {
+    font-size: 1rem;
+    padding: 5px 0;
+  }
+  .TopBarManagement .dropdown {
+    font-size: 1rem;
+  }
+  .logoExa {
+    width: 8rem;
+  }
+  .dropdown-menu,
+  .dropdown-menu-inverted {
+    transform: translateX(0%);
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .TopBarManagement {
+    height: auto;
+    z-index: 1000;
+    padding: 0;
+    background-color: #000000a1 !important;
+  }
+  .menu-normal {
+    display: none;
+  }
+  .menu-mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+  }
+  .TopBarManagement a,
+  .TopBarManagement .dropdown {
+    font-size: 1rem;
+  }
+  .dropdown-menu a {
+    font-size: 0.8rem;
+  }
+  .logoExa {
+    width: 6rem;
+  }
+  .dropdown-menu,
+  .dropdown-menu-inverted {
+    transform: translateX(0%);
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .TopBarManagement {
+    flex-direction: column;
+    padding: 0;
+  }
+  .TopBarManagement a,
+  .TopBarManagement .dropdown {
+    font-size: 1rem;
+  }
+  .logoExa {
+    width: 6rem;
+  }
+  .dropdown-menu a {
+    font-size: 0.8rem;
+  }
+}

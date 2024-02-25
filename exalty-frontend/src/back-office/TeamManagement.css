@@ -1,0 +1,60 @@
+.object-selector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.object-selector-select {
+  background-color: #282c34;
+  color: white;
+  border: solid 1px #928f57;
+  padding: 0.5em;
+  margin-bottom: 1em;
+  font-size: 1.1em;
+}
+
+.add-game {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1em;
+  width: 100%;
+}
+
+.game-content-page {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  color: white;
+}
+
+.game-name,
+.column-name {
+  text-align: left;
+  flex-basis: 15%;
+}
+
+.game-title,
+.column-title {
+  text-align: left;
+  flex-basis: 40%;
+}
+
+.game-description,
+.column-desc {
+  text-align: left;
+  flex-basis: 40%;
+}
+
+.game-logo,
+.column-img {
+  text-align: left;
+  flex-basis: 5%;
+}
+
+.column-delete {
+  text-align: left;
+  flex-basis: 5%;
+}

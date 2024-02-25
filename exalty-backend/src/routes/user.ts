@@ -1,43 +1,32 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, user } from "@prisma/client";
 import express from "express";
-import { prismaErrorHandler } from "../errors/prisma";
+import UserService from "../services/user";
+import { checkRole } from "../middlewares";
+import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 const router = express.Router();
 
-router.get("/", async (req, res) => {
-  const users = await prisma.user.findMany().catch((e: { message: any }) => {
-    prismaErrorHandler().errorHandler(e, req, res, (e) => {
-      console.log(e);
-    });
-  });
+router.get("/", checkRole([2] as user["role_id"][]), async (req, res) => {
+  const users = await UserService.getInstance().getAll();
   res.json(users);
 });
 
-router.get("/type", async (req, res) => {
-  const type = await prisma.user_role
-    .findMany()
-    .catch((e: { message: any }) => {
-      prismaErrorHandler().errorHandler(e, req, res, (e) => {
-        console.log(e);
-      });
-    });
-  res.json(type);
+router.get("/:id", async (req, res) => {
+  const id = parseInt(req.params.id);
+  const user = await UserService.getInstance().getById(id);
+  res.json(user);
 });
 
-// router.post("/type", async (req, res) => {
-//   const type_name = req.body.type;
-//   const type = await prisma.user_role
-//     .create({
-//       data: {
-//         role_name: type_name,
-//       },
-//     })
-//     .catch((e: { message: any }) => {
-//       prismaErrorHandler().errorHandler(e, req, res, (e) => {
-//         console.log(e);
-//       });
-//     });
-//   res.json(type);
-// });
+router.get("/role/:role_id", async (req, res) => {
+  const role_id = parseInt(req.params.role_id);
+  const user = await UserService.getInstance().getByRoleId(role_id);
+  res.json(user);
+});
+
+router.put("/:id", async (req, res) => {
+  const id = parseInt(req.params.id);
+  const user = await UserService.getInstance().update(id, req.body);
+  res.json(user);
+});
 
 export default router;

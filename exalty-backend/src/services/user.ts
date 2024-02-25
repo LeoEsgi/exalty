@@ -13,6 +13,10 @@ export default class UserService {
     return UserService.instance;
   }
 
+  public async getAll(): Promise<user[]> {
+    return await prisma.user.findMany();
+  }
+
   public async getByEmail(email: string): Promise<user | null> {
     return await prisma.user.findFirst({
       where: {
@@ -26,6 +30,24 @@ export default class UserService {
       where: {
         id,
       },
+    });
+  }
+
+  public async getByRoleId(role_id: number): Promise<user[]> {
+    return await prisma.user.findMany({
+      where: {
+        role_id,
+      },
+    });
+  }
+
+  public async update(id: number, data: user): Promise<user> {
+    return await prisma.user.upsert({
+      where: {
+        id,
+      },
+      update: data,
+      create: data,
     });
   }
 }

@@ -16,7 +16,7 @@ export default class JwtService {
   public createToken(user: user): String {
     if (!process.env.JWT_SECRET) throw new Error("JWT_SECRET is not defined");
     const token = jwt.sign({ user }, process.env.JWT_SECRET, {
-      expiresIn: 86400, // expires in 24 hours
+      expiresIn: 86400,
     });
     return token;
   }

@@ -16,14 +16,12 @@
   color: white;
   font-size: 1.3rem;
   text-decoration: none;
-  font-weight: bold;
 }
 
 .TopBar .dropdown {
   color: white;
   text-decoration: none;
   font-size: 1.3rem;
-  font-weight: bold;
 }
 
 .TopBar a:hover {
@@ -70,7 +68,7 @@
   text-decoration: none;
   display: inline-block;
   color: white;
-  font-size: 1.2rem;
+  font-size: 0.9rem;
 }
 
 .dropdown-menu-inverted:hover {
@@ -81,15 +79,26 @@
 .menu-normal {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   width: 100%;
 }
 
-.menu-mobile {
-  display: none;
-  width: 100%;
-  padding-left: 1rem;
+.nav-item {
+  display: inline-block;
+  position: relative;
+}
+
+.dropdown-menu .nav-item {
+  display: inline-block;
+  position: relative;
+  width: fit-content;
+}
+
+.dropdown-menu-inverted .nav-item {
+  display: inline-block;
+  position: relative;
+  width: fit-content;
 }
 
 .nav-item::after {
@@ -107,8 +116,83 @@
   width: 100%;
 }
 
-.menu-normal > div {
+.menu-normal .left-panel,
+.menu-normal .right-panel {
+  flex-basis: 40%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.menu-normal .center-panel {
+  flex-basis: 20%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.menu-mobile {
+  display: none;
+  width: 100%;
+}
+
+.menu-mobile button {
+  background-color: #bbb76e;
+  border-radius: 0;
+}
+
+.menu-mobile-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  line-height: 4em;
+  height: 100vh;
+}
+
+.menu-mobile-content div {
+  border-bottom: 0.1px solid #bbb76e52;
+  width: 100%;
+  padding-left: 3em;
+}
+
+.menu-mobile-content .dropdown {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 3em;
+}
+
+.dropdown-title {
+  padding-left: 0 !important;
+  border-bottom: none !important;
+}
+
+.menu-mobile-content .dropdown-menu {
+  padding: 0;
   position: relative;
+  border-bottom: none;
+  background-color: #36353517;
+}
+
+.menu-mobile-content .dropdown-menu a {
+  line-height: 2.5em;
+  padding-left: 3rem;
+  width: 100%;
+  border-bottom: 0.1px solid #bbb76e52;
+}
+
+.menuButton {
+  width: 3em;
+  height: 3em;
+}
+
+.menuButton:hover {
+  cursor: pointer;
+  background-color: #bbb76eb0 !important;
 }
 
 @media screen and (max-width: 1400px) {
@@ -117,8 +201,11 @@
     padding: 10px 5px;
   }
   .TopBar a {
-    font-size: 1.2rem;
+    font-size: 1rem;
     padding: 5px 0;
+  }
+  .TopBar .dropdown {
+    font-size: 1rem;
   }
   .logoExa {
     width: 8rem;
@@ -132,8 +219,9 @@
 @media screen and (max-width: 950px) {
   .TopBar {
     height: auto;
-    padding: 10px 5px;
     z-index: 1000;
+    padding: 0;
+    background-color: #000000a1 !important;
   }
   .menu-normal {
     display: none;
@@ -141,12 +229,15 @@
   .menu-mobile {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-end;
     justify-content: flex-start;
   }
-  .TopBar a {
+  .TopBar a,
+  .TopBar .dropdown {
     font-size: 1rem;
-    padding: 5px 0;
+  }
+  .dropdown-menu a {
+    font-size: 0.8rem;
   }
   .logoExa {
     width: 6rem;
@@ -160,7 +251,7 @@
 @media screen and (max-width: 800px) {
   .TopBar {
     flex-direction: column;
-    padding: 5px;
+    padding: 0;
   }
   .TopBar a,
   .TopBar .dropdown {
@@ -169,9 +260,7 @@
   .logoExa {
     width: 6rem;
   }
-  .TopBar a,
-  .TopBar .dropdown {
-    padding: 10px;
-    text-align: center;
+  .dropdown-menu a {
+    font-size: 0.8rem;
   }
 }

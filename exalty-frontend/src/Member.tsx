@@ -1,8 +1,33 @@
+import { useEffect, useState } from "react";
 import "./Member.css";
 import TopBar from "./TopBar";
 import balmain from "./asset/balmain.svg";
+import { DialogMsg, membership, price_occurence } from "./Models";
+import axios from "axios";
 
 function Member() {
+  const [memberShips, setMemberShips] = useState<membership[]>([]);
+
+  const [dialogInstance, setDialogInstance] = useState(
+    new DialogMsg("", "", false)
+  );
+  const getMemberShips = async () => {
+    const response = await axios.get("http://localhost:5000/membership/");
+    return response.data as membership[];
+  };
+
+  useEffect(() => {
+    const fetchMatches = async () => {
+      const memberships = await getMemberShips();
+      if (Array.isArray(memberships)) {
+        setMemberShips(memberships);
+      } else {
+        console.error("Expected an array of matches, but got:", memberships);
+      }
+    };
+
+    fetchMatches();
+  }, []);
   return (
     <>
       <TopBar />
@@ -23,39 +48,24 @@ function Member() {
         <div className="title-desc">Trouvez celui qui vous convient</div>
 
         <div className="subscribe-list">
-          <div className="card">
-            <div className="card-title">Cotisant 4.99€/mois</div>
-            <div>La commande sera possible qu'à partir du 26/02</div>
-            <button
-              className="btn"
-              onClick={() => alert("Souscription validée")}
-            >
-              Souscrire
-            </button>
-            <a href="#">EN SAVOIR PLUS</a>
-          </div>
-          <div className="card">
-            <div className="card-title">Adherant 50€/an</div>
-            <div>La commande sera possible qu'à partir du 10/02</div>
-            <button
-              className="btn"
-              onClick={() => alert("Souscription validée")}
-            >
-              Souscrire
-            </button>
-            <a href="#">EN SAVOIR PLUS</a>
-          </div>
-          <div className="card">
-            <div className="card-title">Adherant Premium 100€/an</div>
-            <div>La commande sera possible qu'à partir du 10/02</div>
-            <button
-              className="btn"
-              onClick={() => alert("Souscription validée")}
-            >
-              Souscrire
-            </button>
-            <a href="#">EN SAVOIR PLUS</a>
-          </div>
+          {memberShips.map((membership) => (
+            <div className="card">
+              <div className="card-title">
+                {membership.name} {membership.price}€/
+                {price_occurence.MONTHLY === membership.occurence
+                  ? "mois"
+                  : "an"}
+              </div>
+              <div>{membership.description}</div>
+              <button
+                className="btn"
+                onClick={() => alert("Souscription validée")}
+              >
+                Souscrire
+              </button>
+              <a href="#">EN SAVOIR PLUS</a>
+            </div>
+          ))}
         </div>
       </div>
     </>

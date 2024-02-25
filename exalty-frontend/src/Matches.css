@@ -47,6 +47,13 @@
   flex-basis: 20%;
 }
 
+.match-exalty {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-basis: 20%;
+}
+
 .match-teams {
   display: flex;
   flex-direction: row;
@@ -54,10 +61,17 @@
   flex-basis: 40%;
 }
 
-.logo_opponent,
-.logo_exalty {
+.logo_opponent {
   width: 3em;
   height: 3em;
+  margin-right: 1em;
+  margin-left: 1em;
+  border-radius: 15%;
+}
+
+.logo_exalty {
+  width: 5em;
+  height: 2em;
   margin-right: 1em;
   margin-left: 1em;
   border-radius: 15%;
@@ -110,14 +124,41 @@
 .current-matches .matches {
   flex-direction: row;
   flex-wrap: wrap;
-  width: 70%;
+  width: 80%;
 }
 
 .current-matches .match {
-  flex-basis: 45%;
-  margin-bottom: 1em;
+  display: flex;
+  flex-direction: column;
+  flex-basis: 47%;
+  margin-bottom: 1.5em;
   margin-left: 1em;
   margin-right: 1em;
+  padding: 0;
+}
+
+.current-matches .match-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(255, 252, 252, 0.068);
+  width: 100%;
+  font-size: 1rem;
+  padding: 1em;
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+  margin-bottom: 1em;
+  border-bottom: solid 2px #928f5765;
+}
+
+.current-matches .match-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em;
+  width: 100%;
 }
 
 .current-matches .match-link {
@@ -125,15 +166,16 @@
 }
 
 .current-matches .match-opponent {
-  flex-basis: 50%;
+  flex-basis: 15%;
 }
 
-.current-matches .match-instance {
-  flex-basis: 20%;
+.current-matches .match-exalty {
+  flex-basis: 15%;
 }
 
 .current-matches .match-title {
-  flex-basis: 20%;
+  flex-basis: 50%;
+  text-align: left;
 }
 
 .matches-selector-select {
@@ -150,4 +192,31 @@
   align-items: center;
   padding-right: 1em;
   padding-left: 1em;
+}
+
+@media screen and (max-width: 1600px) {
+  .current-matches .matches {
+    justify-content: center;
+    width: 80%;
+  }
+  .current-matches .match {
+    flex-basis: 80%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .current-matches .matches {
+    justify-content: center;
+    width: 100%;
+  }
+  .current-matches .match {
+    flex-basis: 100%;
+  }
+  .match {
+    font-size: 1rem;
+  }
+  .match .team-desc {
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+  }
 }

@@ -3,65 +3,34 @@ import lol from "./asset/game/lol.jpg";
 import valorant from "./asset/game/valorant.png";
 import balmain from "./asset/balmain.svg";
 import TopBar from "./TopBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { game } from "./Models";
+import axios from "axios";
 
-export class game {
-  constructor(
-    public name: string,
-    public title: string,
-    public desc: string,
-    public img: string
-  ) {}
-
-  public getName() {
-    return this.name;
-  }
-  public getTitle() {
-    return this.title;
-  }
-  public getDesc() {
-    return this.desc;
-  }
-  public getImg() {
-    return this.img;
-  }
-}
-
-export class player {
-  constructor(
-    public name: string,
-    public role: string,
-    public image: string,
-    public game: game
-  ) {}
-
-  public getName() {
-    return this.name;
-  }
-  public getRole() {
-    return this.role;
-  }
-  public getImage() {
-    return this.image;
-  }
-  public getGame() {
-    return this.game;
-  }
-}
 function Team() {
-  const [openGame, setOpenGame] = useState<string | null>(null);
+  const [openGame, setOpenGame] = useState<number | null>(null);
+  const [games, setGames] = useState<game[]>([]);
   const navigate = useNavigate();
-  const handleCoffreClick = (game: string) => {
-    setOpenGame(game);
-    setTimeout(() => {
-      navigate("/teamInfo?game=" + { game });
-    }, 2000);
+
+  const getGames = async () => {
+    const response = await axios.get("http://localhost:5000/game/");
+    return response.data as game[];
   };
 
-  const valorantGame = new game("Valorant", "", "", valorant);
-  const lolGame = new game("Lol", "", "", lol);
-  const listGame = [valorantGame, lolGame];
+  useEffect(() => {
+    const fetchGames = async () => {
+      const games = await getGames();
+      if (Array.isArray(games)) {
+        setGames(games);
+      } else {
+        console.error("Expected an array of games, but got:", games);
+      }
+    };
+
+    fetchGames();
+  }, []);
+
   return (
     <>
       <TopBar />
@@ -88,15 +57,16 @@ function Team() {
         ></div>
 
         <div className="team-list">
-          {listGame.map((game) => (
-            <div className="team">
+          {games.map((game, index) => (
+            <div className="team" key={index}>
               <div
-                className={`losange ${
-                  openGame === game.getName() ? "open" : ""
-                }`}
-                onClick={() => handleCoffreClick(game.getName())}
+                className={`losange ${openGame === game.id ? "open" : ""}`}
+                onClick={() => navigate(`/teamInfo?game=${game.id}`)}
               >
-                <img src={game.getImg()} alt={game.getName()}></img>
+                <img
+                  src={"http://localhost:5000/uploads/game/" + game.img}
+                  alt={game.name}
+                ></img>
               </div>
             </div>
           ))}

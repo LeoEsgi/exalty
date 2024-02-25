@@ -33,7 +33,7 @@
   border-radius: 3em;
   flex-wrap: wrap;
   margin: 3em;
-  flex: auto;
+  flex-basis: 44%;
 }
 
 .card-title {

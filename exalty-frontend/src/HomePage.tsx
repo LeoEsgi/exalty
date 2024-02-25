@@ -52,7 +52,7 @@ function HomePage() {
   return (
     <>
       <TopBar isLogoVisible={isLogoVisible} />
-      <SmokeEffect />
+
       <div
         className="HomePage"
         ref={homeRef}

@@ -1,0 +1,56 @@
+.object img {
+  width: 50px;
+  height: 50px;
+}
+
+.column-pseudo,
+.field-pseudo {
+  text-align: left;
+  flex-basis: 10%;
+}
+
+.column-firstname,
+.field-firstname {
+  text-align: left;
+  flex-basis: 10%;
+}
+
+.column-lastname,
+.field-lastname {
+  text-align: left;
+  flex-basis: 10%;
+}
+
+.column-email,
+.field-email {
+  text-align: left;
+  flex-basis: 10%;
+}
+
+.column-discord,
+.field-discord {
+  text-align: left;
+  flex-basis: 10%;
+}
+
+.column-lastco,
+.column-updated,
+.column-created,
+.field-lastco,
+.field-updated,
+.field-created {
+  text-align: left;
+  flex-basis: 10%;
+}
+
+.column-role,
+.field-role {
+  text-align: left;
+  flex-basis: 5%;
+}
+
+.column-active,
+.field-active {
+  text-align: left;
+  flex-basis: 2%;
+}

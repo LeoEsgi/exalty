@@ -15,6 +15,7 @@
   background-color: rgb(0, 0, 0);
   padding-bottom: 3em;
   padding: 3em;
+  border-radius: 2em;
 }
 
 .register-form {
@@ -41,6 +42,14 @@
   background-color: transparent;
   color: white;
   flex-basis: 45%;
+  border-radius: 0.5em;
+  outline: none;
+  border: 1px solid #e7e7e7;
+}
+
+.register-info input:focus {
+  outline: none;
+  border: 1px solid #928f57;
 }
 
 .register-mail,
@@ -61,7 +70,16 @@
   font-size: 1rem;
   background-color: transparent;
   color: white;
+  border-radius: 0.5em;
+  outline: none;
+  border: 1px solid #e7e7e7;
   width: 100%;
+}
+
+.register-mail input:focus,
+.register-password input:focus {
+  outline: none;
+  border: 1px solid #928f57;
 }
 
 .register-conditions {
@@ -97,4 +115,9 @@
 
 .already-account > a {
   color: white;
+}
+
+.register-required {
+  font-size: 0.8em;
+  padding-bottom: 1em;
 }

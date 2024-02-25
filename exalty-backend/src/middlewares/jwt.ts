@@ -1,24 +1,20 @@
 import { Request, Response, NextFunction } from "express";
 import JwtService from "../services/jwt";
-import { user, user_role } from "@prisma/client";
 import UserService from "../services/user";
 import RoleService from "../services/role";
 
-// Your custom "middleware" function:
 export async function verifyJwt(
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> {
-  const token = req.headers.authorization;
+  const token = req.cookies.token;
   if (!token) {
     res.status(401).json({ message: "Missing JWT Token" });
     return;
   }
   try {
-    const tokenWithoutBearer = token.split(" ")[1];
-    const userInToken =
-      JwtService.getInstance().verifyToken(tokenWithoutBearer);
+    const userInToken = JwtService.getInstance().verifyToken(token);
     const user = await UserService.getInstance().getByEmail(userInToken.email);
     (req as any).user = user;
     next();
@@ -27,19 +23,16 @@ export async function verifyJwt(
   }
 }
 
-export const checkRole = (allowedRoles: string[]) => {
-  // Changez le type ici selon la structure de votre rôle
+export const checkRole = (allowedRoles: number[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
-    const token = req.headers.authorization;
+    const token = req.cookies.token;
     if (!token) {
       res.status(401).json({ message: "Missing JWT Token" });
       return;
     }
 
     try {
-      const tokenWithoutBearer = token.split(" ")[1];
-      const userInToken =
-        JwtService.getInstance().verifyToken(tokenWithoutBearer);
+      const userInToken = JwtService.getInstance().verifyToken(token);
       const user = await UserService.getInstance().getByEmail(
         userInToken.email
       );
@@ -50,20 +43,20 @@ export const checkRole = (allowedRoles: string[]) => {
       }
 
       // Récupère les rôles de l'utilisateur
-      const userRoles = await RoleService.getInstance().getById(user.id);
+      const userRoles = await UserService.getInstance().getById(user.id);
       if (!userRoles) {
         res.status(401).json({ message: "User not found" });
         return;
       }
 
       // Vérifie si l'utilisateur a un rôle autorisé
-      // const hasAllowedRole = allowedRoles.some((role) => {
-      //   return userRoles.role_name === role;
-      // });
-      // if (hasAllowedRole) {
-      //   next();
-      //   return;
-      // }
+      const hasAllowedRole = allowedRoles.some((role) => {
+        return userRoles.role_id === role;
+      });
+      if (hasAllowedRole) {
+        next();
+        return;
+      }
 
       throw new Error("Wrong role");
     } catch (e) {

@@ -57,6 +57,34 @@
   box-shadow: 0 0 10px 0 rgba(146, 143, 87, 0.5);
 }
 
+@media screen and (max-width: 1200px) {
+  .sponsor img {
+    width: 15em;
+  }
+  .sponsor-content {
+    padding: 2em;
+  }
+  .sponsor-desc {
+    font-size: 1.5em;
+  }
+  .sponsor-desc a {
+    font-size: 1.5em;
+  }
+  .sponsor-desc a:hover {
+    font-size: 1.5em;
+  }
+  .sponsor-content {
+    margin: 2em;
+  }
+  .sponsor-list {
+    margin-top: 2em;
+  }
+  .Sponsor {
+    padding-top: 5em;
+    padding-bottom: 10em;
+  }
+}
+
 @media screen and (max-width: 800px) {
   .sponsor img {
     width: 15em;

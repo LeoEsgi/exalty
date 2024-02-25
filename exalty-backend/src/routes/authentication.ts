@@ -123,12 +123,12 @@ router.get("/me", verifyJwt, async (req, res) => {
   res.json(userWithoutPassword);
 });
 
-// router.get(
-//   "/admin",
-//   checkRole(["ADMIN"] as user["user_role"][]),
-//   (req, res) => {
-//     res.json({ message: "Authorized" });
-//   }
-// );
+router.get("/admin", checkRole([2] as user["role_id"][]), (req, res) => {
+  res.json({ message: "Authorized" });
+});
+
+router.get("/verify", verifyJwt, (req, res) => {
+  res.json({ isAuthenticated: true });
+});
 
 export default router;

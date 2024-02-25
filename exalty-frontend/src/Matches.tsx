@@ -1,160 +1,38 @@
 import TopBar from "./TopBar";
 import balmain from "./asset/balmain.svg";
 import "./Matches.css";
-import React from "react";
-import svgExa from "./asset/exalty.svg";
+import React, { useEffect, useState } from "react";
+import exaltyLogo from "./asset/Logo_blanc.png";
+import axios from "axios";
+import { event, match, match_status } from "./Models";
 
-export class match {
-  constructor(
-    public date: Date,
-    public title: string,
-    public instance: string,
-    public opponent: string,
-    public opponent_logo: string,
-    public score_exa: number,
-    public score_opponent: number,
-    public status: match_status,
-    public link: string,
-    public timezone: string
-  ) {}
-}
-
-enum match_status {
-  NOT_STARTED = "NOT_STARTED",
-  IN_PROGRESS = "IN_PROGRESS",
-  FINISHED = "FINISHED",
-}
 function Matches() {
-  const [show, setShow] = React.useState(match_status.IN_PROGRESS);
-  const matches = [];
-  matches.push(
-    new match(
-      new Date("2024-05-15 20:00:00"),
-      "France cup",
-      "Finale",
-      "Karmine Corp",
-      "https://upload.wikimedia.org/wikipedia/commons/9/96/Karmine_Corp_logo.svg",
-      0,
-      0,
-      match_status.NOT_STARTED,
-      "link",
-      "PCT"
-    )
-  );
-  matches.push(
-    new match(
-      new Date("2024-05-18 20:00:00"),
-      "France cup",
-      "Finale",
-      "Gentle Mates",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Gentle_Mates.jpg/800px-Gentle_Mates.jpg",
-      0,
-      0,
-      match_status.NOT_STARTED,
-      "link",
-      "PCT"
-    )
-  );
-  matches.push(
-    new match(
-      new Date("2024-05-27 20:00:00"),
-      "France cup",
-      "Finale",
-      "Mandatory",
-      "https://upload.wikimedia.org/wikipedia/fr/thumb/7/71/Mandatory.svg/640px-Mandatory.svg.png",
-      0,
-      0,
-      match_status.NOT_STARTED,
-      "link",
-      "PCT"
-    )
-  );
+  const [show, setShow] = useState(match_status.IN_PROGRESS);
+  const [matches, setMatches] = useState<match[]>([]);
+  const [events, setEvents] = useState<event[]>([]);
+  const getMatches = async () => {
+    const response = await axios.get("http://localhost:5000/match/");
+    return response.data as match[];
+  };
 
-  matches.push(
-    new match(
-      new Date("2024-05-15 20:00:00"),
-      "France cup",
-      "Finale",
-      "Karmine Corp",
-      "https://upload.wikimedia.org/wikipedia/commons/9/96/Karmine_Corp_logo.svg",
-      13,
-      7,
-      match_status.FINISHED,
-      "link",
-      "PCT"
-    )
-  );
-  matches.push(
-    new match(
-      new Date("2024-05-18 20:00:00"),
-      "France cup",
-      "Finale",
-      "Gentle Mates",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Gentle_Mates.jpg/800px-Gentle_Mates.jpg",
-      7,
-      13,
-      match_status.FINISHED,
-      "link",
-      "PCT"
-    )
-  );
-  matches.push(
-    new match(
-      new Date("2024-05-27 20:00:00"),
-      "France cup",
-      "Finale",
-      "Mandatory",
-      "https://upload.wikimedia.org/wikipedia/fr/thumb/7/71/Mandatory.svg/640px-Mandatory.svg.png",
-      13,
-      9,
-      match_status.FINISHED,
-      "link",
-      "PCT"
-    )
-  );
+  const getEvents = async () => {
+    const response = await axios.get("http://localhost:5000/events/");
+    return response.data as event[];
+  };
 
-  matches.push(
-    new match(
-      new Date("2024-05-15 20:00:00"),
-      "France cup",
-      "Finale",
-      "Karmine Corp",
-      "https://upload.wikimedia.org/wikipedia/commons/9/96/Karmine_Corp_logo.svg",
-      0,
-      0,
-      match_status.IN_PROGRESS,
-      "link",
-      "PCT"
-    )
-  );
-  matches.push(
-    new match(
-      new Date("2024-05-18 20:00:00"),
-      "France cup",
-      "Demi-Finale",
-      "Gentle Mates",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Gentle_Mates.jpg/800px-Gentle_Mates.jpg",
-      0,
-      0,
-      match_status.IN_PROGRESS,
-      "link",
-      "PCT"
-    )
-  );
-  matches.push(
-    new match(
-      new Date("2024-05-27 20:00:00"),
-      "France cup",
-      "Finale",
-      "Mandatory",
-      "https://upload.wikimedia.org/wikipedia/fr/thumb/7/71/Mandatory.svg/640px-Mandatory.svg.png",
-      0,
-      0,
-      match_status.IN_PROGRESS,
-      "link",
-      "PCT"
-    )
-  );
+  useEffect(() => {
+    const fetchMatches = async () => {
+      const matches = await getMatches();
+      if (Array.isArray(matches)) {
+        setMatches(matches);
+      } else {
+        console.error("Expected an array of matches, but got:", matches);
+      }
+    };
+
+    fetchMatches();
+  }, []);
+
   const formatter = new Intl.DateTimeFormat("fr-FR", {
     day: "numeric",
     month: "long",
@@ -182,6 +60,7 @@ function Matches() {
             <option value={match_status.IN_PROGRESS}>Matchs en cours</option>
             <option value={match_status.NOT_STARTED}>Prochains Matchs</option>
             <option value={match_status.FINISHED}>Derniers Matchs</option>
+            <option value="event">Evenements</option>
           </select>
         </div>
         <div
@@ -198,7 +77,7 @@ function Matches() {
                 return (
                   <div className="match" key={index}>
                     <div className="match-date">
-                      {formatter.format(match.date)}
+                      {formatter.format(new Date(match.date))}
                     </div>
 
                     <div className="match-opponent">
@@ -214,9 +93,12 @@ function Matches() {
                     <div className="match-title">{match.title}</div>
                     <div className="match-instance">{match.instance}</div>
                     <div className="match-time">
-                      {match.date.getHours() +
+                      {new Date(match.date).getHours() +
                         ":" +
-                        match.date.getMinutes().toString().padStart(2, "0") +
+                        new Date(match.date)
+                          .getMinutes()
+                          .toString()
+                          .padStart(2, "0") +
                         " " +
                         match.timezone}
                     </div>
@@ -240,7 +122,7 @@ function Matches() {
                 return (
                   <div className="match" key={index}>
                     <div className="match-date">
-                      {formatter.format(match.date)}
+                      {formatter.format(new Date(match.date))}
                     </div>
 
                     <div className="match-opponent">
@@ -280,21 +162,33 @@ function Matches() {
               .map((match, index) => {
                 return (
                   <div className="match" key={index}>
-                    <div className="match-opponent">
-                      VS
-                      <img
-                        className="logo_opponent"
-                        src={match.opponent_logo}
-                        alt={match.opponent}
-                      ></img>
-                      {match.opponent}
+                    <div className="match-header">
+                      <div className="match-title">
+                        {match.title} - {match.instance}
+                      </div>
+                      <div className="match-format">
+                        Format : {match.format}
+                      </div>
                     </div>
+                    <div className="match-content">
+                      <div className="match-exalty">
+                        <img
+                          className="logo_exalty"
+                          src={exaltyLogo}
+                          alt={match.opponent}
+                        ></img>
+                      </div>
 
-                    <div className="match-title">{match.title}</div>
-                    <div className="match-instance">{match.instance}</div>
-
-                    <div className="match-link">
-                      <a href={match.link}>Lien</a>
+                      <div className="match-link">
+                        <a href={match.link}>Lien</a>
+                      </div>
+                      <div className="match-opponent">
+                        <img
+                          className="logo_opponent"
+                          src={match.opponent_logo}
+                          alt={match.opponent}
+                        ></img>
+                      </div>
                     </div>
                   </div>
                 );

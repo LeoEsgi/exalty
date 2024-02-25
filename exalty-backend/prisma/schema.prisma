@@ -8,6 +8,43 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+model event {
+    id          Int       @id @default(autoincrement())
+    title       String    @db.VarChar(255)
+    description String    @db.Text
+    img         String    @db.VarChar(255)
+    link        String    @db.VarChar(255)
+    start_date  DateTime  @default(now()) @db.DateTime(6)
+    end_date    DateTime  @default(now()) @db.DateTime(6)
+    created_at  DateTime  @default(now()) @db.DateTime(6)
+    updated_at  DateTime  @default(now()) @db.DateTime(6)
+    deleted_at  DateTime? @db.DateTime(6)
+}
+
+model game {
+    id         Int      @id @default(autoincrement())
+    title      String   @db.VarChar(255)
+    name       String   @db.VarChar(255)
+    desc       String   @db.Text
+    img        String   @db.VarChar(255)
+    created_at DateTime @default(now()) @db.DateTime(6)
+    updated_at DateTime @default(now()) @db.DateTime(6)
+    player     player[]
+}
+
+model player {
+    id         Int      @id @default(autoincrement())
+    name       String   @db.VarChar(255)
+    role       String   @db.VarChar(255)
+    img        String   @db.VarChar(255)
+    game_id    Int
+    created_at DateTime @default(now()) @db.DateTime(6)
+    updated_at DateTime @default(now()) @db.DateTime(6)
+    game       game     @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_4e3e3e3e3e3e3e3e3e3e3e3e3e")
+
+    @@index([id], map: "FK_3e3e3e3e3e3e3e3e3e3e3e3e3e")
+}
+
 model address {
     id                                       Int      @id @default(autoincrement())
     address                                  String   @db.VarChar(255)
@@ -163,10 +200,12 @@ model product {
 }
 
 model role {
-    id          Int         @id @default(autoincrement())
-    name        String      @unique(map: "IDX_ae4578dcaed5adff96595e6166") @db.VarChar(255)
-    permissions String      @db.Text
-    user_role   user_role[]
+    id         Int       @id @default(autoincrement())
+    name       String    @unique(map: "IDX_ae4578dcaed5adff96595e6166") @db.VarChar(255)
+    created_at DateTime  @default(now()) @db.DateTime(6)
+    updated_at DateTime  @default(now()) @db.DateTime(6)
+    deleted_at DateTime? @db.DateTime(6)
+    user       user[]
 }
 
 model stock {
@@ -196,45 +235,87 @@ model user {
     deleted_at         DateTime?         @db.DateTime(6)
     active             Boolean           @default(false)
     token_verification String?           @unique @db.VarChar(255)
-    role_id            Int?
+    role_id            Int               @default(1)
     order              order[]
     user_membership    user_membership[]
-}
-
-model user_role {
-    role_id   Int    @id @default(autoincrement())
-    role_name String @db.VarChar(255)
-    role      role   @relation(fields: [role_id], references: [id], onDelete: Cascade, map: "FK_32a6fc2fcb019d8e3a8ace0f55f")
+    role               role?             @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_33a6fc2fcb019d8e3a8ace0f55f")
 }
 
 model user_membership {
-    membership_id   Int      @id @default(autoincrement())
-    start_date      DateTime @default(now()) @db.DateTime(6)
-    end_date        DateTime @db.DateTime(6)
-    membership_name String   @db.VarChar(255)
-    user_id         Int?
-    user            user?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_3e3e3e3e3e3e3e3e3e3e3e3e3e3e")
+    id            Int         @id @default(autoincrement())
+    membership_id Int
+    start_date    DateTime    @default(now()) @db.DateTime(6)
+    end_date      DateTime    @db.DateTime(6)
+    user_id       Int?
+    user          user?       @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_3e3e3e3e3e3e3e3e3e3e3e3e3e3e")
+    membership    membership? @relation(fields: [membership_id], references: [id])
 
     @@index([user_id], map: "FK_3e3e3e3e3e3e3e3e3e3e3e3e3e")
 }
 
+model membership {
+    id              Int               @id @default(autoincrement())
+    name            String            @db.VarChar(255)
+    description     String?           @db.VarChar(255)
+    price           Decimal           @default(0)
+    occurence       price_occurence   @default(MONTHLY)
+    created_at      DateTime          @default(now()) @db.DateTime(6)
+    updated_at      DateTime          @default(now()) @db.DateTime(6)
+    user_membership user_membership[]
+}
+
 model matches {
-    id            Int          @id @default(autoincrement())
-    title         String       @db.VarChar(255)
-    opponent      String       @db.VarChar(255)
-    opponent_logo String       @db.VarChar(255)
-    date          DateTime     @default(now()) @db.DateTime(6)
-    link          String       @db.VarChar(255)
-    status        match_status @default(NOT_STARTED)
-    created_at    DateTime     @default(now()) @db.DateTime(6)
-    updated_at    DateTime     @default(now()) @db.DateTime(6)
+    id             Int          @id @default(autoincrement())
+    title          String       @db.VarChar(255)
+    instance       String       @db.VarChar(255)
+    opponent       String       @db.VarChar(255)
+    opponent_logo  String       @db.VarChar(255)
+    score_exa      Int          @default(0)
+    score_opponent Int          @default(0)
+    format         String       @db.VarChar(255)
+    date           DateTime     @default(now()) @db.DateTime(6)
+    timezone       String       @db.VarChar(255)
+    link           String       @db.VarChar(255)
+    status         match_status @default(NOT_STARTED)
+    created_at     DateTime     @default(now()) @db.DateTime(6)
+    updated_at     DateTime     @default(now()) @db.DateTime(6)
+}
+
+model recruitment {
+    id                          Int                       @id @default(autoincrement())
+    title                       String                    @db.VarChar(255)
+    description                 String                    @db.Text
+    created_at                  DateTime                  @default(now()) @db.DateTime(6)
+    updated_at                  DateTime                  @default(now()) @db.DateTime(6)
+    category                    recruitement_category     @relation(fields: [category_id], references: [id])
+    sub_category                recruitement_sub_category @relation(fields: [recruitement_sub_categoryId], references: [id])
+    recruitement_sub_categoryId Int
+    category_id                 Int
+}
+
+model recruitement_category {
+    id                        Int                         @id @default(autoincrement())
+    name                      String                      @db.VarChar(255)
+    recruitement_sub_category recruitement_sub_category[]
+    recruitment               recruitment[]
+}
+
+model recruitement_sub_category {
+    id                      Int                   @id @default(autoincrement())
+    name                    String                @db.VarChar(255)
+    category                recruitement_category @relation(fields: [recruitement_categoryId], references: [id])
+    recruitment             recruitment[]
+    recruitement_categoryId Int
+}
+
+enum price_occurence {
+    MONTHLY
+    YEARLY
 }
 
 enum match_status {
     NOT_STARTED
-    WIN
-    LOOSE
-    DRAW
+    FINISHED
     IN_PROGRESS
 }
 

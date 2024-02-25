@@ -19,6 +19,13 @@ function Register() {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
+  // on enter key press connect user
+  document.addEventListener("keydown" as any, (e) => {
+    if (e.key === "Enter") {
+      createUser();
+    }
+  });
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -58,6 +65,19 @@ function Register() {
       document.querySelector<HTMLInputElement>("input[name='Nom']")?.value;
     const tag =
       document.querySelector<HTMLInputElement>("input[name='Tag']")?.value;
+
+    if (
+      !pseudo ||
+      !password ||
+      !passwordVerify ||
+      !email ||
+      !emailVerify ||
+      !first_name ||
+      !last_name
+    ) {
+      alert("Veuillez remplir tous les champs obligatoires");
+      return;
+    }
 
     if (email !== emailVerify) {
       alert("Les emails ne sont pas identiques");
@@ -134,7 +154,7 @@ function Register() {
               ></input>
             </div>
           </div>
-          <div>* Champs obligatoires</div>
+          <div className="register-required">* Champs obligatoires</div>
           <div className="register-conditions">
             <button className="register-btn" onClick={() => createUser()}>
               CREER MON COMPTE

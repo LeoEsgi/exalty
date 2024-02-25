@@ -1,0 +1,134 @@
+.BasicManagement {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: #2b0f0f;
+  color: white;
+  padding-top: 8em;
+  padding-bottom: 8em;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  padding-top: 1em;
+}
+
+.content input {
+  padding: 0.4em;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+  font-size: 1rem;
+  color: white;
+  width: 70%;
+  background-color: rgba(0, 0, 0, 0.226);
+}
+
+.content textarea {
+  padding: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  font-size: 1rem;
+  color: white;
+  width: 90%;
+  height: 5em;
+  background-color: rgba(0, 0, 0, 0.226);
+  resize: none;
+}
+
+.content .btn {
+  background-color: #928f57;
+  border: none;
+  color: white;
+  border-radius: 1em;
+  font-size: 1.2rem;
+  padding: 1em;
+  padding-right: 4em;
+  padding-left: 4em;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-top: 1.5em;
+  width: 100%;
+  margin-bottom: 1.5em;
+  text-decoration: none;
+}
+
+.content .btn:disabled {
+  background-color: #928f5738;
+}
+
+.add-game-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.object-editor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.object-edit {
+  width: 100%;
+}
+
+.object-fields {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.151);
+  font-size: 1.2rem;
+  padding: 0.4em;
+  width: 100%;
+  border-bottom: solid 1px #928f5788;
+  text-align: center;
+}
+
+.object-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 55vh;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  overflow: scroll;
+}
+
+.object {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.151);
+  font-size: 1.2rem;
+  padding: 0.4em;
+  width: 100%;
+  border-bottom: solid 1px #928f5788;
+}
+
+.object img {
+  width: 100px;
+  height: 100px;
+  margin-right: 1em;
+}
+
+.object-add {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  background-color: #928f57;
+  padding: 0.3em;
+}
+
+.add-icon {
+  width: 1.5em !important;
+  height: 1.5em !important;
+}
