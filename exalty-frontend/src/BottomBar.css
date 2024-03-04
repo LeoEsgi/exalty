@@ -3,11 +3,13 @@
   display: flex;
   color: white;
   padding: 3em;
-  padding-top: 15rem;
+  padding-top: 0.2em;
   padding-bottom: 0.1em;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  position: relative;
+  bottom: 0;
 }
 
 .BottomBar .contact {
@@ -19,7 +21,7 @@
 
 .BottomBar .slogan {
   width: fit-content;
-  font-size: 5rem;
+  font-size: 4rem;
 }
 
 .BottomBar .contact a {
@@ -28,7 +30,7 @@
   border: none;
   color: white;
   border-radius: 1em;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   padding: 1em;
   padding-right: 2em;
   padding-left: 2em;
@@ -49,7 +51,7 @@
   align-items: center;
   flex-wrap: wrap;
   color: white;
-  margin-top: 10rem;
+  margin-top: 2rem;
   width: 100%;
   font-size: 2em;
 }
@@ -74,7 +76,7 @@
 }
 
 .logo {
-  width: 7em;
+  width: 6em;
   padding-bottom: 1em;
 }
 

@@ -4,6 +4,7 @@ import TopBar from "./TopBar";
 import balmain from "./asset/balmain.svg";
 import { DialogMsg, membership, price_occurence } from "./Models";
 import axios from "axios";
+import BasicComponent from "./BasicComponent";
 
 function Member() {
   const [memberShips, setMemberShips] = useState<membership[]>([]);
@@ -12,7 +13,12 @@ function Member() {
     new DialogMsg("", "", false)
   );
   const getMemberShips = async () => {
-    const response = await axios.get("http://localhost:5000/membership/");
+    const response = await axios
+      .get("http://localhost:5000/membership/")
+      .catch((err) => {
+        console.error("Error fetching matches:", err);
+        return { data: [] };
+      });
     return response.data as membership[];
   };
 
@@ -30,44 +36,36 @@ function Member() {
   }, []);
   return (
     <>
-      <TopBar />
-      <div
+      <BasicComponent
         className="Member"
-        style={{
-          backgroundImage: `url(${balmain})`,
-          backgroundPosition: "0% 0%",
-          backgroundSize: "60%",
-          backgroundRepeat: "repeat",
-        }}
-      >
-        <div className="title">Nous supporter</div>
-        <div className="title-desc">
-          Entrez dans la légende en rejoignant nos rangs
-        </div>
-
-        <div className="title-desc">Trouvez celui qui vous convient</div>
-
-        <div className="subscribe-list">
-          {memberShips.map((membership) => (
-            <div className="card">
-              <div className="card-title">
-                {membership.name} {membership.price}€/
-                {price_occurence.MONTHLY === membership.occurence
-                  ? "mois"
-                  : "an"}
-              </div>
-              <div>{membership.description}</div>
-              <button
-                className="btn"
-                onClick={() => alert("Souscription validée")}
-              >
-                Souscrire
-              </button>
-              <a href="#">EN SAVOIR PLUS</a>
+        title="Nous supporter"
+        desc="Entrez dans la légende en rejoignant nos rangs"
+        desc_2="Trouvez celui qui vous convient"
+        content={
+          <>
+            <div className="subscribe-list">
+              {memberShips.map((membership) => (
+                <div className="card">
+                  <div className="card-title">
+                    {membership.name} {membership.price}€/
+                    {price_occurence.MONTHLY === membership.occurence
+                      ? "mois"
+                      : "an"}
+                  </div>
+                  <div>{membership.description}</div>
+                  <button
+                    className="btn"
+                    onClick={() => alert("Souscription validée")}
+                  >
+                    Souscrire
+                  </button>
+                  <a href="#">EN SAVOIR PLUS</a>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+          </>
+        }
+      />
     </>
   );
 }

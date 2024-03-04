@@ -1,0 +1,66 @@
+.column-date,
+.match-date {
+  flex-basis: 10%;
+}
+
+.column-title,
+.match-title {
+  flex-basis: 10%;
+}
+
+.column-instance,
+.match-instance {
+  flex-basis: 10%;
+}
+
+.column-opponent,
+.match-opponent {
+  flex-basis: 10%;
+}
+
+.column-opponent-logo,
+.match-opponent-logo {
+  flex-basis: 10%;
+}
+
+.column-score,
+.match-score {
+  flex-basis: 10%;
+}
+
+.column-status,
+.match-status {
+  flex-basis: 10%;
+}
+
+.column-link,
+.match-link {
+  flex-basis: 10%;
+}
+
+.column-timezone,
+.match-timezone {
+  flex-basis: 10%;
+}
+
+.column-delete,
+.match-delete {
+  flex-basis: 5%;
+}
+
+.object-fields {
+  text-align: left;
+}
+
+.match-status select {
+  padding: 0.3em;
+  border: none;
+  border-radius: 0.5em;
+  background-color: #ffffff15;
+  color: rgba(0, 0, 0, 0.089);
+  font-size: 0.6em;
+  color: white;
+  text-align: center;
+  text-align-last: center;
+  cursor: pointer;
+}

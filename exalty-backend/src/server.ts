@@ -27,8 +27,22 @@ app.use(
   "/uploads/player",
   express.static(path.join(__dirname, "public/uploads/player"))
 );
+
+app.use(
+  "/uploads/sponsor",
+  express.static(path.join(__dirname, "public/uploads/sponsor"))
+);
+
+app.use(
+  "/uploads/product",
+  express.static(path.join(__dirname, "public/uploads/product"))
+);
+
+app.use(
+  "/uploads/match",
+  express.static(path.join(__dirname, "public/uploads/match"))
+);
 const port = process.env.API_PORT;
-//initialize a simple http server
 const server = http.createServer(app);
 routePlugin().configureRoute(app);
 server.listen(port, () => {

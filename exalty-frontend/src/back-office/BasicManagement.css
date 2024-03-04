@@ -4,10 +4,11 @@
   align-items: center;
   width: 100%;
   height: 100%;
-  background-color: #2b0f0f;
+  background-color: #000000e5;
   color: white;
   padding-top: 8em;
   padding-bottom: 8em;
+  min-height: 100vh;
 }
 
 .content {
@@ -45,15 +46,16 @@
   color: white;
   border-radius: 1em;
   font-size: 1.2rem;
-  padding: 1em;
-  padding-right: 4em;
-  padding-left: 4em;
   width: -moz-fit-content;
   width: fit-content;
   margin-top: 1.5em;
-  width: 100%;
   margin-bottom: 1.5em;
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  width: 20%;
+  justify-content: center;
+  padding: 0.5em;
 }
 
 .content .btn:disabled {
@@ -95,7 +97,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 55vh;
+  height: auto;
   padding-top: 1em;
   padding-bottom: 1em;
   overflow: scroll;
@@ -131,4 +133,20 @@
 .add-icon {
   width: 1.5em !important;
   height: 1.5em !important;
+}
+
+.btn-full {
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+  justify-content: center !important;
+  padding-top: 1em !important;
+  padding-bottom: 1em !important;
+}
+
+.object-fct {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 }

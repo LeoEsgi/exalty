@@ -25,7 +25,12 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
   const { isAuthenticated, isAdmin, logout } = useAuth();
 
   const getGames = async () => {
-    const response = await axios.get("http://localhost:5000/game");
+    const response = await axios
+      .get("http://localhost:5000/game/")
+      .catch((err) => {
+        console.error("Error fetching games:", err);
+        return { data: [] };
+      });
     return response.data as game[];
   };
   useEffect(() => {
@@ -185,7 +190,7 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
               onMouseLeave={() => setShowDropdown2(false)}
               className="dropdown nav-item"
             >
-              <Link to="/team">Devenir Membre</Link>
+              <a>Devenir Membre</a>
               {showDropdown2 && (
                 <div className="dropdown-menu">
                   <Link className="nav-item" to="/member">

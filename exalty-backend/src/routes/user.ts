@@ -25,7 +25,8 @@ router.get("/role/:role_id", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   const id = parseInt(req.params.id);
-  const user = await UserService.getInstance().update(id, req.body);
+  const deleted = req.body.deleted;
+  const user = await UserService.getInstance().update(id, req.body, deleted);
   res.json(user);
 });
 

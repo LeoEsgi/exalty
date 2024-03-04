@@ -5,17 +5,20 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  padding-bottom: 30em;
   background-color: black;
   color: white;
-  padding-top: 8em;
+  padding-top: 5em;
   flex-wrap: wrap;
+}
+
+.matches-selector {
+  text-align: center;
 }
 
 .matches {
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 100%;
   padding-top: 5em;
 }
 
@@ -124,7 +127,7 @@
 .current-matches .matches {
   flex-direction: row;
   flex-wrap: wrap;
-  width: 80%;
+  width: 100%;
 }
 
 .current-matches .match {

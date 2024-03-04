@@ -4,7 +4,7 @@ import SponsorManagement from "./SponsorManagement";
 import TeamManagement from "./TeamManagement";
 import UserManagement from "./UserManagement";
 import MatchManagement from "./MatchManagement";
-import MemberManagement from "./MemberManagement";
+import NewsLetter from "./NewsLetter";
 import ProtectedRoute from "./ProtectedRoute";
 function Management() {
   return (
@@ -29,9 +29,10 @@ function Management() {
         path="/match"
         element={<ProtectedRoute element={<MatchManagement />} />}
       />
+
       <Route
-        path="/member"
-        element={<ProtectedRoute element={<MemberManagement />} />}
+        path="/newsletter"
+        element={<ProtectedRoute element={<NewsLetter />} />}
       />
     </Routes>
   );

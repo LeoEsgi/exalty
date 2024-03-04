@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const cron = require("node-cron");
 
 export default class MailService {
   private static instance: MailService;
@@ -39,15 +40,15 @@ export default class MailService {
     });
   }
 
-  // public async sendMailWithCron(
-  //   to: string,
-  //   subject: string,
-  //   text: string,
-  //   html: string,
-  //   cronTime: string
-  // ): Promise<void> {
-  //   cron.schedule(cronTime, () => {
-  //     this.sendMail(to, subject, text, html);
-  //   });
-  // }
+  public async sendMailWithCron(
+    to: string,
+    subject: string,
+    text: string,
+    html: string,
+    cronTime: string
+  ): Promise<void> {
+    cron.schedule(cronTime, () => {
+      this.sendMail(to, subject, text, html);
+    });
+  }
 }

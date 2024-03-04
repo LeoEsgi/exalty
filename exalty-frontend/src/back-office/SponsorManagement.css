@@ -1,0 +1,19 @@
+.column-name,
+.sponsor-name {
+  flex-basis: 15%;
+}
+
+.column-desc,
+.sponsor-desc {
+  flex-basis: 55%;
+}
+
+.column-link,
+.sponsorM-link {
+  flex-basis: 15%;
+}
+
+.column-logo,
+.sponsor-logo {
+  flex-basis: 15%;
+}

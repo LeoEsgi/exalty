@@ -6,6 +6,7 @@ services:
     build:
       context: ./exalty-frontend
       dockerfile: Dockerfile
+    # image: worhu/exalty-frontend:latest
     ports:
       - "3000:3000"
     volumes:
@@ -20,6 +21,7 @@ services:
     build:
       context: ./exalty-backend
       dockerfile: Dockerfile
+    # image: worhu/exalty-backend:latest
     ports:
       - "5000:5000"
     depends_on:

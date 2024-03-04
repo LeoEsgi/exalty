@@ -10,6 +10,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  height: 50vh;
 }
 
 .jersey-price {
@@ -25,13 +26,18 @@
 
 .jersey-tag {
   display: flex;
+  margin-left: 0.8em;
   flex-direction: column;
   font-size: 1.5em;
 }
 
 .jersey img {
-  width: 30rem;
+  width: 20rem;
   margin: 1.5em;
+}
+
+.jersey-name {
+  font-size: 1.8em;
 }
 
 .jersey img:hover {
@@ -40,27 +46,36 @@
   filter: drop-shadow(0 0 20px #928f57);
 }
 
+.jersey-infos {
+  display: flex;
+  height: 100%;
+  align-items: end;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .jersey-infos select {
   color: white;
   font-size: 1em;
-  margin: 1.5em;
-  padding: 1em;
-  width: 10em;
+  padding: 0.5em;
   background-color: transparent;
 }
 
 .jersey-infos input {
   color: white;
-  font-size: 1em;
-  margin: 1.5em;
-  padding: 1em;
-  width: 10em;
+  font-size: 1em !important;
+  padding: 0.5em !important;
   background-color: transparent;
 }
 
 .jersey-size select option {
   background-color: black;
   color: white;
+}
+
+.jersey-custom {
+  display: flex;
+  align-items: center;
 }
 
 @media screen and (max-width: 1400px) {

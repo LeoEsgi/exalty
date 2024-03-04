@@ -7,6 +7,7 @@ import { handleUpload, imageUpload } from "../ImageUpload";
 import { CircularProgress } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import * as XLSX from "xlsx";
 
 function TeamManagement() {
   const [loading, setLoading] = useState(false);
@@ -18,6 +19,35 @@ function TeamManagement() {
   const [dialogInstance, setDialogInstance] = useState(
     new DialogMsg("", "", false)
   );
+
+  const extractToExcell = () => {
+    const workbook = XLSX.utils.book_new();
+
+    const gamesSheet = XLSX.utils.json_to_sheet(
+      games.map((game) => ({
+        Nom: game.name,
+        Titre: game.title,
+        Description: game.desc,
+      }))
+    );
+
+    const playersSheet = XLSX.utils.json_to_sheet(
+      players.map((player) => ({
+        Nom: player.name,
+        Role: player.role,
+        Jeu: games.find((game) => game.id === player.game_id)?.name,
+      }))
+    );
+
+    XLSX.utils.book_append_sheet(workbook, gamesSheet, "Jeux");
+    XLSX.utils.book_append_sheet(workbook, playersSheet, "Joueurs");
+
+    XLSX.writeFile(
+      workbook,
+      `Liste-des-Jeux-${new Date().toLocaleDateString()}.xlsx`
+    );
+  };
+
   const handleImgGameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       const reader = new FileReader();
@@ -138,25 +168,37 @@ function TeamManagement() {
             className="object-editor"
           >
             <div className="object-edit">
-              <div
-                className="object-add"
-                onClick={() => {
-                  setGames([
-                    new game(
-                      0,
-                      "Nom du jeu",
-                      "Titre du jeu",
-                      "Description",
-                      "game.png"
-                    ),
+              <div className="object-fct">
+                <button
+                  className="btn"
+                  onClick={() => {
+                    setGames([
+                      new game(
+                        0,
+                        "Nom du jeu",
+                        "Titre du jeu",
+                        "Description",
+                        "game.png"
+                      ),
 
-                    ...games,
-                  ]);
-                  setIsModified(true);
-                }}
-              >
-                Ajouter <AddIcon className="add-icon"></AddIcon>
+                      ...games,
+                    ]);
+                    setIsModified(true);
+                  }}
+                >
+                  Ajouter <AddIcon className="add-icon"></AddIcon>
+                </button>
+
+                <button
+                  className="btn"
+                  onClick={() => {
+                    extractToExcell();
+                  }}
+                >
+                  Extraire vers Excel
+                </button>
               </div>
+
               <div className="object-list">
                 <div className="object-fields">
                   <label className="column-name">Nom</label>
@@ -256,7 +298,7 @@ function TeamManagement() {
                 <CircularProgress className="progress-bar" />
               ) : (
                 <button
-                  className="btn"
+                  className="btn btn-full"
                   disabled={!isModified}
                   onClick={async () => {
                     setLoading(true);
@@ -311,24 +353,36 @@ function TeamManagement() {
             }}
           >
             <div className="object-edit">
-              <div
-                className="object-add"
-                onClick={() => {
-                  setPlayers([
-                    new player(
-                      0,
-                      "Nom du joueur",
-                      "Role du joueur",
-                      "player.png",
-                      1
-                    ),
-                    ...players,
-                  ]);
-                  setIsModified(true);
-                }}
-              >
-                Ajouter <AddIcon className="add-icon"></AddIcon>
+              <div className="object-fct">
+                <button
+                  className="btn"
+                  onClick={() => {
+                    setPlayers([
+                      new player(
+                        0,
+                        "Nom du joueur",
+                        "Role du joueur",
+                        "player.png",
+                        1
+                      ),
+                      ...players,
+                    ]);
+                    setIsModified(true);
+                  }}
+                >
+                  Ajouter <AddIcon className="add-icon"></AddIcon>
+                </button>
+
+                <button
+                  className="btn"
+                  onClick={() => {
+                    extractToExcell();
+                  }}
+                >
+                  Extraire vers Excel
+                </button>
               </div>
+
               <div className="object-list">
                 <div className="object-fields">
                   <label className="column-pseudo">pseudo</label>
@@ -459,7 +513,7 @@ function TeamManagement() {
                 <CircularProgress className="progress-bar" />
               ) : (
                 <button
-                  className="btn"
+                  className="btn btn-full"
                   disabled={!isModified}
                   onClick={async () => {
                     setLoading(true);

@@ -13,6 +13,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 
 import axios from "axios";
+import BottomBar from "./BottomBar";
 function Register() {
   const [open, setOpen] = React.useState(false);
   const [openError, setOpenError] = React.useState(false);
@@ -207,6 +208,7 @@ function Register() {
           </DialogActions>
         </Dialog>
       </div>
+      <BottomBar />
     </>
   );
 }

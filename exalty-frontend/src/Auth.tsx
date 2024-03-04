@@ -14,6 +14,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
+import BottomBar from "./BottomBar";
 
 function Auth() {
   const [open, setOpen] = React.useState(false);
@@ -155,6 +156,7 @@ function Auth() {
           </DialogActions>
         </Dialog>
       </div>
+      <BottomBar />
     </>
   );
 }

@@ -35,8 +35,14 @@ export const AuthProvider: React.FC<{ element: React.ReactNode }> = ({
 
   const checkAdmin = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/auth/me");
-      const user: user = response.data;
+      const response = await axios
+        .get("http://localhost:5000/auth/me")
+        .catch((error) => {
+          console.error("Failed to check admin status", error);
+          setIsAdmin(false);
+        });
+
+      const user: user = response!.data;
       setIsAdmin(user.role_id === 2);
     } catch (error) {
       console.error("Failed to check admin status", error);
@@ -46,14 +52,19 @@ export const AuthProvider: React.FC<{ element: React.ReactNode }> = ({
 
   const verifyAuthentication = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/auth/verify");
-      const isAuthenticated = response.data.isAuthenticated;
+      const response = await axios
+        .get("http://localhost:5000/auth/verify")
+        .catch((error) => {
+          console.error("Verification failed");
+          setIsAuthenticated(false);
+        });
+      const isAuthenticated = response!.data.isAuthenticated;
       setIsAuthenticated(isAuthenticated);
       if (isAuthenticated) {
         await checkAdmin();
       }
     } catch (error) {
-      console.error("Verification failed", error);
+      console.error("Verification failed");
       setIsAuthenticated(false);
     } finally {
       setIsLoading(false);

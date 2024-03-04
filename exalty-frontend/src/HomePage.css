@@ -259,6 +259,31 @@
   z-index: 100;
 }
 
+.back_to_top {
+  position: fixed;
+  border: 2px solid #e8e8e871;
+  bottom: 1em;
+  right: 1em;
+  border-radius: 5em;
+  padding: 0.7em;
+}
+
+.matches-content {
+  background-color: black;
+  padding-top: 10rem;
+  padding-bottom: 10rem;
+  width: 84vw !important;
+  border-left: 0.4em solid #928f57;
+  margin-left: 15vw;
+}
+
+.matches-home {
+  padding-top: 0 !important;
+  background-color: #130843;
+  color: white;
+  animation: scrollBackground 60s linear infinite;
+}
+
 @media screen and (max-width: 1400px) {
   .btn {
     font-size: 1em;

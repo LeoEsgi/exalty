@@ -2,6 +2,7 @@ import TopBar from "./TopBar";
 import "./Contact.css";
 import balmain from "./asset/balmain.svg";
 import { Link } from "react-router-dom";
+import BottomBar from "./BottomBar";
 function Contact() {
   return (
     <>
@@ -79,6 +80,7 @@ function Contact() {
           </div>
         </div>
       </div>
+      <BottomBar />
     </>
   );
 }

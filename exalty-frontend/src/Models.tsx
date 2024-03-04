@@ -18,12 +18,13 @@ export class user {
     public last_connection: Date,
     public created_at: Date,
     public updated_at: Date,
-    public deleted_at: Date,
+    public deleted_at: Date | null,
     public active: boolean,
     public token_verification: string,
     public role_id: number,
     public order: order[],
-    public user_membership: user_membership[]
+    public membership_id: number,
+    public deleted?: boolean
   ) {}
 }
 
@@ -84,7 +85,8 @@ export class match {
     public link: string,
     public timezone: string,
     public format: string = "BO1",
-    public deleted: boolean = false
+    public new_img?: File,
+    public deleted?: boolean
   ) {}
 }
 
@@ -218,16 +220,22 @@ export class payment {
 export class product {
   constructor(
     public id: number,
-    public flockingable: number,
+    public flockingable: boolean,
     public description: string,
     public name: string,
-    public sizable: number,
+    public sizable: boolean,
+    public img: string,
+    public basePrice: number,
+    public img2: string,
     public created_at: Date,
     public updated_at: Date,
     public deleted_at: Date | null,
     public offer_id: number | null,
     public offer: offer | null,
-    public stock: stock[]
+    public stock: stock[],
+    public new_img?: File,
+    public new_img2?: File,
+    public deleted?: boolean
   ) {}
 }
 
@@ -310,6 +318,18 @@ export class recruitement_sub_category {
     public name: string,
     public recruitement: recruitement[],
     public category: recruitement_category
+  ) {}
+}
+
+export class sponsor {
+  constructor(
+    public id: number,
+    public name: string,
+    public img: string,
+    public description: string,
+    public link: string,
+    public new_img?: File,
+    public deleted?: boolean
   ) {}
 }
 

@@ -15,7 +15,9 @@ import Unknown from "./404";
 import ValidateMail from "./ValidateMail";
 import Matches from "./Matches";
 import Account from "./Account";
+import Faq from "./Faq";
 import Management from "./back-office/Management";
+
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
@@ -38,6 +40,7 @@ function App() {
         <Route path="/matches" element={<Matches />} />
         <Route path="/account" element={<Account />} />
         <Route path="/management/*" element={<Management />} />
+        <Route path="/faq" element={<Faq />} />
         <Route path="*" element={<Unknown />} />
       </Routes>
     </BrowserRouter>

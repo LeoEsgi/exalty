@@ -6,6 +6,9 @@ import gameRouter from "./game";
 import playerRouter from "./player";
 import memberShipRouter from "./membership";
 import recruitmentRouter from "./recruitment";
+import sponsorRouter from "./sponsor";
+import productRouter from "./product";
+import mailRouter from "./mail";
 import uploadImageRouter from "./upload-image";
 
 export function buildRoutes(app: express.Express) {
@@ -16,6 +19,9 @@ export function buildRoutes(app: express.Express) {
   app.use("/player", playerRouter);
   app.use("/membership", memberShipRouter);
   app.use("/recruitment", recruitmentRouter);
+  app.use("/sponsor", sponsorRouter);
+  app.use("/product", productRouter);
+  app.use("/mail", mailRouter);
   app.use("/upload-image", uploadImageRouter);
 }
 

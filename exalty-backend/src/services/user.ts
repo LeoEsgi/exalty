@@ -41,7 +41,14 @@ export default class UserService {
     });
   }
 
-  public async update(id: number, data: user): Promise<user> {
+  public async update(id: number, data: user, deleted: boolean): Promise<user> {
+    if (deleted) {
+      return await prisma.user.delete({
+        where: {
+          id,
+        },
+      });
+    }
     return await prisma.user.upsert({
       where: {
         id,

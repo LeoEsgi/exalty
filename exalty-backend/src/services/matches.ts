@@ -32,4 +32,59 @@ export default class MatchesService {
       },
     });
   }
+
+  public async update(
+    id: number,
+    title: string,
+    instance: string,
+    opponent: string,
+    opponent_logo: string,
+    score_exa: number,
+    score_opponent: number,
+    format: string,
+    date: Date,
+    timezone: string,
+    link: string,
+    status: match_status,
+    deleted?: boolean
+  ): Promise<matches> {
+    if (deleted) {
+      return await prisma.matches.delete({
+        where: {
+          id,
+        },
+      });
+    }
+    return await prisma.matches.upsert({
+      where: {
+        id,
+      },
+      update: {
+        title,
+        instance,
+        opponent,
+        opponent_logo,
+        score_exa,
+        score_opponent,
+        format,
+        date,
+        timezone,
+        link,
+        status,
+      },
+      create: {
+        title,
+        instance,
+        opponent,
+        opponent_logo,
+        score_exa,
+        score_opponent,
+        format,
+        date,
+        timezone,
+        link,
+        status,
+      },
+    });
+  }
 }

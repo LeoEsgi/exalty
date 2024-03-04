@@ -181,25 +181,19 @@ async function main() {
     },
   });
 
-  await prisma.user_membership.upsert({
-    where: { id: 1 },
-    update: {
-      user_id: 1,
-      membership_id: 1,
-      start_date: new Date(),
-      end_date: new Date("2024-05-15"),
-    },
-    create: {
-      user_id: 1,
-      membership_id: 1,
-      start_date: new Date(),
-      end_date: new Date("2024-05-15"),
-    },
-  });
-
   await prisma.matches.upsert({
     where: { id: 1 },
-    update: {},
+    update: {
+      title: "France cup",
+      instance: "Finale",
+      link: "link",
+      status: "NOT_STARTED",
+      date: new Date("2024-05-15 20:00:00"),
+      timezone: "PCT",
+      format: "Bo5",
+      opponent: "Karmine Corp",
+      opponent_logo: "Karmine_Corp_logo.svg",
+    },
     create: {
       title: "France cup",
       instance: "Finale",
@@ -209,14 +203,23 @@ async function main() {
       timezone: "PCT",
       format: "Bo5",
       opponent: "Karmine Corp",
-      opponent_logo:
-        "https://upload.wikimedia.org/wikipedia/commons/9/96/Karmine_Corp_logo.svg",
+      opponent_logo: "Karmine_Corp_logo.svg",
     },
   });
 
   await prisma.matches.upsert({
     where: { id: 2 },
-    update: {},
+    update: {
+      title: "France cup",
+      instance: "Finale",
+      link: "link",
+      status: "NOT_STARTED",
+      date: new Date("2024-05-18 20:00:00"),
+      timezone: "PCT",
+      format: "Bo5",
+      opponent: "Gentle Mates",
+      opponent_logo: "Gentle_Mates.jpg",
+    },
     create: {
       title: "France cup",
       instance: "Finale",
@@ -226,14 +229,23 @@ async function main() {
       timezone: "PCT",
       format: "Bo5",
       opponent: "Gentle Mates",
-      opponent_logo:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Gentle_Mates.jpg/800px-Gentle_Mates.jpg",
+      opponent_logo: "Gentle_Mates.jpg",
     },
   });
 
   await prisma.matches.upsert({
     where: { id: 3 },
-    update: {},
+    update: {
+      title: "France cup",
+      instance: "Finale",
+      link: "link",
+      status: "NOT_STARTED",
+      date: new Date("2024-05-27 20:00:00"),
+      timezone: "PCT",
+      format: "Bo5",
+      opponent: "Mandatory",
+      opponent_logo: "Mandatory.png",
+    },
     create: {
       title: "France cup",
       instance: "Finale",
@@ -243,14 +255,25 @@ async function main() {
       timezone: "PCT",
       format: "Bo5",
       opponent: "Mandatory",
-      opponent_logo:
-        "https://upload.wikimedia.org/wikipedia/fr/thumb/7/71/Mandatory.svg/640px-Mandatory.svg.png",
+      opponent_logo: "Mandatory.png",
     },
   });
 
   await prisma.matches.upsert({
     where: { id: 4 },
-    update: {},
+    update: {
+      title: "France cup",
+      instance: "Finale",
+      link: "link",
+      status: "FINISHED",
+      date: new Date("2024-05-15 20:00:00"),
+      timezone: "PCT",
+      format: "Bo5",
+      opponent: "Karmine Corp",
+      opponent_logo: "Karmine_Corp_logo.svg",
+      score_exa: 13,
+      score_opponent: 7,
+    },
     create: {
       title: "France cup",
       instance: "Finale",
@@ -260,8 +283,7 @@ async function main() {
       timezone: "PCT",
       format: "Bo5",
       opponent: "Karmine Corp",
-      opponent_logo:
-        "https://upload.wikimedia.org/wikipedia/commons/9/96/Karmine_Corp_logo.svg",
+      opponent_logo: "Karmine_Corp_logo.svg",
       score_exa: 13,
       score_opponent: 7,
     },
@@ -269,7 +291,19 @@ async function main() {
 
   await prisma.matches.upsert({
     where: { id: 5 },
-    update: {},
+    update: {
+      title: "France cup",
+      instance: "Finale",
+      link: "link",
+      status: "FINISHED",
+      date: new Date("2024-05-18 20:00:00"),
+      timezone: "PCT",
+      format: "Bo5",
+      opponent: "Gentle Mates",
+      opponent_logo: "Gentle_Mates.jpg",
+      score_exa: 7,
+      score_opponent: 13,
+    },
     create: {
       title: "France cup",
       instance: "Finale",
@@ -279,8 +313,7 @@ async function main() {
       timezone: "PCT",
       format: "Bo5",
       opponent: "Gentle Mates",
-      opponent_logo:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Gentle_Mates.jpg/800px-Gentle_Mates.jpg",
+      opponent_logo: "Gentle_Mates.jpg",
       score_exa: 7,
       score_opponent: 13,
     },
@@ -288,7 +321,19 @@ async function main() {
 
   await prisma.matches.upsert({
     where: { id: 6 },
-    update: {},
+    update: {
+      title: "France cup",
+      instance: "Finale",
+      link: "link",
+      status: "FINISHED",
+      date: new Date("2024-05-27 20:00:00"),
+      timezone: "PCT",
+      format: "Bo5",
+      opponent: "Mandatory",
+      opponent_logo: "Mandatory.png",
+      score_exa: 13,
+      score_opponent: 9,
+    },
     create: {
       title: "France cup",
       instance: "Finale",
@@ -298,8 +343,7 @@ async function main() {
       timezone: "PCT",
       format: "Bo5",
       opponent: "Mandatory",
-      opponent_logo:
-        "https://upload.wikimedia.org/wikipedia/fr/thumb/7/71/Mandatory.svg/640px-Mandatory.svg.png",
+      opponent_logo: "Mandatory.png",
       score_exa: 13,
       score_opponent: 9,
     },
@@ -307,7 +351,17 @@ async function main() {
 
   await prisma.matches.upsert({
     where: { id: 7 },
-    update: {},
+    update: {
+      title: "France cup",
+      instance: "Finale",
+      link: "link",
+      status: "IN_PROGRESS",
+      date: new Date("2024-05-15 20:00:00"),
+      timezone: "PCT",
+      format: "Bo3",
+      opponent: "Karmine Corp",
+      opponent_logo: "Karmine_Corp_logo.svg",
+    },
     create: {
       title: "France cup",
       instance: "Finale",
@@ -317,14 +371,23 @@ async function main() {
       timezone: "PCT",
       format: "Bo3",
       opponent: "Karmine Corp",
-      opponent_logo:
-        "https://upload.wikimedia.org/wikipedia/commons/9/96/Karmine_Corp_logo.svg",
+      opponent_logo: "Karmine_Corp_logo.svg",
     },
   });
 
   await prisma.matches.upsert({
     where: { id: 8 },
-    update: {},
+    update: {
+      title: "France cup",
+      instance: "Demi-Finale",
+      link: "link",
+      status: "IN_PROGRESS",
+      date: new Date("2024-05-18 20:00:00"),
+      timezone: "PCT",
+      format: "Bo5",
+      opponent: "Gentle Mates",
+      opponent_logo: "Gentle_Mates.jpg",
+    },
     create: {
       title: "France cup",
       instance: "Demi-Finale",
@@ -334,14 +397,23 @@ async function main() {
       timezone: "PCT",
       format: "Bo5",
       opponent: "Gentle Mates",
-      opponent_logo:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Gentle_Mates.jpg/800px-Gentle_Mates.jpg",
+      opponent_logo: "Gentle_Mates.jpg",
     },
   });
 
   await prisma.matches.upsert({
     where: { id: 9 },
-    update: {},
+    update: {
+      title: "France cup",
+      instance: "Finale",
+      link: "link",
+      status: "IN_PROGRESS",
+      date: new Date("2024-05-27 20:00:00"),
+      timezone: "PCT",
+      format: "Bo1",
+      opponent: "Mandatory",
+      opponent_logo: "Mandatory.png",
+    },
     create: {
       title: "France cup",
       instance: "Finale",
@@ -351,14 +423,18 @@ async function main() {
       timezone: "PCT",
       format: "Bo1",
       opponent: "Mandatory",
-      opponent_logo:
-        "https://upload.wikimedia.org/wikipedia/fr/thumb/7/71/Mandatory.svg/640px-Mandatory.svg.png",
+      opponent_logo: "Mandatory.png",
     },
   });
 
   await prisma.game.upsert({
     where: { id: 1 },
-    update: {},
+    update: {
+      name: "Valorant",
+      title: "Sur valorant retrouvez les en VCT champions",
+      desc: "Notre équipe Valorant représente l’essence même de la compétitivité et du travail d’équipe chez Exalty. Constituée de joueurs talentueux et dévoués, cette équipe allie habilement stratégie, rapidité et précision pour dominer dans l’arène de Valorant. Avec des performances remarquables dans divers tournois, notre équipe Valorant ne cesse de repousser les limites, démontrant leur compétence et leur passion pour le jeu. Leur esprit d’équipe et leur détermination font d’eux non seulement des compétiteurs redoutables, mais aussi des ambassadeurs inspirants de notre association.",
+      img: "valorant.png",
+    },
     create: {
       name: "Valorant",
       title: "Sur valorant retrouvez les en VCT champions",
@@ -369,7 +445,13 @@ async function main() {
 
   await prisma.game.upsert({
     where: { id: 2 },
-    update: {},
+    update: {
+      name: "League of Legends",
+      title:
+        "Sur League of Legends retrouvez les sur la faille de l'invocateur",
+      desc: "L’équipe League of Legends (LoL) chez Exalty est un symbole de persévérance et d’innovation dans l’esport. Nos joueurs, sélectionnés pour leur habileté exceptionnelle et leur esprit stratégique, excellent sur Summoner’s Rift, apportant fierté et prestige à notre association. Un fait marquant pour notre équipe est le retour de notre coaching staff original de 2021, qui avait mené l’équipe à sa meilleure performance historique, terminant top 9 à l’OTF. Leur retour symbolise un renouvellement d’engagement et de passion, apportant une expérience précieuse et une vision éprouvée qui galvanisent l’équipe. Cette fusion d’anciennes réussites et de nouvelles aspirations place notre équipe LoL sur la voie du succès continu et de la reconnaissance dans la scène compétitive de League of Legends.",
+      img: "lol.jpg",
+    },
     create: {
       name: "League of Legends",
       title:
@@ -610,6 +692,131 @@ async function main() {
       game: {
         connect: { id: 2 },
       },
+    },
+  });
+
+  await prisma.sponsor.upsert({
+    where: { id: 1 },
+    update: {
+      name: "FlowUP",
+      img: "FlowUP.png",
+      description:
+        "FlowUP est un acteur clé dans le monde du gaming et du e-sport. Leur plateforme innovante offre des solutions optimisées pour le streaming et la diffusion de contenu, renforçant ainsi la visibilité et l'engagement de notre communauté. Leur soutien technique et technologique est essentiel pour le développement et le succès de nos initiatives.",
+      link: "https://www.flowup.shop/r/2f8",
+    },
+    create: {
+      name: "FlowUP",
+      img: "FlowUP.png",
+      description:
+        "FlowUP est un acteur clé dans le monde du gaming et du e-sport. Leur plateforme innovante offre des solutions optimisées pour le streaming et la diffusion de contenu, renforçant ainsi la visibilité et l'engagement de notre communauté. Leur soutien technique et technologique est essentiel pour le développement et le succès de nos initiatives.",
+      link: "https://www.flowup.shop/r/2f8",
+    },
+  });
+
+  await prisma.sponsor.upsert({
+    where: { id: 2 },
+    update: {
+      name: "1337 Pharma",
+      img: "1337-Pharma.png",
+      description:
+        "1337 Pharma, quant à lui, est un leader dans le secteur de la santé et du bien-être adapté aux gamers. Avec une gamme de produits conçus pour améliorer la concentration et la performance, 1337 Pharma joue un rôle crucial dans le soutien de nos athlètes et membres, en veillant à leur santé physique et mentale, un aspect fondamental dans le monde compétitif de l'e-sport.",
+      link: "https://1337pharma.com/",
+    },
+    create: {
+      name: "1337 Pharma",
+      img: "1337-Pharma.png",
+      description:
+        "1337 Pharma, quant à lui, est un leader dans le secteur de la santé et du bien-être adapté aux gamers. Avec une gamme de produits conçus pour améliorer la concentration et la performance, 1337 Pharma joue un rôle crucial dans le soutien de nos athlètes et membres, en veillant à leur santé physique et mentale, un aspect fondamental dans le monde compétitif de l'e-sport.",
+      link: "https://1337pharma.com/",
+    },
+  });
+
+  await prisma.sponsor.upsert({
+    where: { id: 3 },
+    update: {
+      name: "One X Wear",
+      img: "OneXWear.png",
+      description:
+        "One X Wear est notre partenaire officiel pour tout ce qui concerne le merchandising. Spécialiste dans la création de vêtements et accessoires personnalisés pour les gamers, One X Wear propose une gamme de produits de haute qualité qui reflète l'esprit et le dynamisme de notre association. Leur expertise dans le domaine du merchandising gaming fait d'eux un partenaire incontournable pour Exalty, nous permettant d'offrir à nos membres et fans des produits exclusifs et tendance.",
+      link: "https://onex.gg/",
+    },
+    create: {
+      name: "One X Wear",
+      img: "OneXWear.png",
+      description:
+        "One X Wear est notre partenaire officiel pour tout ce qui concerne le merchandising. Spécialiste dans la création de vêtements et accessoires personnalisés pour les gamers, One X Wear propose une gamme de produits de haute qualité qui reflète l'esprit et le dynamisme de notre association. Leur expertise dans le domaine du merchandising gaming fait d'eux un partenaire incontournable pour Exalty, nous permettant d'offrir à nos membres et fans des produits exclusifs et tendance.",
+      link: "https://onex.gg/",
+    },
+  });
+  await prisma.sponsor.upsert({
+    where: { id: 4 },
+    update: {
+      name: "Eneba",
+      img: "Eneba.svg",
+      description:
+        "Eneba est une marketplace incontournable pour tous les amateurs de jeux vidéo. Leur large sélection de jeux et leur système de paiement sécurisé en font un partenaire de choix pour Exalty. Leur engagement à fournir un accès abordable et facile aux derniers jeux aide notre communauté à rester à la pointe de l'innovation et du divertissement.",
+      link: "https://www.eneba.com/fr/?af_id=ExaltyFR5",
+    },
+    create: {
+      name: "Eneba",
+      img: "Eneba.svg",
+      description:
+        "Eneba est une marketplace incontournable pour tous les amateurs de jeux vidéo. Leur large sélection de jeux et leur système de paiement sécurisé en font un partenaire de choix pour Exalty. Leur engagement à fournir un accès abordable et facile aux derniers jeux aide notre communauté à rester à la pointe de l'innovation et du divertissement.",
+      link: "https://www.eneba.com/fr/?af_id=ExaltyFR5",
+    },
+  });
+
+  await prisma.sponsor.upsert({
+    where: { id: 5 },
+    update: {
+      name: "NordVPN",
+      img: "NordVPN.svg",
+      description:
+        "NordVPN est un leader mondial dans le domaine de la sécurité internet. Leur service VPN de pointe assure une protection en ligne de premier ordre pour nos membres, protégeant leurs données personnelles et sécurisant leur connexion lors de tournois en ligne et de sessions de jeu. La confiance et la sécurité sont primordiales dans l'univers numérique, et grâce à NordVPN, nous pouvons garantir à notre communauté une expérience en ligne sûre et sans tracas.",
+      link: "https://go.nordvpn.net/SH5zx",
+    },
+    create: {
+      name: "NordVPN",
+      img: "NordVPN.svg",
+      description:
+        "NordVPN est un leader mondial dans le domaine de la sécurité internet. Leur service VPN de pointe assure une protection en ligne de premier ordre pour nos membres, protégeant leurs données personnelles et sécurisant leur connexion lors de tournois en ligne et de sessions de jeu. La confiance et la sécurité sont primordiales dans l'univers numérique, et grâce à NordVPN, nous pouvons garantir à notre communauté une expérience en ligne sûre et sans tracas.",
+      link: "https://go.nordvpn.net/SH5zx",
+    },
+  });
+
+  await prisma.product.upsert({
+    where: { id: 1 },
+    update: {
+      name: "Maillot Exalty",
+      flockingable: true,
+      basePrice: 59.9,
+      sizable: true,
+      img: "tshirt.png",
+      img2: "tshirt2.png",
+      description:
+        "Le Maillot Exalty est un incontournable pour tous les fans de l'association. Conçu avec un tissu de haute qualité, ce t-shirt est à la fois confortable et stylé. Disponible dans une gamme de tailles et de couleurs, il est idéal pour afficher votre soutien à Exalty lors de vos streams, événements ou sorties entre amis.",
+    },
+    create: {
+      name: "Maillot Exalty",
+      flockingable: true,
+      basePrice: 59.9,
+      sizable: true,
+      img: "tshirt.png",
+      img2: "tshirt2.png",
+      description:
+        "Le Maillot Exalty est un incontournable pour tous les fans de l'association. Conçu avec un tissu de haute qualité, ce t-shirt est à la fois confortable et stylé. Disponible dans une gamme de tailles et de couleurs, il est idéal pour afficher votre soutien à Exalty lors de vos streams, événements ou sorties entre amis.",
+    },
+  });
+
+  await prisma.stock.upsert({
+    where: { id: 1 },
+    update: {
+      product_id: 1,
+      amount: 50,
+    },
+    create: {
+      product_id: 1,
+      amount: 50,
     },
   });
 }

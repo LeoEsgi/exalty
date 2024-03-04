@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import "./Recruitment.css";
-import TopBar from "./TopBar";
-import balmain from "./asset/balmain.svg";
 import {
   recruitement_sub_category,
   recruitement_category,
@@ -9,6 +7,7 @@ import {
   DialogMsg,
 } from "./Models";
 import axios from "axios";
+import BasicComponent from "./BasicComponent";
 
 function Recruitment() {
   const [show, setShow] = useState<recruitement_category>();
@@ -23,18 +22,26 @@ function Recruitment() {
   const [dialogOuvert, setDialogOuvert] = useState(false);
 
   const getCategories = async () => {
-    const response = await axios.get(
-      "http://localhost:5000/recruitment/category"
-    );
+    const response = await axios
+      .get("http://localhost:5000/recruitment/category")
+      .catch((err) => {
+        console.error("Error fetching categories:", err);
+        return { data: [] };
+      });
     return response.data as recruitement_category[];
   };
 
   const getSubCategories = async (categorie: number) => {
-    const response = await axios.get(
-      "http://localhost:5000/recruitment/category/" +
-        categorie +
-        "/sub-category"
-    );
+    const response = await axios
+      .get(
+        "http://localhost:5000/recruitment/category/" +
+          categorie +
+          "/sub-category"
+      )
+      .catch((err) => {
+        console.error("Error fetching sub-categories:", err);
+        return { data: [] };
+      });
     return response.data as recruitement_sub_category[];
   };
 
@@ -75,15 +82,15 @@ function Recruitment() {
   useEffect(() => {
     const fetchCategories = async () => {
       const categories = await getCategories();
-      if (Array.isArray(categories)) {
+      if (Array.isArray(categories) && categories.length > 0) {
         setCategories(categories);
         setShow(categories[0]);
         const sub_categories = await getSubCategories(categories[0].id);
-        if (Array.isArray(sub_categories)) {
+        if (Array.isArray(sub_categories) && sub_categories.length > 0) {
           setSubCategories(sub_categories);
           setShowSub(sub_categories[0]);
           const recruitements = await getRecruitements();
-          if (Array.isArray(recruitements)) {
+          if (Array.isArray(recruitements) && recruitements.length > 0) {
             setRecruitements(recruitements);
           } else {
             console.error(
@@ -107,53 +114,73 @@ function Recruitment() {
 
   return (
     <>
-      <TopBar />
-      <div
+      <BasicComponent
         className="Recruitment"
-        style={{
-          backgroundImage: `url(${balmain})`,
-          backgroundPosition: "0% 0%",
-          backgroundSize: "60%",
-          backgroundRepeat: "repeat",
-        }}
-      >
-        <div className="recruitment-content">
-          <div className="title">Trouvez votre place !</div>
-          <div className="title-desc">
-            Voici les postes disponibles pour vous
-          </div>
-          <div className="categories-selector">
-            <select
-              onChange={handleChange}
-              className="categories-selector-select"
-            >
-              {categories?.map((category) => (
-                <option value={category.id}>{category.name}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="sub-categories-selector">
-            <div className="sub-categories-selector-select">
-              {sub_categories?.map((sub_category) => (
-                <div
-                  onClick={() => handleChangeSub(sub_category.id)}
-                  className={showSub?.id === sub_category.id ? "active" : ""}
-                >
-                  {sub_category.name}
-                </div>
-              ))}
+        title="Trouvez votre place !"
+        desc="Voici les postes disponibles pour vous"
+        content={
+          <>
+            <div className="categories-selector">
+              <select
+                onChange={handleChange}
+                className="categories-selector-select"
+              >
+                {categories?.map((category) => (
+                  <option value={category.id}>{category.name}</option>
+                ))}
+              </select>
             </div>
-          </div>
+            <div className="sub-categories-selector">
+              <div className="sub-categories-selector-select">
+                {sub_categories?.map((sub_category) => (
+                  <div
+                    onClick={() => handleChangeSub(sub_category.id)}
+                    className={showSub?.id === sub_category.id ? "active" : ""}
+                  >
+                    {sub_category.name}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div
+              className="categorie-list"
+              style={{ display: show !== null ? "flex" : "none" }}
+            >
+              {sub_categories
+                ?.filter((sub_category) => sub_category.id === showSub?.id)
 
-          <div
-            className="categorie-list"
-            style={{ display: show !== null ? "flex" : "none" }}
-          >
-            {sub_categories
-              ?.filter((sub_category) => sub_category.id === showSub?.id)
-
-              .map((sub_category) => (
+                .map((sub_category) => (
+                  <div className="categorie">
+                    <div className="categorie-title">{sub_category.name}</div>
+                    <div className="functions">
+                      {recruitements
+                        ?.filter(
+                          (recruitement) =>
+                            recruitement.recruitement_sub_categoryId ===
+                            sub_category.id
+                        )
+                        .map((recruitement) => (
+                          <div className="card-r">
+                            <div className="recruit-title">
+                              {recruitement.title}
+                            </div>
+                            <button
+                              onClick={() => handleInfoClick(recruitement.id)}
+                              className="btnInfo"
+                            >
+                              EN SAVOIR PLUS
+                            </button>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                ))}
+            </div>
+            <div
+              className="categorie-list"
+              style={{ display: showSub !== null ? "none" : "flex" }}
+            >
+              {sub_categories?.map((sub_category) => (
                 <div className="categorie">
                   <div className="categorie-title">{sub_category.name}</div>
                   <div className="functions">
@@ -179,46 +206,14 @@ function Recruitment() {
                   </div>
                 </div>
               ))}
-          </div>
-
-          <div
-            className="categorie-list"
-            style={{ display: showSub !== null ? "none" : "flex" }}
-          >
-            {sub_categories?.map((sub_category) => (
-              <div className="categorie">
-                <div className="categorie-title">{sub_category.name}</div>
-                <div className="functions">
-                  {recruitements
-                    ?.filter(
-                      (recruitement) =>
-                        recruitement.recruitement_sub_categoryId ===
-                        sub_category.id
-                    )
-                    .map((recruitement) => (
-                      <div className="card-r">
-                        <div className="recruit-title">
-                          {recruitement.title}
-                        </div>
-                        <button
-                          onClick={() => handleInfoClick(recruitement.id)}
-                          className="btnInfo"
-                        >
-                          EN SAVOIR PLUS
-                        </button>
-                      </div>
-                    ))}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div
-            className="categorie-list"
-            style={{ display: show === null ? "none" : "flex" }}
-          ></div>
-        </div>
-      </div>
+            </div>
+            <div
+              className="categorie-list"
+              style={{ display: show === null ? "none" : "flex" }}
+            ></div>
+          </>
+        }
+      />
 
       {dialogOuvert && DialogMsg.openDialog(dialogInstance)}
     </>

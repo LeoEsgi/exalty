@@ -8,6 +8,17 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+model sponsor {
+    id          Int       @id @default(autoincrement())
+    name        String    @db.VarChar(255)
+    description String    @db.Text
+    img         String    @db.VarChar(255)
+    link        String    @db.VarChar(255)
+    created_at  DateTime  @default(now()) @db.DateTime(6)
+    updated_at  DateTime  @default(now()) @db.DateTime(6)
+    deleted_at  DateTime? @db.DateTime(6)
+}
+
 model event {
     id          Int       @id @default(autoincrement())
     title       String    @db.VarChar(255)
@@ -185,10 +196,13 @@ model payment {
 
 model product {
     id           Int       @id @default(autoincrement())
-    flockingable Int       @db.TinyInt
-    description  String    @db.VarChar(255)
+    flockingable Boolean   @default(false)
+    description  String    @db.Text
     name         String    @db.VarChar(255)
-    sizable      Int       @db.TinyInt
+    basePrice    Decimal   @default(0)
+    sizable      Boolean   @default(false)
+    img          String    @db.VarChar(255)
+    img2         String?   @db.VarChar(255)
     created_at   DateTime  @default(now()) @db.DateTime(6)
     updated_at   DateTime  @default(now()) @db.DateTime(6)
     deleted_at   DateTime? @db.DateTime(6)
@@ -222,46 +236,35 @@ model stock {
 }
 
 model user {
-    id                 Int               @id @default(autoincrement())
-    discord_tag        String?           @unique(map: "IDX_ff2b782400a5c8bb402d5b12de") @db.VarChar(255)
-    email              String            @unique(map: "IDX_e12875dfb3b1d92d7d7c5377e2") @db.VarChar(255)
-    first_name         String            @db.VarChar(255)
-    last_name          String            @db.VarChar(255)
-    password           String            @db.VarChar(255)
-    pseudo             String            @db.VarChar(255)
-    last_connection    DateTime          @default(now()) @db.DateTime(0)
-    created_at         DateTime          @default(now()) @db.DateTime(6)
-    updated_at         DateTime          @default(now()) @db.DateTime(6)
-    deleted_at         DateTime?         @db.DateTime(6)
-    active             Boolean           @default(false)
-    token_verification String?           @unique @db.VarChar(255)
-    role_id            Int               @default(1)
+    id                 Int         @id @default(autoincrement())
+    discord_tag        String?     @unique(map: "IDX_ff2b782400a5c8bb402d5b12de") @db.VarChar(255)
+    email              String      @unique(map: "IDX_e12875dfb3b1d92d7d7c5377e2") @db.VarChar(255)
+    first_name         String      @db.VarChar(255)
+    last_name          String      @db.VarChar(255)
+    password           String      @db.VarChar(255)
+    pseudo             String      @db.VarChar(255)
+    last_connection    DateTime    @default(now()) @db.DateTime(0)
+    created_at         DateTime    @default(now()) @db.DateTime(6)
+    updated_at         DateTime    @default(now()) @db.DateTime(6)
+    deleted_at         DateTime?   @db.DateTime(6)
+    active             Boolean     @default(false)
+    token_verification String?     @unique @db.VarChar(255)
+    role_id            Int         @default(1)
+    membership_id      Int?
     order              order[]
-    user_membership    user_membership[]
-    role               role?             @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_33a6fc2fcb019d8e3a8ace0f55f")
-}
-
-model user_membership {
-    id            Int         @id @default(autoincrement())
-    membership_id Int
-    start_date    DateTime    @default(now()) @db.DateTime(6)
-    end_date      DateTime    @db.DateTime(6)
-    user_id       Int?
-    user          user?       @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_3e3e3e3e3e3e3e3e3e3e3e3e3e3e")
-    membership    membership? @relation(fields: [membership_id], references: [id])
-
-    @@index([user_id], map: "FK_3e3e3e3e3e3e3e3e3e3e3e3e3e")
+    role               role?       @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_33a6fc2fcb019d8e3a8ace0f55f")
+    membership         membership? @relation(fields: [membership_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_75e3e3e3e3e3e3e3e3e3e3e3e3e")
 }
 
 model membership {
-    id              Int               @id @default(autoincrement())
-    name            String            @db.VarChar(255)
-    description     String?           @db.VarChar(255)
-    price           Decimal           @default(0)
-    occurence       price_occurence   @default(MONTHLY)
-    created_at      DateTime          @default(now()) @db.DateTime(6)
-    updated_at      DateTime          @default(now()) @db.DateTime(6)
-    user_membership user_membership[]
+    id          Int             @id @default(autoincrement())
+    name        String          @db.VarChar(255)
+    description String?         @db.VarChar(255)
+    price       Decimal         @default(0)
+    occurence   price_occurence @default(MONTHLY)
+    created_at  DateTime        @default(now()) @db.DateTime(6)
+    updated_at  DateTime        @default(now()) @db.DateTime(6)
+    user        user[]
 }
 
 model matches {

@@ -10,18 +10,18 @@ import { Link } from "react-router-dom";
 function BottomBar() {
   return (
     <div className="BottomBar">
-      <div className="slogan">Get Exalted</div>
+      {/* <div className="slogan">Get Exalted</div>
       <div className="contact">
         <Link to="/member">NOUS REJOINDRE</Link>
         <Link to="/contact">NOUS CONTACTER</Link>
-      </div>
+      </div> */}
       <div className="social">
         <img className="logo" alt="" src={svgExa}></img>
         <div>
-          <a href="#">FAQ</a>
+          <Link to="/faq">FAQ</Link>
         </div>
         <div>
-          <a href="#">Nous contacter</a>
+          <Link to="/contact">Nous contacter</Link>
         </div>
         <div>
           <a href="#">Conditions Générales d'Utilisation</a>

@@ -1,0 +1,41 @@
+.column-name,
+.field-name {
+  text-align: left;
+  flex-basis: 15%;
+}
+
+.column-desc,
+.field-desc {
+  text-align: left;
+  flex-basis: 40%;
+}
+
+.column-flockingable,
+.field-flockingable {
+  text-align: left;
+  flex-basis: 10%;
+}
+
+.column-sizable,
+.field-sizable {
+  text-align: left;
+  flex-basis: 10%;
+}
+
+.column-basePrice,
+.field-basePrice {
+  text-align: left;
+  flex-basis: 10%;
+}
+
+.column-img,
+.field-img {
+  text-align: left;
+  flex-basis: 10%;
+}
+
+.column-img2,
+.field-img2 {
+  text-align: left;
+  flex-basis: 10%;
+}

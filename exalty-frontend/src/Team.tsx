@@ -1,12 +1,9 @@
 import "./Team.css";
-import lol from "./asset/game/lol.jpg";
-import valorant from "./asset/game/valorant.png";
-import balmain from "./asset/balmain.svg";
-import TopBar from "./TopBar";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { game } from "./Models";
 import axios from "axios";
+import BasicComponent from "./BasicComponent";
 
 function Team() {
   const [openGame, setOpenGame] = useState<number | null>(null);
@@ -14,7 +11,12 @@ function Team() {
   const navigate = useNavigate();
 
   const getGames = async () => {
-    const response = await axios.get("http://localhost:5000/game/");
+    const response = await axios
+      .get("http://localhost:5000/game/")
+      .catch((err) => {
+        console.error("Error fetching games:", err);
+        return { data: [] };
+      });
     return response.data as game[];
   };
 
@@ -33,45 +35,37 @@ function Team() {
 
   return (
     <>
-      <TopBar />
-      <div
+      <BasicComponent
         className="Team"
-        style={{
-          backgroundImage: `url(${balmain})`,
-          backgroundPosition: "0% 0%",
-          backgroundSize: "60%",
-          backgroundRepeat: "repeat",
-        }}
-      >
-        <div className="title">Nos Equipes</div>
-        <div className="title-desc">
-          Ils portent haut nos couleurs, terrorisent nos adversaires,
-          représentent Exalty.
-        </div>
-        <div className="title-desc">Voici nos champions !</div>
-        <div
-          className="couverture"
-          style={{
-            display: openGame ? "block" : "none",
-          }}
-        ></div>
-
-        <div className="team-list">
-          {games.map((game, index) => (
-            <div className="team" key={index}>
-              <div
-                className={`losange ${openGame === game.id ? "open" : ""}`}
-                onClick={() => navigate(`/teamInfo?game=${game.id}`)}
-              >
-                <img
-                  src={"http://localhost:5000/uploads/game/" + game.img}
-                  alt={game.name}
-                ></img>
-              </div>
+        title="Nos Equipes"
+        desc="Ils portent haut nos couleurs, terrorisent nos adversaires, représentent Exalty."
+        content={
+          <>
+            <div className="teams-slog">Voici nos champions !</div>
+            <div
+              className="couverture"
+              style={{
+                display: openGame ? "block" : "none",
+              }}
+            ></div>
+            <div className="team-list">
+              {games.map((game, index) => (
+                <div className="team" key={index}>
+                  <div
+                    className={`losange ${openGame === game.id ? "open" : ""}`}
+                    onClick={() => navigate(`/teamInfo?game=${game.id}`)}
+                  >
+                    <img
+                      src={"http://localhost:5000/uploads/game/" + game.img}
+                      alt={game.name}
+                    ></img>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+          </>
+        }
+      />
     </>
   );
 }

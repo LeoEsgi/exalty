@@ -1,0 +1,244 @@
+[{
+        "inputs": [{
+                "internalType": "uint256",
+                "name": "_subscriptionDayPrice",
+                "type": "uint256"
+            }],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "anonymous": false,
+        "inputs": [{
+                "indexed": false,
+                "internalType": "address",
+                "name": "newAddress",
+                "type": "address"
+            }],
+        "name": "ArtContractCreated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [{
+                "indexed": false,
+                "internalType": "address",
+                "name": "newAddress",
+                "type": "address"
+            }],
+        "name": "DiplomaContractCreated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [{
+                "indexed": false,
+                "internalType": "address",
+                "name": "newAddress",
+                "type": "address"
+            }],
+        "name": "PatentContractCreated",
+        "type": "event"
+    },
+    {
+        "inputs": [{
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }],
+        "name": "Art721AContracts",
+        "outputs": [{
+                "internalType": "contract Art721A",
+                "name": "",
+                "type": "address"
+            }],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }],
+        "name": "Diploma721AContracts",
+        "outputs": [{
+                "internalType": "contract Diploma721A",
+                "name": "",
+                "type": "address"
+            }],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }],
+        "name": "Patent721AContracts",
+        "outputs": [{
+                "internalType": "contract Patent721A",
+                "name": "",
+                "type": "address"
+            }],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+                "internalType": "address",
+                "name": "_newAdmin",
+                "type": "address"
+            }],
+        "name": "addAdmin",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }],
+        "name": "admins",
+        "outputs": [{
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+                "internalType": "uint256",
+                "name": "_subscriptionDayPrice",
+                "type": "uint256"
+            }],
+        "name": "changeSubscriptionPrice",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+                "internalType": "string",
+                "name": "_name",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_symbol",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_totalSupply",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "_baseURI",
+                "type": "string"
+            }
+        ],
+        "name": "createNewArt",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+                "internalType": "string[]",
+                "name": "_names",
+                "type": "string[]"
+            },
+            {
+                "internalType": "string[]",
+                "name": "_diplomaTypes",
+                "type": "string[]"
+            },
+            {
+                "internalType": "string[]",
+                "name": "_institutions",
+                "type": "string[]"
+            }
+        ],
+        "name": "createNewDiploma",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+                "internalType": "string",
+                "name": "_encryptedMetadata",
+                "type": "string"
+            }],
+        "name": "createNewPatent",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getSubscriptionContract",
+        "outputs": [{
+                "internalType": "contract Subscription",
+                "name": "",
+                "type": "address"
+            }],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+                "internalType": "address",
+                "name": "_admin",
+                "type": "address"
+            }],
+        "name": "isAdmin",
+        "outputs": [{
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "owner",
+        "outputs": [{
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+                "internalType": "address",
+                "name": "_admin",
+                "type": "address"
+            }],
+        "name": "removeAdmin",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "subscriptionContract",
+        "outputs": [{
+                "internalType": "contract Subscription",
+                "name": "",
+                "type": "address"
+            }],
+        "stateMutability": "view",
+        "type": "function"
+    }
+]
