@@ -62,13 +62,17 @@
 }
 
 .formMsg input {
-  padding: 1em;
+  padding: 0.8em;
   margin-top: 1em;
   margin-bottom: 1em;
   font-size: 1rem;
-  color: white;
-  width: 80%;
   background-color: transparent;
+  color: white;
+  flex-basis: 5%;
+  border-radius: 0.5em;
+  width: 80%;
+  outline: none;
+  border: 1px solid #e7e7e7;
 }
 
 .formMsg textarea {

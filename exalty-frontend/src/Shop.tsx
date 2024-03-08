@@ -1,15 +1,16 @@
-import { SetStateAction, useEffect, useState } from "react";
+import { SetStateAction, useEffect, useRef, useState } from "react";
 import "./Shop.css";
-import jerseyFront from "./asset/shop/shirt_1.png";
-import jerseyBack from "./asset/shop/shirt_2.png";
 import BasicComponent from "./BasicComponent";
 import { product } from "./Models";
 import axios from "axios";
+import React from "react";
+import { set } from "lodash";
 
 function Shop() {
   const [size, setSize] = useState("");
   const [products, setProducts] = useState<product[]>([]);
-
+  const productRefs = useRef<Array<React.RefObject<HTMLDivElement>>>([]);
+  const [productFocus, setProductFocus] = useState<product>();
   const getProducts = async () => {
     const response = await axios
       .get("http://localhost:5000/product/")
@@ -31,6 +32,9 @@ function Shop() {
       const products = await getProducts();
       if (Array.isArray(products) && products.length > 0) {
         setProducts(products);
+        productRefs.current = products.map(
+          (_, i) => productRefs.current[i] || React.createRef()
+        );
       } else {
         console.error("Expected an array of products, but got:", products);
       }
@@ -39,6 +43,18 @@ function Shop() {
     fetchProducts();
   }, []);
 
+  const handleClick = (index: number) => {
+    if (productRefs.current[index] && productRefs.current[index].current) {
+      setProductFocus(products[index]);
+      setTimeout(() => {
+        productRefs.current[index].current?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+          inline: "start",
+        });
+      }, 600);
+    }
+  };
   return (
     <BasicComponent
       className="Shop"
@@ -46,8 +62,29 @@ function Shop() {
       desc="Decouvrez les nouvelles couleurs d'Exalty"
       content={
         <>
+          <div className="item-list-product">
+            {products.map((product, index) => (
+              <div
+                ref={productRefs.current[index]}
+                className="item-product"
+                key={index}
+                onClick={() => handleClick(index)}
+              >
+                <img
+                  src={"http://localhost:5000/uploads/product/" + product.img}
+                  alt={product.img}
+                ></img>
+              </div>
+            ))}
+          </div>
           {products.map((product, index) => (
-            <div className="jersey" key={index}>
+            <div
+              tabIndex={-1}
+              ref={productRefs.current[index]}
+              className="jersey"
+              key={index}
+              style={{ display: productFocus === product ? "flex" : "none" }}
+            >
               <div>
                 <div className="jersey-name">{product.name}</div>
                 <img

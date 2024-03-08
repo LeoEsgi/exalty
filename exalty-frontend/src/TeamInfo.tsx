@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { game, player } from "./Models";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import BottomBar from "./BottomBar";
 
 function TeamInfo() {
   const location = useLocation();
@@ -66,6 +67,7 @@ function TeamInfo() {
             ))}
         </div>
       </div>
+      <BottomBar />
     </>
   );
 }

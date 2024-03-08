@@ -11,14 +11,14 @@
   min-height: 100vh;
 }
 
-.content {
+.BasicManagement .content {
   display: flex;
   flex-direction: column;
   width: 80%;
   padding-top: 1em;
 }
 
-.content input {
+.BasicManagement .content input {
   padding: 0.4em;
   margin-top: 0.2em;
   margin-bottom: 0.2em;
@@ -28,7 +28,7 @@
   background-color: rgba(0, 0, 0, 0.226);
 }
 
-.content textarea {
+.BasicManagement .content textarea {
   padding: 1em;
   margin-top: 1em;
   margin-bottom: 1em;

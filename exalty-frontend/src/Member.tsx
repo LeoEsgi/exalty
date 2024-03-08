@@ -45,7 +45,7 @@ function Member() {
           <>
             <div className="subscribe-list">
               {memberShips.map((membership) => (
-                <div className="card">
+                <div className={"card card-" + membership.id}>
                   <div className="card-title">
                     {membership.name} {membership.price}€/
                     {price_occurence.MONTHLY === membership.occurence

@@ -74,6 +74,13 @@ function HomePage() {
     setShow(value);
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   useEffect(() => {
     const fetchMatches = async () => {
       const matches = await getMatches();
@@ -158,7 +165,7 @@ function HomePage() {
         className="jersey"
         style={{
           backgroundImage: `url(${jersey})`,
-          height: "110vh",
+          height: "100vh",
           backgroundSize: "cover",
         }}
       >
@@ -358,7 +365,7 @@ function HomePage() {
           className="back_to_top"
           style={{ display: isLogoVisible ? "flex" : "none" }}
         >
-          <a href="#top">
+          <a onClick={scrollToTop} style={{ cursor: "pointer" }}>
             <ArrowUpwardIcon style={{ color: "#cdcdcd92" }} />
           </a>
         </div>

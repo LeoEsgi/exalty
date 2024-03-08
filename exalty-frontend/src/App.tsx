@@ -15,7 +15,11 @@ import Unknown from "./404";
 import ValidateMail from "./ValidateMail";
 import Matches from "./Matches";
 import Account from "./Account";
+import AccountOrder from "./AccountOrder";
+import AccountPayment from "./AccountPayment";
+import AccountAddress from "./AccountAddress";
 import Faq from "./Faq";
+import Organigramme from "./Organigramme";
 import Management from "./back-office/Management";
 
 import axios from "axios";
@@ -39,7 +43,11 @@ function App() {
         <Route path="/validate-email" element={<ValidateMail />} />
         <Route path="/matches" element={<Matches />} />
         <Route path="/account" element={<Account />} />
+        <Route path="/account/order" element={<AccountOrder />} />
+        <Route path="/account/payment" element={<AccountPayment />} />
+        <Route path="/account/address" element={<AccountAddress />} />
         <Route path="/management/*" element={<Management />} />
+        <Route path="/organigramme" element={<Organigramme />} />
         <Route path="/faq" element={<Faq />} />
         <Route path="*" element={<Unknown />} />
       </Routes>

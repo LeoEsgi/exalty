@@ -1,8 +1,9 @@
 import balmain from "./asset/balmain.svg";
 import TopBar from "./TopBar";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import BottomBar from "./BottomBar";
 import "./BasicComponent.css";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
 type BasicComponentProps = {
   className: string;
@@ -22,6 +23,29 @@ function BasicComponent({
   isLogoVisible,
 }: BasicComponentProps) {
   const combinedClassName = `BasicComponent ${className}`;
+  const [isVisible, setIsVisible] = useState(false);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const handleScroll = () => {
+    const threshold = 100;
+    const position = window.scrollY;
+    setIsVisible(position > threshold);
+  };
+
+  useEffect(() => {
+    // Ajoutez l'écouteur d'événements lors du montage du composant
+    window.addEventListener("scroll", handleScroll);
+
+    // Nettoyez l'écouteur d'événements lors du démontage
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []); // Les crochets vides indiquent que cet effet ne dépend d'aucune variable d'état et ne s'exécute qu'une fois
+
   return (
     <>
       <TopBar isLogoVisible={isLogoVisible} />
@@ -41,7 +65,16 @@ function BasicComponent({
 
         <div className="content">{content}</div>
       </div>
+
       <BottomBar />
+      <div
+        className="back_to_top"
+        style={{ display: isVisible ? "flex" : "none" }}
+      >
+        <a onClick={scrollToTop} style={{ cursor: "pointer" }}>
+          <ArrowUpwardIcon style={{ color: "#cdcdcd92" }} />
+        </a>
+      </div>
     </>
   );
 }

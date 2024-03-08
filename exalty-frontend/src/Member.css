@@ -25,13 +25,26 @@
   align-items: center;
   justify-content: space-between;
   border: solid 1px #928f57;
-  padding: 2rem;
-  padding-top: 6em;
-  padding-bottom: 6em;
+  padding: 1rem;
+  padding-top: 3.5em;
+  padding-bottom: 3.5em;
   border-radius: 3em;
   flex-wrap: wrap;
-  margin: 3em;
-  flex-basis: 44%;
+  flex-basis: 48%;
+  margin-bottom: 2em;
+}
+
+.card-1 {
+  background-color: #251084;
+}
+
+.card-2 {
+  background-color: #171219;
+  margin-left: 2em;
+}
+
+.card-3 {
+  background-color: #130843;
 }
 
 .card-title {

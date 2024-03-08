@@ -112,7 +112,9 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
                   <Link to="/recruitment">Rejoindre Exalty</Link>
                 </div>
               )}
-
+              <div>
+                <Link to="/organigramme">Organigramme</Link>
+              </div>
               <div>
                 <Link to="/contact">Contact</Link>
               </div>
@@ -201,6 +203,11 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
                   </Link>
                 </div>
               )}
+            </div>
+            <div>
+              <Link to="/organigramme" className="nav-item">
+                Organigramme
+              </Link>
             </div>
             <div>
               <Link to="/contact" className="nav-item">
