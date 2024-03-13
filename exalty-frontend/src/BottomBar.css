@@ -80,6 +80,15 @@
   padding-bottom: 1em;
 }
 
+.logo-social-item {
+  height: 1.8em;
+  padding-right: 0.5em;
+}
+
+.logo-social-item:hover {
+  cursor: pointer;
+}
+
 @media screen and (max-width: 800px) {
   .BottomBar {
     padding-top: 10rem;

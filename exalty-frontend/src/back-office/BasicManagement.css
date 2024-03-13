@@ -98,9 +98,6 @@
   flex-direction: column;
   width: 100%;
   height: auto;
-  padding-top: 1em;
-  padding-bottom: 1em;
-  overflow: scroll;
 }
 
 .object {
@@ -149,4 +146,189 @@
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
+}
+
+.btn-add,
+.btn-excel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  margin-right: 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+}
+
+.btn-add {
+  background-color: #333;
+  color: #4caf50;
+}
+
+.btn-excel {
+  background-color: #333;
+  color: #f0ad4e;
+}
+
+.btn-add:hover,
+.btn-excel:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.25);
+}
+
+.btn-add:active,
+.btn-excel:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.22) inset;
+}
+
+.btn-add[disabled],
+.btn-excel[disabled] {
+  background-color: #555;
+  color: #999;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.basic-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  background-color: #1e1e1ecc;
+  color: #ffffff;
+  box-shadow: 0 4px 8px #1e1e1e;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.basic-table th,
+.basic-table td {
+  padding: 12px 15px;
+  text-align: left;
+  font-size: 16px;
+  border-bottom: 1px solid #282828;
+}
+
+.basic-table th {
+  background-color: #2424247a;
+  color: #fff;
+  font-weight: 600;
+}
+
+.basic-table td {
+  border-bottom: 2px solid #282828;
+  color: #d8d8d8;
+}
+
+.basic-table tr:hover {
+  background-color: #2e2e2e;
+}
+
+.basic-table td img {
+  width: 70px;
+  height: auto;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.basic-table input,
+.basic-table textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  color: #333;
+  font-size: 16px;
+  transition: border-color 0.3s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.basic-table input:focus,
+.basic-table textarea:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.4);
+}
+
+.basic-table input[type="file"] {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+.basic-table input[type="file"]::file-selector-button {
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.basic-table input[type="file"]::file-selector-button:hover {
+  background-color: #45a049;
+}
+
+.basic-table input[disabled],
+.basic-table textarea[disabled] {
+  background-color: #e8e8e8;
+  color: #a8a8a8;
+}
+
+.delete-icon:hover {
+  cursor: pointer;
+  filter: brightness(0.8);
+}
+
+.input-img:hover {
+  cursor: pointer;
+  filter: brightness(0.8);
+}
+
+.basic-table select {
+  width: 80%;
+  padding: 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #282c34;
+  color: #ffffff;
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="%23333" d="M5.5,7.5 L10,12 L14.5,7.5 L5.5,7.5 Z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  cursor: pointer;
+}
+
+.basic-table select:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.4);
+}
+
+.basic-table select::-ms-expand {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .basic-table,
+  .basic-table th,
+  .basic-table td {
+    font-size: 14px;
+  }
 }

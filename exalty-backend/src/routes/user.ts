@@ -30,4 +30,10 @@ router.put("/:id", async (req, res) => {
   res.json(user);
 });
 
+router.post("/:id", async (req, res) => {
+  const id = parseInt(req.params.id);
+  const user = await UserService.getInstance().updatePassword(id, req.body);
+  res.json(user);
+});
+
 export default router;

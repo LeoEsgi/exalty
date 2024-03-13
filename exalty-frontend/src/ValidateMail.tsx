@@ -23,7 +23,9 @@ function ValidateMail() {
         token,
       });
       setOpen(true);
-      navigate("/auth");
+      setTimeout(() => {
+        navigate("/auth");
+      }, 3000);
     } catch (error) {
       alert("Error validating token");
     }

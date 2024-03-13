@@ -8,7 +8,7 @@ import { CircularProgress } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import * as XLSX from "xlsx";
-
+import DownloadIcon from "@mui/icons-material/Download";
 function TeamManagement() {
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState("0");
@@ -170,7 +170,7 @@ function TeamManagement() {
             <div className="object-edit">
               <div className="object-fct">
                 <button
-                  className="btn"
+                  className="btn-add"
                   onClick={() => {
                     setGames([
                       new game(
@@ -186,30 +186,33 @@ function TeamManagement() {
                     setIsModified(true);
                   }}
                 >
-                  Ajouter <AddIcon className="add-icon"></AddIcon>
+                  <div>Ajouter </div>
+                  <AddIcon />
                 </button>
 
                 <button
-                  className="btn"
+                  className="btn-excel"
                   onClick={() => {
                     extractToExcell();
                   }}
                 >
-                  Extraire vers Excel
+                  <div>Extraire vers Excel </div>
+                  <DownloadIcon />
                 </button>
               </div>
-
-              <div className="object-list">
-                <div className="object-fields">
-                  <label className="column-name">Nom</label>
-                  <label className="column-title">Titre</label>
-                  <label className="column-desc">Description</label>
-                  <label className="column-img">Image</label>
-                </div>
-                {games.map((game, index) => {
-                  return (
-                    <div className="object" key={index}>
-                      <div className="game-name">
+              <table className="basic-table">
+                <thead>
+                  <tr>
+                    <th>Nom</th>
+                    <th>Titre</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {games.map((game, index) => (
+                    <tr key={index}>
+                      <td>
                         <input
                           value={game.name}
                           onChange={(event) => {
@@ -227,8 +230,8 @@ function TeamManagement() {
                             setIsModified(true);
                           }}
                         ></input>
-                      </div>
-                      <div className="game-title">
+                      </td>
+                      <td>
                         <textarea
                           value={game.title}
                           onChange={(event) => {
@@ -246,8 +249,8 @@ function TeamManagement() {
                             setIsModified(true);
                           }}
                         />
-                      </div>
-                      <div className="game-description">
+                      </td>
+                      <td>
                         <textarea
                           value={game.desc}
                           onChange={(event) => {
@@ -265,15 +268,15 @@ function TeamManagement() {
                             setIsModified(true);
                           }}
                         />
-                      </div>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        id={"img-upload-change-" + game.id}
-                        style={{ display: "none" }}
-                        onChange={handleImgGameChange}
-                      />
-                      <div className="game-logo">
+                      </td>
+                      <td>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          id={"img-upload-change-" + game.id}
+                          style={{ display: "none" }}
+                          onChange={handleImgGameChange}
+                        />
                         <img
                           src={
                             game.new_img
@@ -289,11 +292,12 @@ function TeamManagement() {
                             input.click();
                           }}
                         />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
               {loading ? (
                 <CircularProgress className="progress-bar" />
               ) : (
@@ -355,7 +359,7 @@ function TeamManagement() {
             <div className="object-edit">
               <div className="object-fct">
                 <button
-                  className="btn"
+                  className="btn-add"
                   onClick={() => {
                     setPlayers([
                       new player(
@@ -370,33 +374,37 @@ function TeamManagement() {
                     setIsModified(true);
                   }}
                 >
-                  Ajouter <AddIcon className="add-icon"></AddIcon>
+                  <div>Ajouter</div>
+                  <AddIcon />
                 </button>
 
                 <button
-                  className="btn"
+                  className="btn-excel"
                   onClick={() => {
                     extractToExcell();
                   }}
                 >
-                  Extraire vers Excel
+                  <div>Extraire vers Excel</div>
+                  <DownloadIcon />
                 </button>
               </div>
 
-              <div className="object-list">
-                <div className="object-fields">
-                  <label className="column-pseudo">pseudo</label>
-                  <label className="column-role">role</label>
-                  <label className="column-game">jeu</label>
-                  <label className="column-img">image</label>
-                  <label className="column-delete">delete</label>
-                </div>
-                {players
-                  .filter((player) => !player.deleted)
-                  .map((player, index) => {
-                    return (
-                      <div className="object" key={index}>
-                        <div className="player-name">
+              <table className="basic-table">
+                <thead>
+                  <tr>
+                    <th>pseudo</th>
+                    <th>role</th>
+                    <th>jeu</th>
+                    <th>image</th>
+                    <th>delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {players
+                    .filter((player) => !player.deleted)
+                    .map((player, index) => (
+                      <tr key={index}>
+                        <td>
                           <input
                             value={player.name}
                             onChange={(event) => {
@@ -414,9 +422,8 @@ function TeamManagement() {
                               setIsModified(true);
                             }}
                           ></input>
-                        </div>
-
-                        <div className="player-role">
+                        </td>
+                        <td>
                           <input
                             value={player.role}
                             onChange={(event) => {
@@ -434,8 +441,8 @@ function TeamManagement() {
                               setIsModified(true);
                             }}
                           />
-                        </div>
-                        <div className="player-game">
+                        </td>
+                        <td>
                           <select
                             name="game"
                             id="game"
@@ -461,15 +468,16 @@ function TeamManagement() {
                               </option>
                             ))}
                           </select>
-                        </div>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          id={"img-upload-change-" + player.id}
-                          style={{ display: "none" }}
-                          onChange={handleImgPlayerChange}
-                        />
-                        <div className="game-logo">
+                        </td>
+                        <td>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            id={"img-upload-change-" + player.id}
+                            style={{ display: "none" }}
+                            onChange={handleImgPlayerChange}
+                          />
+
                           <img
                             src={
                               player.new_img
@@ -486,29 +494,31 @@ function TeamManagement() {
                               input.click();
                             }}
                           />
-                        </div>
+                        </td>
+                        <td>
+                          <RemoveIcon
+                            onClick={async () => {
+                              player.deleted = true;
+                              setPlayers(
+                                players.map((g) => {
+                                  if (g.id === player.id) {
+                                    return {
+                                      ...g,
+                                      deleted: true,
+                                    };
+                                  }
+                                  return g;
+                                })
+                              );
+                              setIsModified(true);
+                            }}
+                          ></RemoveIcon>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
 
-                        <RemoveIcon
-                          onClick={async () => {
-                            player.deleted = true;
-                            setPlayers(
-                              players.map((g) => {
-                                if (g.id === player.id) {
-                                  return {
-                                    ...g,
-                                    deleted: true,
-                                  };
-                                }
-                                return g;
-                              })
-                            );
-                            setIsModified(true);
-                          }}
-                        ></RemoveIcon>
-                      </div>
-                    );
-                  })}
-              </div>
               {loading ? (
                 <CircularProgress className="progress-bar" />
               ) : (

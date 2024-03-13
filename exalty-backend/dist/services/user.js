@@ -8,8 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const prisma = new client_1.PrismaClient();
 class UserService {
     constructor() { }
@@ -66,6 +70,20 @@ class UserService {
                 },
                 update: data,
                 create: data,
+            });
+        });
+    }
+    updatePassword(id, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const password = data.password;
+            const hash = yield bcryptjs_1.default.hash(password, 10);
+            return yield prisma.user.update({
+                where: {
+                    id,
+                },
+                data: {
+                    password: hash,
+                },
             });
         });
     }

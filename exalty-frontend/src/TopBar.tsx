@@ -9,6 +9,7 @@ import AddIcon from "@mui/icons-material/Add";
 import "./TopBar.css";
 import axios from "axios";
 import { game } from "./Models";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useAuth } from "./AuthContext";
 
 axios.defaults.withCredentials = true;
@@ -132,6 +133,7 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
                 <div className="dropdown-menu">
                   <Link to="/auth">Se Connecter</Link>
                   <Link to="/register">S'Inscrire</Link>
+                  <Link to="/cart">Panier</Link>
                 </div>
               )}
             </div>
@@ -226,6 +228,9 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
                     <Link className="nav-item" to="/account">
                       Mon Compte
                     </Link>
+                    <Link className="nav-item" to="/cart">
+                      Panier
+                    </Link>
                     {isAdmin && (
                       <Link className="nav-item" to="/management/team">
                         Back Office
@@ -251,6 +256,9 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
                     </Link>
                     <Link className="nav-item" to="/register">
                       S'inscrire
+                    </Link>
+                    <Link className="nav-item" to="/cart">
+                      Panier
                     </Link>
                   </div>
                 )}

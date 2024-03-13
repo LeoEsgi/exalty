@@ -4,8 +4,9 @@ import { DialogMsg, user } from "../Models";
 import { CircularProgress } from "@mui/material";
 import "./UserManagement.css";
 import axios from "axios";
-import AddIcon from "@mui/icons-material/Add";
+
 import RemoveIcon from "@mui/icons-material/Remove";
+import DownloadIcon from "@mui/icons-material/Download";
 import * as XLSX from "xlsx";
 
 function UserManagement() {
@@ -57,34 +58,34 @@ function UserManagement() {
           <div className="object-edit">
             <div className="object-fct">
               <button
-                className="btn"
+                className="btn-excel"
                 onClick={() => {
                   extractToExcell();
                 }}
               >
-                Extraire vers Excel
+                <div>Extraire vers Excel </div>
+                <DownloadIcon />
               </button>
             </div>
-            <div className="object-list">
-              <div className="object-fields">
-                <label className="column-pseudo">pseudo</label>
-                <label className="column-firstname">prénom</label>
-                <label className="column-lastname">nom</label>
-                <label className="column-email">email</label>
-                <label className="column-discord">discord tag</label>
-                <label className="column-lastco">dernière connection</label>
-                <label className="column-created">créé le</label>
-                <label className="column-updated">mis à jour le</label>
-                <label className="column-role">role</label>
-                <label className="column-active">actif</label>
-                <label className="column-delete">supprimer</label>
-              </div>
-              {users
-                .filter((user) => !user.deleted)
-                .map((user, index) => {
-                  return (
-                    <div className="object" key={index}>
-                      <div className="object-field field-pseudo">
+            <table className="basic-table">
+              <thead>
+                <tr>
+                  <th>pseudo</th>
+                  <th>prénom</th>
+                  <th>nom</th>
+                  <th>email</th>
+                  <th>discord tag</th>
+                  <th>role</th>
+                  <th>actif</th>
+                  <th>supprimer</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users
+                  .filter((user) => !user.deleted)
+                  .map((user, index) => (
+                    <tr key={index}>
+                      <td>
                         <input
                           type="text"
                           value={user.pseudo}
@@ -95,8 +96,8 @@ function UserManagement() {
                             setIsModified(true);
                           }}
                         />
-                      </div>
-                      <div className="object-field field-firstname">
+                      </td>
+                      <td>
                         <input
                           type="text"
                           value={user.first_name}
@@ -107,8 +108,8 @@ function UserManagement() {
                             setIsModified(true);
                           }}
                         />
-                      </div>
-                      <div className="object-field field-lastname">
+                      </td>
+                      <td>
                         <input
                           type="text"
                           value={user.last_name}
@@ -119,9 +120,9 @@ function UserManagement() {
                             setIsModified(true);
                           }}
                         />
-                      </div>
+                      </td>
 
-                      <div className="object-field field-email">
+                      <td>
                         <input
                           type="text"
                           value={user.email}
@@ -132,8 +133,8 @@ function UserManagement() {
                             setIsModified(true);
                           }}
                         />
-                      </div>
-                      <div className="object-field field-discord">
+                      </td>
+                      <td>
                         <input
                           type="text"
                           value={user.discord_tag}
@@ -144,54 +145,9 @@ function UserManagement() {
                             setIsModified(true);
                           }}
                         />
-                      </div>
+                      </td>
 
-                      <div className="object-field field-lastco">
-                        <input
-                          type="text"
-                          value={new Date(
-                            user.last_connection
-                          ).toLocaleString()}
-                          onChange={(e) => {
-                            const newUsers = [...users];
-                            newUsers[index].last_connection = new Date(
-                              e.target.value
-                            );
-                            setUsers(newUsers);
-                            setIsModified(true);
-                          }}
-                        />
-                      </div>
-                      <div className="object-field field-created">
-                        <input
-                          type="text"
-                          value={new Date(user.created_at).toLocaleString()}
-                          onChange={(e) => {
-                            const newUsers = [...users];
-                            newUsers[index].created_at = new Date(
-                              e.target.value
-                            );
-                            setUsers(newUsers);
-                            setIsModified(true);
-                          }}
-                        />
-                      </div>
-                      <div className="object-field field-updated">
-                        <input
-                          type="text"
-                          value={new Date(user.updated_at).toLocaleString()}
-                          onChange={(e) => {
-                            const newUsers = [...users];
-                            newUsers[index].updated_at = new Date(
-                              e.target.value
-                            );
-                            setUsers(newUsers);
-                            setIsModified(true);
-                          }}
-                        />
-                      </div>
-
-                      <div className="object-field field-role">
+                      <td>
                         <input
                           type="number"
                           value={user.role_id}
@@ -202,8 +158,8 @@ function UserManagement() {
                             setIsModified(true);
                           }}
                         />
-                      </div>
-                      <div className="object-field field-active">
+                      </td>
+                      <td>
                         <input
                           type="checkbox"
                           checked={user.active}
@@ -214,28 +170,31 @@ function UserManagement() {
                             setIsModified(true);
                           }}
                         />
-                      </div>
-                      <RemoveIcon
-                        onClick={async () => {
-                          user.deleted = true;
-                          setUsers(
-                            users.map((g) => {
-                              if (g.id === user.id) {
-                                return {
-                                  ...g,
-                                  deleted: true,
-                                };
-                              }
-                              return g;
-                            })
-                          );
-                          setIsModified(true);
-                        }}
-                      ></RemoveIcon>
-                    </div>
-                  );
-                })}
-            </div>
+                      </td>
+                      <td className="delete-icon">
+                        <RemoveIcon
+                          onClick={async () => {
+                            user.deleted = true;
+                            setUsers(
+                              users.map((g) => {
+                                if (g.id === user.id) {
+                                  return {
+                                    ...g,
+                                    deleted: true,
+                                  };
+                                }
+                                return g;
+                              })
+                            );
+                            setIsModified(true);
+                          }}
+                        ></RemoveIcon>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+
             {loading ? (
               <CircularProgress className="progress-bar" />
             ) : (

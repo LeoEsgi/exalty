@@ -8,6 +8,7 @@ import "./MatchManagement.css";
 import { CircularProgress } from "@mui/material";
 import * as XLSX from "xlsx";
 import { handleUpload, imageUpload } from "../ImageUpload";
+import DownloadIcon from "@mui/icons-material/Download";
 function MatchManagement() {
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState("0");
@@ -76,6 +77,10 @@ function MatchManagement() {
     return response.data as match[];
   };
 
+  function formatDateToString(date: Date) {
+    return date.toISOString().split("T")[0];
+  }
+
   useEffect(() => {
     const fetchGames = async () => {
       const matches = await getMatches();
@@ -90,8 +95,8 @@ function MatchManagement() {
   }, []);
   return (
     <BasicManagement
-      className={"ShopManagement"}
-      title={"Gestion de la boutique"}
+      className={"MatchManagement"}
+      title={"Gestion des matchs"}
       content={
         <>
           <div className="object-selector">
@@ -110,7 +115,7 @@ function MatchManagement() {
             <div className="object-edit">
               <div className="object-fct">
                 <button
-                  className="btn"
+                  className="btn-add"
                   onClick={() => {
                     setMatches([
                       new match(
@@ -132,40 +137,46 @@ function MatchManagement() {
                     setIsModified(true);
                   }}
                 >
-                  Ajouter <AddIcon className="add-icon"></AddIcon>
+                  <div> Ajouter</div>
+                  <AddIcon />
                 </button>
 
                 <button
-                  className="btn"
+                  className="btn-excel"
                   onClick={() => {
                     extractToExcell();
                   }}
                 >
-                  Extraire vers Excel
+                  <div>Extraire vers Excel </div>
+                  <DownloadIcon />
                 </button>
               </div>
-              <div className="object-list">
-                <div className="object-fields">
-                  <label className="column-date">Date</label>
-                  <label className="column-title">Titre</label>
-                  <label className="column-instance">Instance</label>
-                  <label className="column-opponent">Adversaire</label>
-                  <label className="column-score">Score</label>
-                  <label className="column-format">Format</label>
-                  <label className="column-status">Status</label>
-                  <label className="column-link">Lien</label>
-                  <label className="column-timezone">Timezone</label>
-                  <label className="column-opponent-logo">Logo</label>
-                  <label className="column-delete">Delete</label>
-                </div>
-                {matches
-                  .filter((match) => !match.deleted)
-                  .map((match, index) => {
-                    return (
-                      <div className="object" key={index}>
-                        <div className="match-date">
+              <table className="basic-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Titre</th>
+                    <th>Instance</th>
+                    <th>Adversaire</th>
+                    <th>Score Exa</th>
+                    <th>Score Adverse</th>
+                    <th>Format</th>
+                    <th>Status</th>
+                    <th>Lien</th>
+                    <th>Timezone</th>
+                    <th>Logo</th>
+                    <th>Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {matches
+                    .filter((match) => !match.deleted)
+                    .map((match, index) => (
+                      <tr key={index}>
+                        <td>
                           <input
-                            value={match.date.toLocaleString()}
+                            value={formatDateToString(new Date(match.date))}
+                            type="date"
                             onChange={(event) => {
                               setMatches(
                                 matches.map((g) => {
@@ -181,8 +192,8 @@ function MatchManagement() {
                               setIsModified(true);
                             }}
                           ></input>
-                        </div>
-                        <div className="match-title">
+                        </td>
+                        <td>
                           <input
                             value={match.title}
                             onChange={(event) => {
@@ -197,8 +208,8 @@ function MatchManagement() {
                               setIsModified(true);
                             }}
                           ></input>
-                        </div>
-                        <div className="match-instance">
+                        </td>
+                        <td>
                           <input
                             value={match.instance}
                             onChange={(event) => {
@@ -216,8 +227,8 @@ function MatchManagement() {
                               setIsModified(true);
                             }}
                           ></input>
-                        </div>
-                        <div className="match-opponent">
+                        </td>
+                        <td>
                           <input
                             value={match.opponent}
                             onChange={(event) => {
@@ -235,22 +246,19 @@ function MatchManagement() {
                               setIsModified(true);
                             }}
                           ></input>
-                        </div>
+                        </td>
 
-                        <div className="match-score">
+                        <td>
                           <input
-                            value={
-                              match.score_exa + " - " + match.score_opponent
-                            }
+                            value={match.score_exa}
+                            type="number"
                             onChange={(event) => {
-                              const scores = event.target.value.split(" - ");
                               setMatches(
                                 matches.map((g) => {
                                   if (g.id === match.id) {
                                     return {
                                       ...g,
-                                      score_exa: parseInt(scores[0]),
-                                      score_opponent: parseInt(scores[1]),
+                                      score_exa: parseInt(event.target.value),
                                     };
                                   }
                                   return g;
@@ -259,9 +267,31 @@ function MatchManagement() {
                               setIsModified(true);
                             }}
                           ></input>
-                        </div>
+                        </td>
+                        <td>
+                          <input
+                            value={match.score_opponent}
+                            type="number"
+                            onChange={(event) => {
+                              setMatches(
+                                matches.map((g) => {
+                                  if (g.id === match.id) {
+                                    return {
+                                      ...g,
+                                      score_opponent: parseInt(
+                                        event.target.value
+                                      ),
+                                    };
+                                  }
+                                  return g;
+                                })
+                              );
+                              setIsModified(true);
+                            }}
+                          ></input>
+                        </td>
 
-                        <div className="match-format">
+                        <td>
                           <input
                             value={match.format}
                             onChange={(event) => {
@@ -276,9 +306,9 @@ function MatchManagement() {
                               setIsModified(true);
                             }}
                           ></input>
-                        </div>
+                        </td>
 
-                        <div className="match-status">
+                        <td>
                           <select
                             value={match.status}
                             onChange={(event) => {
@@ -305,8 +335,8 @@ function MatchManagement() {
                               Terminé
                             </option>
                           </select>
-                        </div>
-                        <div className="match-link">
+                        </td>
+                        <td>
                           <input
                             value={match.link}
                             onChange={(event) => {
@@ -321,8 +351,8 @@ function MatchManagement() {
                               setIsModified(true);
                             }}
                           ></input>
-                        </div>
-                        <div className="match-timezone">
+                        </td>
+                        <td>
                           <input
                             value={match.timezone}
                             onChange={(event) => {
@@ -340,7 +370,7 @@ function MatchManagement() {
                               setIsModified(true);
                             }}
                           ></input>
-                        </div>
+                        </td>
                         <input
                           type="file"
                           accept="image/*"
@@ -348,7 +378,7 @@ function MatchManagement() {
                           style={{ display: "none" }}
                           onChange={handleImgOpponentChange}
                         />
-                        <div className="match-opponent-logo">
+                        <td>
                           <img
                             src={
                               match.new_img
@@ -365,29 +395,32 @@ function MatchManagement() {
                               input.click();
                             }}
                           />
-                        </div>
-                        <RemoveIcon
-                          className="match-delete"
-                          onClick={async () => {
-                            match.deleted = true;
-                            setMatches(
-                              matches.map((g) => {
-                                if (g.id === match.id) {
-                                  return {
-                                    ...g,
-                                    deleted: true,
-                                  };
-                                }
-                                return g;
-                              })
-                            );
-                            setIsModified(true);
-                          }}
-                        ></RemoveIcon>
-                      </div>
-                    );
-                  })}
-              </div>
+                        </td>
+                        <td>
+                          <RemoveIcon
+                            className="match-delete"
+                            onClick={async () => {
+                              match.deleted = true;
+                              setMatches(
+                                matches.map((g) => {
+                                  if (g.id === match.id) {
+                                    return {
+                                      ...g,
+                                      deleted: true,
+                                    };
+                                  }
+                                  return g;
+                                })
+                              );
+                              setIsModified(true);
+                            }}
+                          ></RemoveIcon>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+
               {loading ? (
                 <CircularProgress className="progress-bar" />
               ) : (

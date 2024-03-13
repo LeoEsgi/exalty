@@ -44,11 +44,10 @@ function TopBarManagement({ isLogoVisible = true }: TopBarProps) {
                 <Link to="/management/sponsor">Gestion Partenaires</Link>
               </div>
               <div>
-                <Link to="/management/newsletter">Gestion NewsLetter</Link>
-              </div>
-
-              <div>
                 <Link to="/management/user">Gestion des Utilisateurs</Link>
+              </div>
+              <div>
+                <Link to="/management/newsletter">Gestion NewsLetter</Link>
               </div>
             </div>
           )}
@@ -87,15 +86,15 @@ function TopBarManagement({ isLogoVisible = true }: TopBarProps) {
                 Gestion Partenaires
               </Link>
             </div>
-            <div>
-              <Link to="/management/newsletter" className="nav-item">
-                Gestion NewsLetter
-              </Link>
-            </div>
 
             <div>
               <Link to="/management/user" className="nav-item">
                 Gestion Utilisateurs
+              </Link>
+            </div>
+            <div>
+              <Link to="/management/newsletter" className="nav-item">
+                Gestion NewsLetter
               </Link>
             </div>
           </div>

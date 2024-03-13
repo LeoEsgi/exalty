@@ -13,7 +13,6 @@ export default function NewsLetter() {
   const [selectedUserEmails, setSelectedUserEmails] = useState<string[]>([]);
   const [emailList, setEmailList] = useState("");
 
-  // Fonction pour récupérer les utilisateurs
   const getUsers = async () => {
     const response = await axios
       .get("http://localhost:5000/user/")
@@ -34,7 +33,6 @@ export default function NewsLetter() {
     return response.data as membership[];
   };
 
-  // Effect pour charger et trier les utilisateurs par role_id
   useEffect(() => {
     const fetchUsers = async () => {
       const fetchedUsers = await getUsers();
@@ -57,7 +55,6 @@ export default function NewsLetter() {
     fetchUsers();
   }, []);
 
-  // Gestion du changement de sélection
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedOptions = Array.from(event.target.selectedOptions).map(
       (option) => option.value
@@ -65,7 +62,6 @@ export default function NewsLetter() {
     setSelectedUserEmails(selectedOptions);
   };
 
-  // Mise à jour de la liste des emails lorsque les utilisateurs sélectionnés changent
   useEffect(() => {
     setEmailList(selectedUserEmails.join("; "));
   }, [selectedUserEmails]);
@@ -170,6 +166,7 @@ export default function NewsLetter() {
             id="email"
             type="mail"
             disabled
+            style={{ display: "none" }}
             value={emailList}
             placeholder="Email"
           />

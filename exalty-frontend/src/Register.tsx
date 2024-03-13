@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Register.css";
 import TopBar from "./TopBar";
 import balmain from "./asset/balmain.svg";
@@ -20,19 +20,23 @@ function Register() {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  // on enter key press connect user
-  document.addEventListener("keydown" as any, (e) => {
-    if (e.key === "Enter") {
-      createUser();
-    }
-  });
-
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const checkInputSqlInjection = (input: string) => {
+    const sqlRegex =
+      /(\b)(drop|select|exec|insert|delete|update|script|javascript|onerror|onload)(\b)/i;
+    return !sqlRegex.test(input);
+  };
+
+  const checkInputXss = (input: string) => {
+    const xssRegex = /(<|>|&lt;|&gt;)/i;
+    return !xssRegex.test(input);
   };
 
   const handleClickOpenError = () => {
@@ -90,6 +94,30 @@ function Register() {
       return;
     }
 
+    if (password.length < 8) {
+      alert("Le mot de passe doit contenir au moins 8 caractères");
+      return;
+    }
+
+    const tabInput = [
+      pseudo!,
+      password!,
+      email!,
+      first_name!,
+      last_name!,
+      tag!,
+    ];
+    for (let i = 0; i < tabInput.length; i++) {
+      if (!checkInputSqlInjection(tabInput[i])) {
+        alert("Caractères interdits dans les champs");
+        return;
+      }
+      if (!checkInputXss(tabInput[i])) {
+        alert("Caractères interdits dans les champs");
+        return;
+      }
+    }
+
     try {
       await axios.post("http://localhost:5000/auth/register", {
         pseudo,
@@ -104,6 +132,18 @@ function Register() {
       handleClickOpenError();
     }
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e: any) => {
+      if (e.key === "Enter") {
+        createUser();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  });
   return (
     <>
       <TopBar />

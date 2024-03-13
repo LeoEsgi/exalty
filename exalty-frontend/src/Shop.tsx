@@ -4,7 +4,7 @@ import BasicComponent from "./BasicComponent";
 import { product } from "./Models";
 import axios from "axios";
 import React from "react";
-import { set } from "lodash";
+import { PaymentElement } from "@stripe/react-stripe-js";
 
 function Shop() {
   const [size, setSize] = useState("");
@@ -19,6 +19,11 @@ function Shop() {
         return { data: [] };
       });
     return response.data as product[];
+  };
+
+  const addItemToCart = async (product: product) => {
+    localStorage.setItem("cart", JSON.stringify(product));
+    alert("Ajouté au panier");
   };
 
   const handleChange = (event: {
@@ -101,7 +106,9 @@ function Shop() {
                 )}
               </div>
               <div className="jersey-infos">
-                <div className="jersey-price">{product.basePrice} €</div>
+                <div className="jersey-price">
+                  {Number(product.basePrice).toFixed(2)} €
+                </div>
                 <div className="jersey-custom">
                   {product.sizable && (
                     <div className="jersey-size">
@@ -124,7 +131,7 @@ function Shop() {
                 <div className="jersey-add">
                   <button
                     className="btn"
-                    onClick={() => alert("Ajouté au panier")}
+                    onClick={() => addItemToCart(product)}
                   >
                     AJOUTER AU PANIER
                   </button>

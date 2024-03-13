@@ -23,6 +23,7 @@ export class user {
     public token_verification: string,
     public role_id: number,
     public order: order[],
+    public adress: address[],
     public membership_id: number,
     public deleted?: boolean
   ) {}

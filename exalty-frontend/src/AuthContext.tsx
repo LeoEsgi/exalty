@@ -8,6 +8,7 @@ const AuthContext = createContext({
   login: () => {},
   logout: () => {},
   isLoading: true,
+  user: {} as user,
 });
 
 export const useAuth = () => useContext(AuthContext);
@@ -18,6 +19,7 @@ export const AuthProvider: React.FC<{ element: React.ReactNode }> = ({
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState({} as user);
 
   useEffect(() => {
     verifyAuthentication();
@@ -44,6 +46,7 @@ export const AuthProvider: React.FC<{ element: React.ReactNode }> = ({
 
       const user: user = response!.data;
       setIsAdmin(user.role_id === 2);
+      setUser(user);
     } catch (error) {
       console.error("Failed to check admin status", error);
       setIsAdmin(false);
@@ -73,7 +76,7 @@ export const AuthProvider: React.FC<{ element: React.ReactNode }> = ({
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, isAdmin, login, logout, isLoading }}
+      value={{ isAuthenticated, isAdmin, login, logout, isLoading, user }}
     >
       {!isLoading ? element : <div>Loading...</div>}
     </AuthContext.Provider>

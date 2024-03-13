@@ -6,7 +6,7 @@ import svgTwitter from "./asset/icon/twitter.svg";
 import svgTiktok from "./asset/icon/tiktok.svg";
 import svgMail from "./asset/icon/mail.svg";
 import svgTwitch from "./asset/icon/twitch.svg";
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 function BottomBar() {
   return (
     <div className="BottomBar">
@@ -27,17 +27,47 @@ function BottomBar() {
           <a href="#">Conditions Générales d'Utilisation</a>
         </div>
         <div>
-          <a href="#">Conditions Générales de Vente</a>
+          <Link to="/conditions">Conditions Générales de Vente</Link>
         </div>
         <div>
-          <a href="#">Mentions légales</a>
+          <Link to="/legal">Mentions légales</Link>
         </div>
         <div className="logo-social">
-          <img className="invert-color" alt="" src={svgInsta}></img>
-          <img className="invert-color" alt="" src={svgTwitter}></img>
-          <img className="invert-color" alt="" src={svgTiktok}></img>
-          <img className="invert-color" alt="" src={svgMail}></img>
-          <img className="invert-color" alt="" src={svgTwitch}></img>
+          <Link to={"https://twitter.com/Exalty_FR"}>
+            <img
+              className="logo-social-item invert-color"
+              alt=""
+              src={svgTwitter}
+            ></img>
+          </Link>
+          <Link to={"https://www.instagram.com/exalty_fr"}>
+            <img
+              className="logo-social-item invert-color"
+              alt=""
+              src={svgInsta}
+            ></img>
+          </Link>
+          <Link to={"https://www.threads.net/@exalty_fr"}>
+            <img
+              className="logo-social-item invert-color"
+              alt=""
+              src={svgTiktok}
+            ></img>
+          </Link>
+          <Link to={"https://www.tiktok.com/@exaltyfr_"}>
+            <img
+              className="logo-social-item invert-color"
+              alt=""
+              src={svgMail}
+            ></img>
+          </Link>
+          <Link to={"https://www.twitch.tv/ExaltyTV1"}>
+            <img
+              className="logo-social-item invert-color"
+              alt=""
+              src={svgTwitch}
+            ></img>
+          </Link>
         </div>
       </div>
       <div className="right">Exalty 2024 © Tous droits réservés</div>

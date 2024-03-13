@@ -49,11 +49,11 @@
   align-items: center;
   justify-content: center;
   width: 24rem;
-  height: 24rem;
+  height: 28rem;
   border: 2px solid #928f57;
   margin: 1em;
   border-radius: 1em;
-  background-color: #25108454;
+  background-color: #00000078;
 }
 
 .item-product:hover {

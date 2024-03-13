@@ -7,6 +7,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import * as XLSX from "xlsx";
 import { useEffect, useState } from "react";
+import DownloadIcon from "@mui/icons-material/Download";
 import "./SponsorManagement.css";
 
 function SponsorManagement() {
@@ -59,11 +60,8 @@ function SponsorManagement() {
 
   const extractToExcell = () => {
     const workbook = XLSX.utils.book_new();
-
     const sponsorSheet = XLSX.utils.json_to_sheet(sponsors);
-
     XLSX.utils.book_append_sheet(workbook, sponsorSheet, "Sponsors");
-
     XLSX.writeFile(
       workbook,
       `Liste-des-Sponsor-${new Date().toLocaleDateString()}.xlsx`
@@ -92,7 +90,7 @@ function SponsorManagement() {
           <div className="object-edit">
             <div className="object-fct">
               <button
-                className="btn"
+                className="btn-add"
                 onClick={() => {
                   setSponsors([
                     new sponsor(
@@ -102,38 +100,42 @@ function SponsorManagement() {
                       "Description du sponsor",
                       "Lien du sponsor"
                     ),
-
                     ...sponsors,
                   ]);
                   setIsModified(true);
                 }}
               >
-                Ajouter <AddIcon className="add-icon"></AddIcon>
+                <div>Ajouter </div>
+                <AddIcon />
               </button>
 
               <button
-                className="btn"
+                className="btn-excel"
                 onClick={() => {
                   extractToExcell();
                 }}
               >
-                Extraire vers Excel
+                <div>Extraire vers Excel </div>
+                <DownloadIcon />
               </button>
             </div>
-            <div className="object-list">
-              <div className="object-fields">
-                <label className="column-name">Nom</label>
-                <label className="column-desc">Description</label>
-                <label className="column-link">Lien</label>
-                <label className="column-logo">Image</label>
-                <label className="column-delete">Delete</label>
-              </div>
-              {sponsors
-                .filter((sponsor) => !sponsor.deleted)
-                .map((sponsor, index) => {
-                  return (
-                    <div className="object" key={index}>
-                      <div className="sponsor-name">
+
+            <table className="basic-table">
+              <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>Description</th>
+                  <th>Lien</th>
+                  <th>Image</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sponsors
+                  .filter((sponsor) => !sponsor.deleted)
+                  .map((sponsor, index) => (
+                    <tr key={index}>
+                      <td>
                         <input
                           value={sponsor.name}
                           onChange={(event) => {
@@ -150,9 +152,9 @@ function SponsorManagement() {
                             );
                             setIsModified(true);
                           }}
-                        ></input>
-                      </div>
-                      <div className="sponsor-desc">
+                        />
+                      </td>
+                      <td>
                         <textarea
                           value={sponsor.description}
                           onChange={(event) => {
@@ -161,7 +163,7 @@ function SponsorManagement() {
                                 if (g.id === sponsor.id) {
                                   return {
                                     ...g,
-                                    title: event.target.value,
+                                    description: event.target.value,
                                   };
                                 }
                                 return g;
@@ -170,8 +172,8 @@ function SponsorManagement() {
                             setIsModified(true);
                           }}
                         />
-                      </div>
-                      <div className="sponsorM-link">
+                      </td>
+                      <td>
                         <textarea
                           value={sponsor.link}
                           onChange={(event) => {
@@ -180,7 +182,7 @@ function SponsorManagement() {
                                 if (g.id === sponsor.id) {
                                   return {
                                     ...g,
-                                    desc: event.target.value,
+                                    link: event.target.value,
                                   };
                                 }
                                 return g;
@@ -189,15 +191,15 @@ function SponsorManagement() {
                             setIsModified(true);
                           }}
                         />
-                      </div>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        id={"img-upload-change-" + sponsor.id}
-                        style={{ display: "none" }}
-                        onChange={handleImgSponsorChange}
-                      />
-                      <div className="sponsor-logo">
+                      </td>
+                      <td className="input-img">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          id={"img-upload-change-" + sponsor.id}
+                          style={{ display: "none" }}
+                          onChange={handleImgSponsorChange}
+                        />
                         <img
                           src={
                             sponsor.new_img
@@ -214,83 +216,85 @@ function SponsorManagement() {
                             input.click();
                           }}
                         />
-                      </div>
-                      <RemoveIcon
-                        onClick={async () => {
-                          sponsor.deleted = true;
-                          setSponsors(
-                            sponsors.map((g) => {
-                              if (g.id === sponsor.id) {
-                                return {
-                                  ...g,
-                                  deleted: true,
-                                };
-                              }
-                              return g;
-                            })
-                          );
-                          setIsModified(true);
-                        }}
-                      ></RemoveIcon>
-                    </div>
-                  );
-                })}
-            </div>
-            {loading ? (
-              <CircularProgress className="progress-bar" />
-            ) : (
-              <button
-                className="btn btn-full"
-                disabled={!isModified}
-                onClick={async () => {
-                  setLoading(true);
-                  const promises = sponsors.map(async (sponsor) => {
-                    if (sponsor.new_img) {
-                      const uploadedFile = await handleUpload(
-                        new imageUpload(
-                          sponsor.new_img,
-                          sponsor.name + ".png",
-                          "sponsor"
-                        )
-                      );
-                      if (uploadedFile) {
-                        return {
-                          ...sponsor,
-                          img: uploadedFile.fileName,
-                        };
-                      }
-                    }
-                    return sponsor;
-                  });
-
-                  const newSponsors = await Promise.all(promises);
-
-                  const updatePromises = newSponsors.map((sponsor) =>
-                    axios.put(
-                      "http://localhost:5000/sponsor/" + sponsor.id,
-                      sponsor
-                    )
-                  );
-
-                  await Promise.all(updatePromises);
-
-                  setLoading(false);
-                  setIsModified(false);
-                  const dialog = new DialogMsg(
-                    "Succès",
-                    "Les modifications ont été sauvegardées",
-                    false,
-                    () => setDialogOuvert(false)
-                  );
-                  setDialogInstance(dialog);
-                  setDialogOuvert(true);
-                }}
-              >
-                Sauvegarder les modifications
-              </button>
-            )}
-            {dialogOuvert && DialogMsg.openDialog(dialogInstance)}
+                      </td>
+                      <td className="delete-icon">
+                        <RemoveIcon
+                          onClick={async () => {
+                            sponsor.deleted = true;
+                            setSponsors(
+                              sponsors.map((g) => {
+                                if (g.id === sponsor.id) {
+                                  return {
+                                    ...g,
+                                    deleted: true,
+                                  };
+                                }
+                                return g;
+                              })
+                            );
+                            setIsModified(true);
+                          }}
+                        ></RemoveIcon>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
           </div>
+          {loading ? (
+            <CircularProgress className="progress-bar" />
+          ) : (
+            <button
+              className="btn btn-full"
+              disabled={!isModified}
+              onClick={async () => {
+                setLoading(true);
+                const promises = sponsors.map(async (sponsor) => {
+                  if (sponsor.new_img) {
+                    const uploadedFile = await handleUpload(
+                      new imageUpload(
+                        sponsor.new_img,
+                        sponsor.name + ".png",
+                        "sponsor"
+                      )
+                    );
+                    if (uploadedFile) {
+                      return {
+                        ...sponsor,
+                        img: uploadedFile.fileName,
+                      };
+                    }
+                  }
+                  return sponsor;
+                });
+
+                const newSponsors = await Promise.all(promises);
+
+                const updatePromises = newSponsors.map((sponsor) =>
+                  axios.put(
+                    "http://localhost:5000/sponsor/" + sponsor.id,
+                    sponsor
+                  )
+                );
+
+                await Promise.all(updatePromises);
+
+                setLoading(false);
+                setIsModified(false);
+                const dialog = new DialogMsg(
+                  "Succès",
+                  "Les modifications ont été sauvegardées",
+                  false,
+                  () => setDialogOuvert(false)
+                );
+                setDialogInstance(dialog);
+                setDialogOuvert(true);
+              }}
+            >
+              Sauvegarder les modifications
+            </button>
+          )}
+          {dialogOuvert && DialogMsg.openDialog(dialogInstance)}
         </div>
       }
     />

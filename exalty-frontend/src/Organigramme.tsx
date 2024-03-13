@@ -11,6 +11,7 @@ function Organigramme() {
             <div className="organigramme-row">
               <div className="organigramme-item">
                 <img src="https://via.placeholder.com/150" alt="placeholder" />
+                <div className="organigramme-item-title">Thibaut Vialle</div>
                 <div className="organigramme-item-title">President</div>
               </div>
             </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Auth.css";
 import balmain from "./asset/balmain.svg";
 import TopBar from "./TopBar";
@@ -24,13 +24,6 @@ function Auth() {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const navigate = useNavigate();
-
-  // on enter key press connect user
-  document.addEventListener("keydown" as any, (e) => {
-    if (e.key === "Enter") {
-      connectUser();
-    }
-  });
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -75,6 +68,18 @@ function Auth() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e: any) => {
+      if (e.key === "Enter") {
+        connectUser();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  });
   return (
     <>
       <TopBar />

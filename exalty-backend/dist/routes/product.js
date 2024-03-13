@@ -31,7 +31,7 @@ router.put("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         sizable == null ||
         !img ||
         !description ||
-        !basePrice) {
+        basePrice == null) {
         res.status(400).json({ message: "Missing fields" });
         return;
     }

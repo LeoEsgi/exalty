@@ -1,4 +1,5 @@
 import { PrismaClient, user } from "@prisma/client";
+import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 export default class UserService {
@@ -55,6 +56,19 @@ export default class UserService {
       },
       update: data,
       create: data,
+    });
+  }
+
+  public async updatePassword(id: number, data: user): Promise<user> {
+    const password = data.password;
+    const hash = await bcrypt.hash(password, 10);
+    return await prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        password: hash,
+      },
     });
   }
 }

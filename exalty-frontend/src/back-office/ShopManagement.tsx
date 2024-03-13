@@ -8,6 +8,7 @@ import { CircularProgress } from "@mui/material";
 import { handleUpload, imageUpload } from "../ImageUpload";
 import "./ShopManagement.css";
 import RemoveIcon from "@mui/icons-material/Remove";
+import DownloadIcon from "@mui/icons-material/Download";
 
 function ShopManagement() {
   const [products, setProducts] = useState<product[]>([]);
@@ -130,7 +131,7 @@ function ShopManagement() {
           <div className="object-edit">
             <div className="object-fct">
               <button
-                className="btn"
+                className="btn-add"
                 onClick={() => {
                   setProducts([
                     new product(
@@ -154,35 +155,39 @@ function ShopManagement() {
                   setIsModified(true);
                 }}
               >
-                Ajouter <AddIcon className="add-icon"></AddIcon>
+                <div>Ajouter </div>
+                <AddIcon />
               </button>
 
               <button
-                className="btn"
+                className="btn-excel"
                 onClick={() => {
                   extractToExcell();
                 }}
               >
-                Extraire vers Excel
+                <div>Extraire vers Excel</div>
+                <DownloadIcon />
               </button>
             </div>
-            <div className="object-list">
-              <div className="object-fields">
-                <label className="column-name">Nom</label>
-                <label className="column-desc">Description</label>
-                <label className="column-flockingable">flockage</label>
-                <label className="column-sizable">dimension</label>
-                <label className="column-basePrice">prix</label>
-                <label className="column-img">img</label>
-                <label className="column-img2">img2</label>
-                <label className="column-delete">delete</label>
-              </div>
-              {products
-                .filter((product) => !product.deleted)
-                .map((product, index) => {
-                  return (
-                    <div className="object" key={index}>
-                      <div className="object-field field-name">
+            <table className="basic-table">
+              <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>Description</th>
+                  <th>flockage</th>
+                  <th>dimension</th>
+                  <th>prix</th>
+                  <th>img</th>
+                  <th>img2</th>
+                  <th>delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                {products
+                  .filter((product) => !product.deleted)
+                  .map((product, index) => (
+                    <tr key={index}>
+                      <td>
                         <input
                           value={product.name}
                           onChange={(event) => {
@@ -197,8 +202,8 @@ function ShopManagement() {
                             setIsModified(true);
                           }}
                         />
-                      </div>
-                      <div className="object-field field-desc">
+                      </td>
+                      <td>
                         <textarea
                           value={product.description}
                           onChange={(event) => {
@@ -216,8 +221,8 @@ function ShopManagement() {
                             setIsModified(true);
                           }}
                         />
-                      </div>
-                      <div className="object-field field-flockingable">
+                      </td>
+                      <td>
                         <input
                           type="checkbox"
                           checked={product.flockingable}
@@ -236,8 +241,8 @@ function ShopManagement() {
                             setIsModified(true);
                           }}
                         />
-                      </div>
-                      <div className="object-field field-sizable">
+                      </td>
+                      <td>
                         <input
                           type="checkbox"
                           checked={product.sizable}
@@ -256,11 +261,12 @@ function ShopManagement() {
                             setIsModified(true);
                           }}
                         />
-                      </div>
-                      <div className="object-field field-basePrice">
+                      </td>
+                      <td>
                         <input
                           type="number"
-                          value={product.basePrice}
+                          step={0.01}
+                          value={Number(product.basePrice).toFixed(2)}
                           onChange={(event) => {
                             setProducts(
                               products.map((g) => {
@@ -276,7 +282,7 @@ function ShopManagement() {
                             setIsModified(true);
                           }}
                         />
-                      </div>
+                      </td>
                       <input
                         type="file"
                         accept="image/*"
@@ -284,7 +290,7 @@ function ShopManagement() {
                         style={{ display: "none" }}
                         onChange={handleImgProductChange}
                       />
-                      <div className="object-field field-img">
+                      <td>
                         <img
                           src={
                             product.new_img
@@ -301,7 +307,7 @@ function ShopManagement() {
                             input.click();
                           }}
                         />
-                      </div>
+                      </td>
                       <input
                         type="file"
                         accept="image/*"
@@ -309,7 +315,7 @@ function ShopManagement() {
                         style={{ display: "none" }}
                         onChange={handleImg2ProductChange}
                       />
-                      <div className="object-field field-img2">
+                      <td>
                         <img
                           src={
                             product.new_img2
@@ -326,29 +332,31 @@ function ShopManagement() {
                             input.click();
                           }}
                         />
-                      </div>
+                      </td>
+                      <td>
+                        <RemoveIcon
+                          onClick={async () => {
+                            product.deleted = true;
+                            setProducts(
+                              products.map((g) => {
+                                if (g.id === product.id) {
+                                  return {
+                                    ...g,
+                                    deleted: true,
+                                  };
+                                }
+                                return g;
+                              })
+                            );
+                            setIsModified(true);
+                          }}
+                        ></RemoveIcon>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
 
-                      <RemoveIcon
-                        onClick={async () => {
-                          product.deleted = true;
-                          setProducts(
-                            products.map((g) => {
-                              if (g.id === product.id) {
-                                return {
-                                  ...g,
-                                  deleted: true,
-                                };
-                              }
-                              return g;
-                            })
-                          );
-                          setIsModified(true);
-                        }}
-                      ></RemoveIcon>
-                    </div>
-                  );
-                })}
-            </div>
             {loading ? (
               <CircularProgress className="progress-bar" />
             ) : (

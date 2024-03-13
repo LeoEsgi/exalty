@@ -20,6 +20,9 @@ import AccountPayment from "./AccountPayment";
 import AccountAddress from "./AccountAddress";
 import Faq from "./Faq";
 import Organigramme from "./Organigramme";
+import Conditions from "./Conditions";
+import Legal from "./Legal";
+import Cart from "./Cart";
 import Management from "./back-office/Management";
 
 import axios from "axios";
@@ -49,6 +52,9 @@ function App() {
         <Route path="/management/*" element={<Management />} />
         <Route path="/organigramme" element={<Organigramme />} />
         <Route path="/faq" element={<Faq />} />
+        <Route path="/conditions" element={<Conditions />} />
+        <Route path="/legal" element={<Legal />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="*" element={<Unknown />} />
       </Routes>
     </BrowserRouter>

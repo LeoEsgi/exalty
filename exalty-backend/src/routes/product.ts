@@ -29,7 +29,7 @@ router.put("/:id", async (req, res) => {
     sizable == null ||
     !img ||
     !description ||
-    !basePrice
+    basePrice == null
   ) {
     res.status(400).json({ message: "Missing fields" });
     return;
