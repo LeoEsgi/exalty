@@ -31,7 +31,7 @@ function Auth() {
 
   const handleClose = () => {
     setOpen(false);
-    navigate("/");
+    navigate("/account");
   };
 
   const handleClickOpenError = () => {
@@ -129,8 +129,8 @@ function Auth() {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Vous êtes maintenant connecté, vous allez être redirigé vers la
-              page d'accueil.
+              Vous êtes maintenant connecté, vous allez être redirigé vers votre
+              compte.
             </DialogContentText>
           </DialogContent>
           <DialogActions>

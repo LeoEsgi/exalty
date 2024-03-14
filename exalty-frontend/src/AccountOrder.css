@@ -1,0 +1,47 @@
+.AccountOrder .order {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-radius: 0.5em;
+    border: 1px solid #e0e0e0;
+    background-color: #0000009c;
+    margin-bottom: 1em;
+}
+
+.AccountOrder .order-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1em;
+    padding: 1em;
+    background-color: #faebeb40;
+}
+
+.AccountOrder .order-content {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    background-color: #0000009c;
+}
+
+.AccountOrder .order-product {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.AccountOrder .order-footer {
+    display: flex;
+    flex-direction: row;
+    padding: 1em;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid #e0e0e0;
+}
+
+.AccountOrder .order-content img {
+    width: 150px;
+    height: 150px;
+}

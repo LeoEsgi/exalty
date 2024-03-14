@@ -1,16 +1,32 @@
 import { SetStateAction, useEffect, useRef, useState } from "react";
 import "./Shop.css";
 import BasicComponent from "./BasicComponent";
-import { product } from "./Models";
+import { product, cart, cart_content, cart_line_size } from "./Models";
 import axios from "axios";
 import React from "react";
-import { PaymentElement } from "@stripe/react-stripe-js";
+import { useAuth } from "./AuthContext";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Button from "@mui/material/Button";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 
 function Shop() {
   const [size, setSize] = useState("");
   const [products, setProducts] = useState<product[]>([]);
   const productRefs = useRef<Array<React.RefObject<HTMLDivElement>>>([]);
   const [productFocus, setProductFocus] = useState<product>();
+  const { isAuthenticated, user } = useAuth();
+  const [cart, setCart] = useState<cart>();
+  const [open, setOpen] = React.useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const navigate = useNavigate();
+
   const getProducts = async () => {
     const response = await axios
       .get("http://localhost:5000/product/")
@@ -22,14 +38,56 @@ function Shop() {
   };
 
   const addItemToCart = async (product: product) => {
-    localStorage.setItem("cart", JSON.stringify(product));
-    alert("Ajouté au panier");
+    if (!isAuthenticated) {
+      alert("Vous devez vous connecter pour ajouter un produit au panier");
+      return;
+    }
+
+    const quantity = document.querySelector<HTMLInputElement>(
+      "input[name='quantity']"
+    )?.value;
+
+    const size = document.querySelector<HTMLSelectElement>(
+      "select[name='size']"
+    )?.value;
+
+    if (!quantity || !size) {
+      alert("Veuillez remplir tous les champs obligatoires");
+      return;
+    }
+
+    const content = {
+      product: product,
+      quantity: parseInt(quantity),
+      size: size as cart_line_size,
+    };
+
+    const response = await axios
+      .post("http://localhost:5000/shop/cart/" + user.id, {
+        content,
+      })
+      .catch((err) => {
+        console.error("Error adding to cart:", err);
+        return { data: [] };
+      });
+    setOpen(true);
+    return response.data;
   };
 
   const handleChange = (event: {
     target: { value: SetStateAction<string> };
   }) => {
     setSize(event.target.value);
+  };
+
+  const getCart = async () => {
+    const response = await axios
+      .get("http://localhost:5000/shop/cart/")
+      .catch((err) => {
+        console.error("Error fetching cart:", err);
+        return { data: [] };
+      });
+    return response.data as cart;
   };
 
   useEffect(() => {
@@ -43,6 +101,9 @@ function Shop() {
       } else {
         console.error("Expected an array of products, but got:", products);
       }
+
+      const cart = await getCart();
+      setCart(cart);
     };
 
     fetchProducts();
@@ -113,7 +174,7 @@ function Shop() {
                   {product.sizable && (
                     <div className="jersey-size">
                       Taille du maillot
-                      <select value={size} onChange={handleChange}>
+                      <select name="size" value={size} onChange={handleChange}>
                         <option value="S">S</option>
                         <option value="M">M</option>
                         <option value="L">L</option>
@@ -127,7 +188,18 @@ function Shop() {
                       Flocage <input placeholder="Pseudo"></input>
                     </div>
                   )}
+                  <div className="jersey-quantity">
+                    Quantité
+                    <input
+                      name="quantity"
+                      type="number"
+                      min="1"
+                      max="10"
+                      defaultValue="1"
+                    ></input>
+                  </div>
                 </div>
+
                 <div className="jersey-add">
                   <button
                     className="btn"
@@ -137,6 +209,34 @@ function Shop() {
                   </button>
                 </div>
               </div>
+              <Dialog
+                fullScreen={fullScreen}
+                open={open}
+                aria-labelledby="responsive-dialog-title"
+              >
+                <DialogTitle id="responsive-dialog-title">
+                  {"Produit ajouté au panier !"}
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Vous pouvez maintenant continuer vos achats ou voir votre
+                    panier.
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button autoFocus onClick={() => setOpen(false)}>
+                    Fermer
+                  </Button>
+                  <Button
+                    autoFocus
+                    onClick={() => {
+                      navigate("/cart");
+                    }}
+                  >
+                    Voir Panier
+                  </Button>
+                </DialogActions>
+              </Dialog>
             </div>
           ))}
         </>

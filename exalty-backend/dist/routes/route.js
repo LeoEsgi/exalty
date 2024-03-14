@@ -14,6 +14,7 @@ const recruitment_1 = __importDefault(require("./recruitment"));
 const sponsor_1 = __importDefault(require("./sponsor"));
 const product_1 = __importDefault(require("./product"));
 const mail_1 = __importDefault(require("./mail"));
+const shop_1 = __importDefault(require("./shop"));
 const upload_image_1 = __importDefault(require("./upload-image"));
 function buildRoutes(app) {
     app.use("/user", user_1.default);
@@ -26,6 +27,7 @@ function buildRoutes(app) {
     app.use("/sponsor", sponsor_1.default);
     app.use("/product", product_1.default);
     app.use("/mail", mail_1.default);
+    app.use("/shop", shop_1.default);
     app.use("/upload-image", upload_image_1.default);
 }
 exports.buildRoutes = buildRoutes;

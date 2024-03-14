@@ -57,55 +57,39 @@ model player {
 }
 
 model address {
-    id                                       Int      @id @default(autoincrement())
-    address                                  String   @db.VarChar(255)
-    zipcode                                  String   @db.VarChar(5)
-    city                                     String   @db.VarChar(150)
-    recipient                                String   @db.VarChar(255)
-    created_at                               DateTime @default(now()) @db.DateTime(6)
-    updated_at                               DateTime @default(now()) @db.DateTime(6)
-    order_order_shipping_address_idToaddress order?   @relation("order_shipping_address_idToaddress")
-    order_order_billing_address_idToaddress  order?   @relation("order_billing_address_idToaddress")
-    user                                     user?    @relation(fields: [userId], references: [id])
-    userId                                   Int?
-}
-
-model adjustment {
-    id                   Int             @id @default(autoincrement())
-    type                 adjustment_type
-    label                String          @db.VarChar(255)
-    amount_without_taxes Int
-    amount_with_taxes    Int
-    tax                  Int
-    created_at           DateTime        @default(now()) @db.DateTime(6)
-    updated_at           DateTime        @default(now()) @db.DateTime(6)
-    order_id             Int?
-    order                order?          @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_a9bb2b5787842b6391501afdd5b")
-
-    @@index([order_id], map: "FK_a9bb2b5787842b6391501afdd5b")
+    id         Int      @id @default(autoincrement())
+    address    String   @db.VarChar(255)
+    zipcode    String   @db.VarChar(5)
+    city       String   @db.VarChar(150)
+    title      String   @db.VarChar(255)
+    created_at DateTime @default(now()) @db.DateTime(6)
+    updated_at DateTime @default(now()) @db.DateTime(6)
+    user_id    Int?
+    user       user?    @relation(fields: [user_id], references: [id])
 }
 
 model cart {
-    id         Int         @id @default(autoincrement())
-    created_at DateTime    @default(now()) @db.DateTime(6)
-    updated_at DateTime    @default(now()) @db.DateTime(6)
-    cart_line  cart_line[]
+    id           Int            @id @default(autoincrement())
+    user_id      Int
+    created_at   DateTime       @default(now()) @db.DateTime(6)
+    updated_at   DateTime       @default(now()) @db.DateTime(6)
+    deleted_at   DateTime?      @db.DateTime(6)
+    user         user           @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_3e3e3e3e3e3e3e3e3e3e3e3e3745")
+    cart_content cart_content[]
 }
 
-model cart_line {
-    id         Int             @id @default(autoincrement())
-    amount     Int
-    flocking   String?         @db.VarChar(255)
-    size       cart_line_size?
-    created_at DateTime        @default(now()) @db.DateTime(6)
-    updated_at DateTime        @default(now()) @db.DateTime(6)
-    cart_id    Int?
-    offer_id   Int?
-    offer      offer?          @relation(fields: [offer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_4fd40c77bee9243587b6203b8fa")
-    cart       cart?           @relation(fields: [cart_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_5455c0c2b993b0c06a1c0df4626")
-
-    @@index([offer_id], map: "FK_4fd40c77bee9243587b6203b8fa")
-    @@index([cart_id], map: "FK_5455c0c2b993b0c06a1c0df4626")
+model cart_content {
+    id         Int            @id @default(autoincrement())
+    quantity   Int            @default(1)
+    product_id Int
+    product    product        @relation(fields: [product_id], references: [id])
+    size       cart_line_size
+    created_at DateTime       @default(now()) @db.DateTime(6)
+    updated_at DateTime       @default(now()) @db.DateTime(6)
+    deleted_at DateTime?      @db.DateTime(6)
+    flocking   String?        @db.VarChar(255)
+    cart       cart           @relation(fields: [card_id], references: [id])
+    card_id    Int
 }
 
 model message {
@@ -125,60 +109,50 @@ model migrations {
     name      String @db.VarChar(255)
 }
 
-model offer {
-    id         Int          @id @default(autoincrement())
-    published  Int          @default(0) @db.TinyInt
-    unit_price Int
-    created_at DateTime     @default(now()) @db.DateTime(6)
-    updated_at DateTime     @default(now()) @db.DateTime(6)
-    deleted_at DateTime?    @db.DateTime(6)
-    cart_line  cart_line[]
-    order_line order_line[]
-    product    product[]
-}
-
 model order {
-    id                                         Int                  @id @default(autoincrement())
-    discount                                   Int
-    price_ht                                   Int
-    price_ttc                                  Int
-    paid_price_ht                              Int
-    paid_price_ttc                             Int
-    payment_status                             order_payment_status @default(NONE)
-    status                                     order_status         @default(IN_PROGRESS)
-    subscription                               order_subscription?
-    created_at                                 DateTime             @default(now()) @db.DateTime(6)
-    updated_at                                 DateTime             @default(now()) @db.DateTime(6)
-    user_id                                    Int?
-    billing_address_id                         Int?                 @unique(map: "REL_5568d3b9ce9f7abeeb37511ecf")
-    shipping_address_id                        Int?                 @unique(map: "REL_19b0c6293443d1b464f604c331")
-    adjustment                                 adjustment[]
-    user                                       user?                @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_199e32a02ddc0f47cd93181d8fd")
-    address_order_shipping_address_idToaddress address?             @relation("order_shipping_address_idToaddress", fields: [shipping_address_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_19b0c6293443d1b464f604c3316")
-    address_order_billing_address_idToaddress  address?             @relation("order_billing_address_idToaddress", fields: [billing_address_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_5568d3b9ce9f7abeeb37511ecf2")
-    order_line                                 order_line[]
-    payment                                    payment[]
+    id                  Int                  @id @default(autoincrement())
+    discount            Int
+    price_ht            Int
+    price_ttc           Int
+    paid_price_ht       Int
+    paid_price_ttc      Int
+    order_content       order_content[]
+    payment_status      order_payment_status @default(NONE)
+    status              order_status         @default(IN_PROGRESS)
+    subscription        order_subscription?
+    created_at          DateTime             @default(now()) @db.DateTime(6)
+    updated_at          DateTime             @default(now()) @db.DateTime(6)
+    user_id             Int?
+    billing_address_id  Int
+    shipping_address_id Int
+    user                user?                @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_199e32a02ddc0f47cd93181d8fd")
+    payment             payment[]
 
     @@index([user_id], map: "FK_199e32a02ddc0f47cd93181d8fd")
 }
 
-model order_line {
-    id         Int              @id @default(autoincrement())
-    amount     Int
-    flocking   String?          @db.VarChar(255)
-    offer_copy Json
-    size       order_line_size?
-    unit_price Int
-    tax        Int
-    created_at DateTime         @default(now()) @db.DateTime(6)
-    updated_at DateTime         @default(now()) @db.DateTime(6)
+model order_content {
+    id         Int       @id @default(autoincrement())
+    quantity   Int       @default(1)
+    product_id Int
+    product    product   @relation(fields: [product_id], references: [id])
+    created_at DateTime  @default(now()) @db.DateTime(6)
+    updated_at DateTime  @default(now()) @db.DateTime(6)
+    deleted_at DateTime? @db.DateTime(6)
+    order      order?    @relation(fields: [order_id], references: [id])
     order_id   Int?
-    offer_id   Int?
-    order      order?           @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_ed8fae6d7239e9d730219215af7")
-    offer      offer?           @relation(fields: [offer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_f2c3b587357156a6727ecde7f38")
+}
 
-    @@index([order_id], map: "FK_ed8fae6d7239e9d730219215af7")
-    @@index([offer_id], map: "FK_f2c3b587357156a6727ecde7f38")
+model credit_card {
+    id         Int      @id @default(autoincrement())
+    number     String   @db.VarChar(255)
+    expiration String   @db.VarChar(255)
+    name       String   @db.VarChar(255)
+    cvc        String   @db.VarChar(255)
+    created_at DateTime @default(now()) @db.DateTime(6)
+    updated_at DateTime @default(now()) @db.DateTime(6)
+    user_id    Int
+    user       user     @relation(fields: [user_id], references: [id])
 }
 
 model payment {
@@ -197,22 +171,20 @@ model payment {
 }
 
 model product {
-    id           Int       @id @default(autoincrement())
-    flockingable Boolean   @default(false)
-    description  String    @db.Text
-    name         String    @db.VarChar(255)
-    basePrice    Decimal   @default(0)
-    sizable      Boolean   @default(false)
-    img          String    @db.VarChar(255)
-    img2         String?   @db.VarChar(255)
-    created_at   DateTime  @default(now()) @db.DateTime(6)
-    updated_at   DateTime  @default(now()) @db.DateTime(6)
-    deleted_at   DateTime? @db.DateTime(6)
-    offer_id     Int?
-    offer        offer?    @relation(fields: [offer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_3cd690b6e2cbbbb21fef8b5a98a")
-    stock        stock[]
-
-    @@index([offer_id], map: "FK_3cd690b6e2cbbbb21fef8b5a98a")
+    id            Int             @id @default(autoincrement())
+    flockingable  Boolean         @default(false)
+    description   String          @db.Text
+    name          String          @db.VarChar(255)
+    basePrice     Decimal         @default(0)
+    sizable       Boolean         @default(false)
+    img           String          @db.VarChar(255)
+    img2          String?         @db.VarChar(255)
+    created_at    DateTime        @default(now()) @db.DateTime(6)
+    updated_at    DateTime        @default(now()) @db.DateTime(6)
+    deleted_at    DateTime?       @db.DateTime(6)
+    stock         stock[]
+    order_content order_content[]
+    cart_content  cart_content[]
 }
 
 model role {
@@ -238,25 +210,28 @@ model stock {
 }
 
 model user {
-    id                 Int         @id @default(autoincrement())
-    discord_tag        String?     @unique(map: "IDX_ff2b782400a5c8bb402d5b12de") @db.VarChar(255)
-    email              String      @unique(map: "IDX_e12875dfb3b1d92d7d7c5377e2") @db.VarChar(255)
-    first_name         String      @db.VarChar(255)
-    last_name          String      @db.VarChar(255)
-    password           String      @db.VarChar(255)
-    pseudo             String      @db.VarChar(255)
-    last_connection    DateTime    @default(now()) @db.DateTime(0)
-    created_at         DateTime    @default(now()) @db.DateTime(6)
-    updated_at         DateTime    @default(now()) @db.DateTime(6)
-    deleted_at         DateTime?   @db.DateTime(6)
-    active             Boolean     @default(false)
-    token_verification String?     @unique @db.VarChar(255)
-    role_id            Int         @default(1)
+    id                 Int           @id @default(autoincrement())
+    discord_tag        String?       @unique(map: "IDX_ff2b782400a5c8bb402d5b12de") @db.VarChar(255)
+    email              String        @unique(map: "IDX_e12875dfb3b1d92d7d7c5377e2") @db.VarChar(255)
+    first_name         String        @db.VarChar(255)
+    last_name          String        @db.VarChar(255)
+    password           String        @db.VarChar(255)
+    pseudo             String        @db.VarChar(255)
+    last_connection    DateTime      @default(now()) @db.DateTime(0)
+    created_at         DateTime      @default(now()) @db.DateTime(6)
+    updated_at         DateTime      @default(now()) @db.DateTime(6)
+    deleted_at         DateTime?     @db.DateTime(6)
+    active             Boolean       @default(false)
+    token_verification String?       @unique @db.VarChar(255)
+    fidelity_points    Int           @default(0)
+    role_id            Int           @default(1)
     membership_id      Int?
     order              order[]
     address            address[]
-    role               role?       @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_33a6fc2fcb019d8e3a8ace0f55f")
-    membership         membership? @relation(fields: [membership_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_75e3e3e3e3e3e3e3e3e3e3e3e3e")
+    role               role?         @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_33a6fc2fcb019d8e3a8ace0f55f")
+    membership         membership?   @relation(fields: [membership_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_75e3e3e3e3e3e3e3e3e3e3e3e3e")
+    cart               cart[]
+    credit_card        credit_card[]
 }
 
 model membership {
@@ -388,6 +363,7 @@ enum order_status {
     IN_PROGRESS
     CANCELLED
     VALIDATED
+    SHIPPED
 }
 
 enum order_subscription {

@@ -222,7 +222,9 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
                 onMouseLeave={() => setShowDropdown3(false)}
                 className="dropdown"
               >
-                <AccountCircleIcon fontSize="large" />
+                <Link to="/account">
+                  <AccountCircleIcon fontSize="large" />
+                </Link>
                 {showDropdown3 && (
                   <div className="dropdown-menu-inverted">
                     <Link className="nav-item" to="/account">
@@ -256,9 +258,6 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
                     </Link>
                     <Link className="nav-item" to="/register">
                       S'inscrire
-                    </Link>
-                    <Link className="nav-item" to="/cart">
-                      Panier
                     </Link>
                   </div>
                 )}

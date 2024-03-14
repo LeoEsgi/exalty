@@ -9,8 +9,10 @@ import Inventory2Icon from "@mui/icons-material/Inventory2";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import PaymentIcon from "@mui/icons-material/Payment";
 import PasswordIcon from "@mui/icons-material/Password";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ContactSupportIcon from "@mui/icons-material/ContactSupport";
+import StarsIcon from "@mui/icons-material/Stars";
 import BottomBar from "./BottomBar";
 import balmain from "./asset/balmain.svg";
 import Dialog from "@mui/material/Dialog";
@@ -129,6 +131,18 @@ function Account() {
               </div>
             </div>
           </div>
+
+          <div className="setting-cart" onClick={() => navigate("/cart")}>
+            <div className="img-setting">
+              <ShoppingCartIcon />
+            </div>
+            <div>
+              <div className="setting-title">Votre panier</div>
+              <div className="setting-desc">
+                Visualiser le contenu de votre panier
+              </div>
+            </div>
+          </div>
           <div
             className="setting-address"
             onClick={() => navigate("/account/address")}
@@ -185,6 +199,17 @@ function Account() {
             <div>
               <div className="setting-title">Nous contacter</div>
               <div className="setting-desc">Contacter le support</div>
+            </div>
+          </div>
+          <div className="setting-fidelity">
+            <div className="img-setting">
+              <StarsIcon />
+            </div>
+            <div>
+              <div className="setting-title">Vos points de fidelites</div>
+              <div className="setting-desc">
+                Vous avez actuellement {user.fidelity_points} points
+              </div>
             </div>
           </div>
         </div>

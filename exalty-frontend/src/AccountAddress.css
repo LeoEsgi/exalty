@@ -1,0 +1,38 @@
+.address_list {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.address {
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.5em;
+  background-color: black;
+  width: 198px;
+  padding: 1em;
+  border: 1px solid #e7e7e7;
+  margin: 1em;
+}
+
+.address_add {
+  width: 65%;
+  font-size: 1.5rem;
+}
+
+.address_add_form {
+  display: flex;
+  flex-direction: column;
+}
+
+.address_add_form input {
+  padding: 0.8em;
+  font-size: 1rem;
+  background-color: transparent;
+  color: white;
+  border-radius: 0.5em;
+  outline: none;
+  border: 1px solid #e7e7e7;
+  margin-bottom: 1em;
+}

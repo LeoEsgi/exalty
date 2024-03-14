@@ -11,6 +11,10 @@
   flex-wrap: wrap;
 }
 
+.Member .btn {
+  margin-top: 0.5em !important;
+}
+
 .subscribe-list {
   display: flex;
   flex-direction: row;
@@ -26,8 +30,8 @@
   justify-content: space-between;
   border: solid 1px #928f57;
   padding: 1rem;
-  padding-top: 3.5em;
-  padding-bottom: 3.5em;
+  padding-top: 3em;
+  padding-bottom: 3em;
   border-radius: 3em;
   flex-wrap: wrap;
   flex-basis: 48%;
@@ -48,7 +52,7 @@
 }
 
 .card-title {
-  font-size: 2.5em;
+  font-size: 1.5rem;
   margin-bottom: 1em;
 }
 

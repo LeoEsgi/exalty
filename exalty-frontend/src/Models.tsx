@@ -21,6 +21,7 @@ export class user {
     public deleted_at: Date | null,
     public active: boolean,
     public token_verification: string,
+    public fidelity_points: number,
     public role_id: number,
     public order: order[],
     public adress: address[],
@@ -44,9 +45,22 @@ export class order {
     public user_id: number,
     public billing_address_id: number,
     public shipping_address_id: number,
-    public adjustment: adjustment[],
-    public order_line: order_line[],
+    public order_content: order_content[],
     public payment: payment[]
+  ) {}
+}
+
+export class order_content {
+  constructor(
+    public id: number,
+    public quantity: number,
+    public product_id: number,
+    public product: product,
+    public created_at: Date,
+    public updated_at: Date,
+    public deleted_at: Date | null,
+    public order_id: number | null,
+    public order: order | null
   ) {}
 }
 export class game {
@@ -103,26 +117,12 @@ export class address {
     public address: string,
     public zipcode: string,
     public city: string,
-    public recipient: string,
+    public title: string,
+    public user_id: number,
     public created_at: Date,
     public updated_at: Date,
     public order_order_shipping_address_idToaddress: order | null,
     public order_order_billing_address_idToaddress: order | null
-  ) {}
-}
-
-export class adjustment {
-  constructor(
-    public id: number,
-    public type: adjustment_type,
-    public label: string,
-    public amount_without_taxes: number,
-    public amount_with_taxes: number,
-    public tax: number,
-    public created_at: Date,
-    public updated_at: Date,
-    public order_id: number | null,
-    public order: order | null
   ) {}
 }
 
@@ -131,18 +131,19 @@ export class cart {
     public id: number,
     public created_at: Date,
     public updated_at: Date,
-    public cart_line: cart_line[]
+    public cart_content: cart_content[]
   ) {}
 }
 
-export class cart_line {
+export class cart_content {
   constructor(
     public id: number,
-    public amount: number,
+    public quantity: number,
     public flocking: string | null,
     public size: cart_line_size | null,
     public created_at: Date,
     public updated_at: Date,
+    public product: product,
     public cart_id: number | null,
     public offer_id: number | null,
     public offer: offer | null,
@@ -179,7 +180,7 @@ export class offer {
     public created_at: Date,
     public updated_at: Date,
     public deleted_at: Date | null,
-    public cart_line: cart_line[],
+    public cart_line: cart_content[],
     public order_line: order_line[],
     public product: product[]
   ) {}
@@ -215,6 +216,20 @@ export class payment {
     public gateway_id: string | null,
     public gateway_name: string,
     public order: order | null
+  ) {}
+}
+
+export class credit_card {
+  constructor(
+    public id: number,
+    public number: string,
+    public expiration: string,
+    public name: string,
+    public cvc: string,
+    public created_at: Date,
+    public updated_at: Date,
+    public user_id: number,
+    public user: user
   ) {}
 }
 
@@ -402,6 +417,7 @@ export enum order_status {
   IN_PROGRESS = "IN_PROGRESS",
   CANCELLED = "CANCELLED",
   VALIDATED = "VALIDATED",
+  SHIPPED = "Livré",
 }
 
 export enum order_subscription {

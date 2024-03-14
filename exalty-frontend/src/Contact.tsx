@@ -3,6 +3,15 @@ import "./Contact.css";
 import balmain from "./asset/balmain.svg";
 import { Link } from "react-router-dom";
 import BottomBar from "./BottomBar";
+import svgInsta from "./asset/icon/insta.svg";
+import svgTwitter from "./asset/icon/twitter.svg";
+import svgTiktok from "./asset/icon/tiktok.svg";
+import svgTwitch from "./asset/icon/twitch.svg";
+import svgDiscord from "./asset/icon/discord.svg";
+import svgThread from "./asset/icon/thread.svg";
+import svgYoutube from "./asset/icon/youtube.svg";
+import svgLinkdin from "./asset/icon/linkedin.svg";
+
 function Contact() {
   return (
     <>
@@ -59,17 +68,116 @@ function Contact() {
             <div className="join">
               <h1>Nous rejoindre</h1>
               <div className="social-list">
-                <div className="social-item">@Exalty_FR</div>
-                <div className="social-item">@exaltyfr</div>
-                <div className="social-item">@exalty_fr</div>
-                <div className="social-item">ExaltyTV1</div>
-                <div className="social-item">@exalty_fr</div>
-                <div className="social-item">Exalty</div>
-                <div className="social-item">Exalty</div>
-                <div className="social-item">@Exalty</div>
+                <div className="social-item">
+                  <Link
+                    className="social-item-content"
+                    to={"https://twitter.com/Exalty_FR"}
+                  >
+                    <img
+                      className="logo-social-item invert-color"
+                      alt=""
+                      src={svgTwitter}
+                    ></img>
+                    @Exalty_FR
+                  </Link>
+                </div>
+                <div className="social-item">
+                  <Link
+                    className="social-item-content"
+                    to={"https://www.tiktok.com/@exaltyfr_"}
+                  >
+                    <img
+                      className="logo-social-item invert-color"
+                      alt=""
+                      src={svgTiktok}
+                    ></img>
+                    @exaltyfr_
+                  </Link>
+                </div>
+                <div className="social-item">
+                  <Link
+                    className="social-item-content"
+                    to={"https://www.instagram.com/exalty_fr"}
+                  >
+                    <img
+                      className="logo-social-item invert-color"
+                      alt=""
+                      src={svgInsta}
+                    ></img>
+                    @exalty_fr
+                  </Link>
+                </div>
+
+                <div className="social-item">
+                  <Link
+                    className="social-item-content"
+                    to={"https://www.twitch.tv/ExaltyTV1"}
+                  >
+                    <img
+                      className="logo-social-item invert-color"
+                      alt=""
+                      src={svgTwitch}
+                    ></img>
+                    ExaltyTV1
+                  </Link>
+                </div>
+                <div className="social-item">
+                  <Link
+                    className="social-item-content"
+                    to={"https://www.threads.net/@exalty_fr"}
+                  >
+                    <img
+                      className="logo-social-item invert-color"
+                      alt=""
+                      src={svgThread}
+                    ></img>
+                    @exalty_fr
+                  </Link>
+                </div>
+                <div className="social-item">
+                  <Link
+                    className="social-item-content"
+                    to={"https://discord.com/invite/TH9t3Mv4qd"}
+                  >
+                    <img
+                      className="logo-social-item invert-color"
+                      alt=""
+                      src={svgDiscord}
+                    ></img>
+                    Exalty
+                  </Link>
+                </div>
+                <div className="social-item">
+                  <Link
+                    className="social-item-content"
+                    to={"https://www.linkedin.com/company/exalty"}
+                  >
+                    <img
+                      className="logo-social-item invert-color"
+                      alt=""
+                      src={svgLinkdin}
+                    ></img>
+                    Exalty
+                  </Link>
+                </div>
+                <div className="social-item">
+                  <Link
+                    className="social-item-content"
+                    to={"https://www.youtube.com/@Exalty"}
+                  >
+                    <img
+                      className="logo-social-item invert-color"
+                      alt=""
+                      src={svgYoutube}
+                    ></img>
+                    @Exalty
+                  </Link>
+                </div>
               </div>
               <div></div>
-              <button className="btn">Rejoignez-Nous !</button>
+              <button className="contact-btn">
+                <Link to="/recruitment">Rejoignez-Nous !</Link>
+              </button>
             </div>
           </div>
           <div>
