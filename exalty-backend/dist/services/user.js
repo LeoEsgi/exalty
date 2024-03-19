@@ -87,5 +87,17 @@ class UserService {
             });
         });
     }
+    updatePoints(id, fidelity_points) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield prisma.user.update({
+                where: {
+                    id,
+                },
+                data: {
+                    fidelity_points,
+                },
+            });
+        });
+    }
 }
 exports.default = UserService;

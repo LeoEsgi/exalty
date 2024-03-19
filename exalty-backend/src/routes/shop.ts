@@ -42,6 +42,16 @@ router.delete("/cart/:id", async (req, res) => {
   res.json(cart);
 });
 
+router.put("/cart/:id", async (req, res) => {
+  const id = parseInt(req.params.id);
+  const { quantity } = req.body;
+  const cart = await ShopService.getInstance().update_cart_content(
+    id,
+    quantity
+  );
+  res.json(cart);
+});
+
 router.get("/cart/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   const cart = await ShopService.getInstance().getCartById(id);
@@ -54,8 +64,39 @@ router.get("/cart/user/:userId", async (req, res) => {
   res.json(cart);
 });
 
-router.post("/order", async (req, res) => {
-  const order = await ShopService.getInstance().createOrder(req.body);
+router.post("/order/:userId", async (req, res) => {
+  const userId = parseInt(req.params.userId);
+  const {
+    price_ht,
+    price_ttc,
+    paid_price_ht,
+    paid_price_ttc,
+    billing_address_id,
+    shipping_address_id,
+    discount,
+  } = req.body;
+
+  const order = await ShopService.getInstance().createOrder(
+    price_ht,
+    price_ttc,
+    paid_price_ht,
+    paid_price_ttc,
+    userId,
+    billing_address_id,
+    shipping_address_id,
+    discount
+  );
+  res.json(order);
+});
+
+router.post("/order/content/:order_id", async (req, res) => {
+  const order_id = parseInt(req.params.order_id);
+  const { product_id, quantity } = req.body;
+  const order = await ShopService.getInstance().createOrderContent(
+    quantity,
+    product_id,
+    order_id
+  );
   res.json(order);
 });
 

@@ -38,15 +38,14 @@ export class order {
     public price_ttc: number,
     public paid_price_ht: number,
     public paid_price_ttc: number,
-    public payment_status: string,
-    public status: string,
+    public payment_status: order_payment_status,
+    public status: order_status,
     public created_at: Date,
     public updated_at: Date,
     public user_id: number,
     public billing_address_id: number,
     public shipping_address_id: number,
-    public order_content: order_content[],
-    public payment: payment[]
+    public order_content: order_content[]
   ) {}
 }
 
@@ -80,6 +79,7 @@ export class player {
     public name: string,
     public role: string,
     public img: string,
+    public type: player_type,
     public game_id: number,
     public new_img?: File,
     public deleted?: boolean
@@ -204,21 +204,6 @@ export class order_line {
   ) {}
 }
 
-export class payment {
-  constructor(
-    public id: number,
-    public amount: number,
-    public status: payment_status,
-    public details: any,
-    public created_at: Date,
-    public updated_at: Date,
-    public order_id: number | null,
-    public gateway_id: string | null,
-    public gateway_name: string,
-    public order: order | null
-  ) {}
-}
-
 export class credit_card {
   constructor(
     public id: number,
@@ -303,6 +288,7 @@ export class membership {
     public description: string,
     public price: number,
     public occurence: price_occurence,
+    public img: string,
     public created_at: Date,
     public updated_at: Date,
     public user_membership: user_membership[]
@@ -424,6 +410,17 @@ export enum order_subscription {
   CONTRIBUTOR = "CONTRIBUTOR",
   ADHERENT = "ADHERENT",
   PREMIUM_ADHERENT = "PREMIUM_ADHERENT",
+}
+
+export enum player_type {
+  PLAYER = "PLAYER",
+  COACH = "COACH",
+  MANAGER = "MANAGER",
+  STAFF = "STAFF",
+  SUB = "SUB",
+  COACH_SUB = "COACH_SUB",
+  MANAGER_SUB = "MANAGER_SUB",
+  STAFF_SUB = "STAFF_SUB",
 }
 
 export class event {

@@ -90,9 +90,6 @@
 }
 
 @media screen and (max-width: 800px) {
-  .BottomBar {
-    padding-top: 10rem;
-  }
   .BottomBar .slogan {
     font-size: 3.5rem;
   }

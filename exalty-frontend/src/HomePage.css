@@ -51,7 +51,7 @@
   margin: 1em;
 }
 
-.jersey {
+.shop-home {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -59,7 +59,7 @@
   padding-bottom: 2.5em;
 }
 
-.jersey-content {
+.shop-home-content {
   display: flex;
   flex-direction: column;
   margin: 1.5em;
@@ -360,18 +360,6 @@
   }
   .history-desc > div {
     font-size: 1rem;
-  }
-  .jersey-content {
-    padding-left: 1em;
-  }
-  .jersey {
-    padding-bottom: 1em;
-  }
-  .jersey-infos select {
-    width: 7em;
-  }
-  .jersey-infos input {
-    width: 7em;
   }
   .discover {
     font-size: 2.5rem;

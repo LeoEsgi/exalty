@@ -11,6 +11,7 @@ import axios from "axios";
 import { game } from "./Models";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useAuth } from "./AuthContext";
+import StarsIcon from "@mui/icons-material/Stars";
 
 axios.defaults.withCredentials = true;
 
@@ -23,7 +24,8 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
   const [showDropdown3, setShowDropdown3] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [games, setGames] = useState<game[]>([]);
-  const { isAuthenticated, isAdmin, logout } = useAuth();
+  const { user, isAuthenticated, cart, isAdmin, logout } = useAuth();
+  const [cartTotal, setCartTotal] = useState<number>(0);
 
   const getGames = async () => {
     const response = await axios
@@ -34,6 +36,7 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
       });
     return response.data as game[];
   };
+
   useEffect(() => {
     const fetchGames = async () => {
       const games = await getGames();
@@ -45,6 +48,16 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
     };
     fetchGames();
   }, []);
+
+  useEffect(() => {
+    if (cart && cart.cart_content && cart.cart_content.length > 0) {
+      let total = 0;
+      cart?.cart_content.forEach((content) => {
+        total += content.quantity;
+      });
+      setCartTotal(total);
+    }
+  }, [cart]);
 
   return (
     <>
@@ -129,11 +142,41 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
                 {showDropdown3 && <MinimizeIcon />}
                 {!showDropdown3 && <AddIcon />}
               </div>
+
               {showDropdown3 && (
                 <div className="dropdown-menu">
-                  <Link to="/auth">Se Connecter</Link>
-                  <Link to="/register">S'Inscrire</Link>
-                  <Link to="/cart">Panier</Link>
+                  {isAuthenticated ? (
+                    <>
+                      <Link className="nav-item" to="/account">
+                        Mon Compte
+                      </Link>
+                      <Link className="nav-item" to="/cart">
+                        Panier
+                      </Link>
+                      <Link className="nav-item" to="/account/order">
+                        Commandes
+                      </Link>
+                      <Link className="nav-item" to="/account/address">
+                        Adresses
+                      </Link>
+                      <Link className="nav-item" to="/account/payment">
+                        Moyens de paiement
+                      </Link>
+                      {isAdmin && (
+                        <Link className="nav-item" to="/management/team">
+                          Back Office
+                        </Link>
+                      )}
+                      <a onClick={logout} className="nav-item">
+                        Deconnexion
+                      </a>
+                    </>
+                  ) : (
+                    <>
+                      <Link to="/auth">Se Connecter</Link>
+                      <Link to="/register">S'Inscrire</Link>
+                    </>
+                  )}
                 </div>
               )}
             </div>
@@ -216,6 +259,22 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
                 Contact
               </Link>
             </div>
+            {cart && cart.cart_content && cart.cart_content.length > 0 && (
+              <div className="cart-display-content">
+                <Link to="/cart" className="nav-item">
+                  <ShoppingCartIcon />
+                  <div className="cart-display-length">{cartTotal}</div>
+                </Link>
+              </div>
+            )}
+
+            {isAuthenticated && user.fidelity_points > 0 && (
+              <div className="fidelity_point">
+                {user?.fidelity_points}
+                <StarsIcon />
+              </div>
+            )}
+
             {isAuthenticated ? (
               <div
                 onMouseEnter={() => setShowDropdown3(true)}
@@ -232,6 +291,15 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
                     </Link>
                     <Link className="nav-item" to="/cart">
                       Panier
+                    </Link>
+                    <Link className="nav-item" to="/account/order">
+                      Commandes
+                    </Link>
+                    <Link className="nav-item" to="/account/address">
+                      Adresses
+                    </Link>
+                    <Link className="nav-item" to="/account/payment">
+                      Moyens de paiement
                     </Link>
                     {isAdmin && (
                       <Link className="nav-item" to="/management/team">

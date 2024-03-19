@@ -44,14 +44,15 @@ model game {
 }
 
 model player {
-    id         Int      @id @default(autoincrement())
-    name       String   @db.VarChar(255)
-    role       String   @db.VarChar(255)
-    img        String   @db.VarChar(255)
+    id         Int         @id @default(autoincrement())
+    name       String      @db.VarChar(255)
+    role       String      @db.VarChar(255)
+    type       player_type @default(PLAYER)
+    img        String      @db.VarChar(255)
     game_id    Int
-    created_at DateTime @default(now()) @db.DateTime(6)
-    updated_at DateTime @default(now()) @db.DateTime(6)
-    game       game     @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_4e3e3e3e3e3e3e3e3e3e3e3e3e")
+    created_at DateTime    @default(now()) @db.DateTime(6)
+    updated_at DateTime    @default(now()) @db.DateTime(6)
+    game       game        @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_4e3e3e3e3e3e3e3e3e3e3e3e3e")
 
     @@index([id], map: "FK_3e3e3e3e3e3e3e3e3e3e3e3e3e")
 }
@@ -126,7 +127,6 @@ model order {
     billing_address_id  Int
     shipping_address_id Int
     user                user?                @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_199e32a02ddc0f47cd93181d8fd")
-    payment             payment[]
 
     @@index([user_id], map: "FK_199e32a02ddc0f47cd93181d8fd")
 }
@@ -153,21 +153,6 @@ model credit_card {
     updated_at DateTime @default(now()) @db.DateTime(6)
     user_id    Int
     user       user     @relation(fields: [user_id], references: [id])
-}
-
-model payment {
-    id           Int            @id @default(autoincrement())
-    amount       Int
-    status       payment_status
-    details      Json
-    created_at   DateTime       @default(now()) @db.DateTime(6)
-    updated_at   DateTime       @default(now()) @db.DateTime(6)
-    order_id     Int?
-    gateway_id   String?        @db.VarChar(40)
-    gateway_name String         @db.VarChar(40)
-    order        order?         @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_f5221735ace059250daac9d9803")
-
-    @@index([order_id], map: "FK_f5221735ace059250daac9d9803")
 }
 
 model product {
@@ -237,7 +222,8 @@ model user {
 model membership {
     id          Int             @id @default(autoincrement())
     name        String          @db.VarChar(255)
-    description String?         @db.VarChar(255)
+    description String?         @db.Text
+    img         String?         @db.VarChar(255)
     price       Decimal         @default(0)
     occurence   price_occurence @default(MONTHLY)
     created_at  DateTime        @default(now()) @db.DateTime(6)
@@ -370,4 +356,15 @@ enum order_subscription {
     CONTRIBUTOR
     ADHERENT
     PREMIUM_ADHERENT
+}
+
+enum player_type {
+    PLAYER
+    COACH
+    MANAGER
+    STAFF
+    SUB
+    COACH_SUB
+    MANAGER_SUB
+    STAFF_SUB
 }

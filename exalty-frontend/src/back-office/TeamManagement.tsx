@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import BasicManagement from "./BasicManagement";
 import "./TeamManagement.css";
 import axios from "axios";
-import { DialogMsg, game, player } from "../Models";
+import { DialogMsg, game, player, player_type } from "../Models";
 import { handleUpload, imageUpload } from "../ImageUpload";
 import { CircularProgress } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -367,6 +367,7 @@ function TeamManagement() {
                         "Nom du joueur",
                         "Role du joueur",
                         "player.png",
+                        player_type.PLAYER,
                         1
                       ),
                       ...players,

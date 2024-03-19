@@ -86,3 +86,42 @@
   padding: 0.7em;
   z-index: 100;
 }
+
+@media screen and (max-width: 800px) {
+  .BasicComponent {
+    padding-top: 6em;
+  }
+  .BasicComponent .content {
+    width: 100%;
+  }
+  .BasicComponent .title {
+    font-size: 2.5rem;
+  }
+  .BasicComponent .desc {
+    font-size: 1.3rem;
+    text-align: center;
+  }
+  .BasicComponent .desc_2 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  .BasicComponent .content input {
+    padding: 0.7em;
+    font-size: 0.9rem;
+  }
+  .BasicComponent .content textarea {
+    padding: 0.7em;
+    font-size: 0.9rem;
+  }
+  .BasicComponent .content .btn {
+    font-size: 1rem;
+    padding: 0.8em;
+  }
+  .back_to_top {
+    bottom: 2em;
+    right: 2em;
+  }
+  .jersey-name {
+    padding-left: 0.5em;
+  }
+}

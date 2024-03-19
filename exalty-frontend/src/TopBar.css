@@ -24,6 +24,13 @@
   font-size: 1.2rem;
 }
 
+.Topbar .fidelity_point {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
 .TopBar a:hover {
   cursor: pointer;
   color: #bbb76e;
@@ -62,7 +69,7 @@
   flex-direction: column;
   position: absolute;
   z-index: 1;
-  transform: translateX(-70%);
+  transform: translateX(-50%);
 }
 
 .dropdown-menu-inverted a {
@@ -83,6 +90,23 @@
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
+}
+
+.cart-display-content a {
+  display: flex;
+  align-items: center;
+}
+
+.cart-display-length {
+  background-color: red;
+  display: flex;
+  font-size: 0.7em;
+  border-radius: 10em;
+  width: 1.5em;
+  height: 1.5em;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 
 .nav-item {
@@ -136,6 +160,7 @@
 
 .menu-mobile {
   display: none;
+  overflow-y: scroll;
   width: 100%;
 }
 

@@ -10,6 +10,7 @@ import sponsorRouter from "./sponsor";
 import productRouter from "./product";
 import mailRouter from "./mail";
 import shopRouter from "./shop";
+import stripeRouter from "./stripe";
 import uploadImageRouter from "./upload-image";
 
 export function buildRoutes(app: express.Express) {
@@ -24,6 +25,7 @@ export function buildRoutes(app: express.Express) {
   app.use("/product", productRouter);
   app.use("/mail", mailRouter);
   app.use("/shop", shopRouter);
+  app.use("/stripe", stripeRouter);
   app.use("/upload-image", uploadImageRouter);
 }
 

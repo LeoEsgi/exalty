@@ -5,9 +5,7 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  background-color: black;
   color: white;
-  padding-top: 10em;
 }
 
 .Team .team-list {
@@ -117,6 +115,16 @@
   to {
     transform: rotate(0deg) scale(20);
     opacity: 0.5;
+  }
+}
+
+@media screen and (max-width: 1500px) {
+  .Team .team-list {
+    flex-direction: column;
+  }
+  .losange {
+    width: 12em;
+    height: 12em;
   }
 }
 

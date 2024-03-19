@@ -57,7 +57,7 @@ class ShopService {
                         user_id,
                     },
                 });
-                return yield prisma.cart_content.create({
+                yield prisma.cart_content.create({
                     data: {
                         card_id: cart.id,
                         product_id: product.id,
@@ -67,29 +67,45 @@ class ShopService {
                     },
                 });
             }
-            const cartContent = yield prisma.cart_content.findFirst({
-                where: {
-                    card_id: cart.id,
-                    product_id: product.id,
-                },
-            });
-            if (cartContent) {
-                return yield prisma.cart_content.update({
+            else {
+                const cartContent = yield prisma.cart_content.findFirst({
                     where: {
-                        id: cartContent.id,
-                    },
-                    data: {
-                        quantity: cartContent.quantity + quantity,
+                        card_id: cart.id,
+                        product_id: product.id,
                     },
                 });
+                if (cartContent) {
+                    yield prisma.cart_content.update({
+                        where: {
+                            id: cartContent.id,
+                        },
+                        data: {
+                            quantity: cartContent.quantity + quantity,
+                        },
+                    });
+                }
+                else {
+                    yield prisma.cart_content.create({
+                        data: {
+                            card_id: cart.id,
+                            product_id: product.id,
+                            quantity: quantity,
+                            size: size,
+                            flocking: flocking,
+                        },
+                    });
+                }
             }
-            return yield prisma.cart_content.create({
-                data: {
-                    card_id: cart.id,
-                    product_id: product.id,
-                    quantity: quantity,
-                    size: size,
-                    flocking: flocking,
+            return yield prisma.cart.findFirst({
+                where: {
+                    user_id,
+                },
+                include: {
+                    cart_content: {
+                        include: {
+                            product: true,
+                        },
+                    },
                 },
             });
         });
@@ -99,6 +115,30 @@ class ShopService {
             const c = yield prisma.cart_content.delete({
                 where: {
                     id,
+                },
+            });
+            return yield prisma.cart.findFirst({
+                where: {
+                    user_id: c.card_id,
+                },
+                include: {
+                    cart_content: {
+                        include: {
+                            product: true,
+                        },
+                    },
+                },
+            });
+        });
+    }
+    update_cart_content(id, quantity) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const c = yield prisma.cart_content.update({
+                where: {
+                    id,
+                },
+                data: {
+                    quantity,
                 },
             });
             console.log(c);
@@ -141,10 +181,32 @@ class ShopService {
             });
         });
     }
-    createOrder(orderData) {
+    createOrder(price_ht, price_ttc, paid_price_ht, paid_price_ttc, user_id, billing_address_id, shipping_address_id, discount) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield prisma.order.create({
-                data: orderData,
+                data: {
+                    price_ht,
+                    price_ttc,
+                    paid_price_ht,
+                    paid_price_ttc,
+                    user_id,
+                    billing_address_id,
+                    shipping_address_id,
+                    discount,
+                    payment_status: "PAID",
+                    status: "VALIDATED",
+                },
+            });
+        });
+    }
+    createOrderContent(quantity, product_id, order_id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield prisma.order_content.create({
+                data: {
+                    quantity,
+                    product_id,
+                    order_id,
+                },
             });
         });
     }

@@ -54,7 +54,6 @@ function HomePage() {
     }
   };
 
-  window.addEventListener("scroll", handleScrollDown);
   const getMatches = async () => {
     const response = await axios
       .get("http://localhost:5000/match/")
@@ -92,6 +91,12 @@ function HomePage() {
     };
 
     fetchMatches();
+  }, []);
+  useEffect(() => {
+    window.addEventListener("scroll", handleScrollDown);
+    return () => {
+      window.removeEventListener("scroll", handleScrollDown);
+    };
   }, []);
   return (
     <>
@@ -162,14 +167,14 @@ function HomePage() {
         </div>
       </div>
       <div
-        className="jersey"
+        className="shop-home"
         style={{
           backgroundImage: `url(${jersey})`,
           height: "100vh",
           backgroundSize: "cover",
         }}
       >
-        <div className="jersey-content">
+        <div className="shop-home-content">
           <div className="discover">Decouvrez notre nouveau maillot</div>
           <Link to="/shop" className="btn">
             VOIR LA BOUTIQUE

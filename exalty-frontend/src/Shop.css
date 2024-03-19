@@ -1,14 +1,12 @@
 .Shop {
   background-color: black;
   color: white;
-  padding: 5em;
-  padding-top: 10em;
   height: auto;
+  justify-content: center;
 }
 
 .Shop .jersey {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   height: 50vh;
   margin-top: 25em;
@@ -52,9 +50,14 @@
   align-items: center;
 }
 
+.product-pres-title {
+  font-size: 1.8rem;
+}
+
 .item-product {
   display: flex;
   align-items: center;
+  flex-direction: column;
   justify-content: center;
   width: 24rem;
   height: 28rem;
@@ -117,65 +120,13 @@
 }
 
 @media screen and (max-width: 1400px) {
-  .jersey img {
-    width: 25rem;
-  }
-  .jersey-price {
-    font-size: 3em;
-  }
-  .jersey-size select {
-    width: 7em;
-  }
-  .jersey-tag select {
-    width: 7em;
-  }
-  .jersey-size input {
-    width: 7em;
-  }
-  .jersey-tag input {
-    width: 7em;
-  }
-  .jersey-infos select {
-    width: 7em;
-  }
-  .jersey-infos input {
-    width: 7em;
-  }
 }
 
 @media screen and (max-width: 800px) {
-  .Shop .jersey {
+  .item-list-product {
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
   }
-  .Shop .jersey > div {
-    display: flex;
+  .jersey {
     flex-direction: column;
-    justify-content: center;
-  }
-  .Shop .jersey img {
-    width: 20rem;
-  }
-  .Shop .jersey-price {
-    font-size: 2em;
-  }
-  .Shop .jersey-size select {
-    width: 5em;
-  }
-  .Shop .jersey-tag select {
-    width: 5em;
-  }
-  .Shop .jersey-size input {
-    width: 5em;
-  }
-  .Shop .jersey-tag input {
-    width: 5em;
-  }
-  .Shop .jersey-infos select {
-    width: 5em;
-  }
-  .Shop .jersey-infos input {
-    width: 5em;
   }
 }

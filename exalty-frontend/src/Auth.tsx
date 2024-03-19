@@ -44,7 +44,6 @@ function Auth() {
   const connectUser = async () => {
     setLoading(true);
 
-    // recupere les valeurs des inputs
     const email = document.querySelector<HTMLInputElement>(
       "input[name='Email']"
     )?.value;
@@ -113,7 +112,7 @@ function Auth() {
               </button>
             )}
             <div className="create">
-              Vous n'avez pas de compte ?{" "}
+              Vous n'avez pas de compte ?
               <Link to="/register">Creer votre compte</Link>
             </div>
           </div>

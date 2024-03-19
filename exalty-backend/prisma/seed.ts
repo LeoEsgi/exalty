@@ -149,20 +149,38 @@ async function main() {
       name: "Cotisant",
       price: 4.99,
       occurence: price_occurence.MONTHLY,
+      img: "cotisant.png",
+      description:
+        "Carte membre  Carte membre Adhérent officiel Exalty/nPrésence AG  Droit de présence à l'Assemblé Générale Exalty (annuel)/nAffichage site  Affichage du pseudo de l'Adhérent sur le site onglet Nos Membres/nAssurance Exalty  Bénéficier de l'assurance du club/nRéduction  -20% sur le maillot/nPromotions  Des promotions sur le merch/sponsors/nSoirée Gaming  Possibilité d'être invité aux soirée gaming Exalty/nGiveaway  Accès a un channel Adhérent réservé aux giveaway",
     },
     create: {
       name: "Cotisant",
       price: 4.99,
+      img: "cotisant.png",
       occurence: price_occurence.MONTHLY,
+      description:
+        "Carte membre  Carte membre Adhérent officiel Exalty/nPrésence AG  Droit de présence à l'Assemblé Générale Exalty (annuel)/nAffichage site  Affichage du pseudo de l'Adhérent sur le site onglet Nos Membres/nAssurance Exalty  Bénéficier de l'assurance du club/nRéduction  -20% sur le maillot/nPromotions  Des promotions sur le merch/sponsors/nSoirée Gaming  Possibilité d'être invité aux soirée gaming Exalty/nGiveaway  Accès a un channel Adhérent réservé aux giveaway",
     },
   });
 
   await prisma.membership.upsert({
     where: { id: 2 },
-    update: { name: "Adherant", price: 50, occurence: price_occurence.YEARLY },
+    update: {
+      name: "Adherant",
+      price: 50,
+      occurence: price_occurence.YEARLY,
+      description:
+        "Carte membre  Carte membre Adhérent officiel Exalty/nPrésence AG  Droit de présence à l'Assemblé Générale Exalty (annuel)/nAffichage site  Affichage du pseudo de l'Adhérent sur le site onglet Nos Membres/nAssurance Exalty  Bénéficier de l'assurance du club/nRéduction  -20% sur le maillot/nPromotions  Des promotions sur le merch/sponsors/nSoirée Gaming  Possibilité d'être invité aux soirée gaming Exalty/nGiveaway  Accès a un channel Adhérent réservé aux giveaway",
+
+      img: "adherent.png",
+    },
     create: {
       name: "Adherant",
       price: 50,
+      img: "adherent.png",
+      description:
+        "Carte membre  Carte membre Adhérent officiel Exalty/nPrésence AG  Droit de présence à l'Assemblé Générale Exalty (annuel)/nAffichage site  Affichage du pseudo de l'Adhérent sur le site onglet Nos Membres/nAssurance Exalty  Bénéficier de l'assurance du club/nRéduction  -20% sur le maillot/nPromotions  Des promotions sur le merch/sponsors/nSoirée Gaming  Possibilité d'être invité aux soirée gaming Exalty/nGiveaway  Accès a un channel Adhérent réservé aux giveaway",
+
       occurence: price_occurence.YEARLY,
     },
   });
@@ -172,11 +190,19 @@ async function main() {
     update: {
       name: "Adherant Premium",
       price: 100,
+      img: "premium.png",
+      description:
+        "Carte membre  Carte membre Adhérent officiel Exalty/nPrésence AG  Droit de présence à l'Assemblé Générale Exalty (annuel)/nAffichage site  Affichage du pseudo de l'Adhérent sur le site onglet Nos Membres/nAssurance Exalty  Bénéficier de l'assurance du club/nRéduction  -20% sur le maillot/nPromotions  Des promotions sur le merch/sponsors/nSoirée Gaming  Possibilité d'être invité aux soirée gaming Exalty/nGiveaway  Accès a un channel Adhérent réservé aux giveaway/nRéduction  -15% sur un article de la boutique/nCadeau  Tee shirt Exalty/nCadeau  Casquette Exalty/nVote AG  Droit de vote à l'AG si benevole/nRéunion  Réu mensuel de partage des news du club",
+
       occurence: price_occurence.YEARLY,
     },
     create: {
       name: "Adherant Premium",
       price: 100,
+      img: "premium.png",
+      description:
+        "Carte membre  Carte membre Adhérent officiel Exalty/nPrésence AG  Droit de présence à l'Assemblé Générale Exalty (annuel)/nAffichage site  Affichage du pseudo de l'Adhérent sur le site onglet Nos Membres/nAssurance Exalty  Bénéficier de l'assurance du club/nRéduction  -20% sur le maillot/nPromotions  Des promotions sur le merch/sponsors/nSoirée Gaming  Possibilité d'être invité aux soirée gaming Exalty/nGiveaway  Accès a un channel Adhérent réservé aux giveaway/nRéduction  -15% sur un article de la boutique/nCadeau  Tee shirt Exalty/nCadeau  Casquette Exalty/nVote AG  Droit de vote à l'AG si benevole/nRéunion  Réu mensuel de partage des news du club",
+
       occurence: price_occurence.YEARLY,
     },
   });

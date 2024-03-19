@@ -2,7 +2,7 @@ import TopBar from "./TopBar";
 import flower from "./asset/flower.svg";
 import "./TeamInfo.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { game, player } from "./Models";
+import { game, player, player_type } from "./Models";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import BottomBar from "./BottomBar";
@@ -12,7 +12,7 @@ function TeamInfo() {
   const [game, setGame] = useState<game>({} as game);
   const [players, setPlayers] = useState<player[]>([]);
   const navigate = useNavigate();
-
+  const types = Object.values(player_type);
   const queryParams = new URLSearchParams(location.search);
   const gameId = queryParams.get("game");
 
@@ -54,18 +54,27 @@ function TeamInfo() {
           <div className="team-desc1">{game.title}</div>
           <div className="team-desc2">{game.desc}</div>
         </div>
-        <div className="team-list">
-          {players.length > 0 &&
-            players.map((player) => (
-              <div className="player">
-                <img
-                  src={"http://localhost:5000/uploads/player/" + player.img}
-                  alt={player.name}
-                ></img>
-                <div className="player-role">{player.role}</div>
-              </div>
-            ))}
-        </div>
+
+        {types.map((type, index) => (
+          <div key={index} className="team-type">
+            <div className="team-list">
+              {players.length > 0 &&
+                players
+                  .filter((player) => player.type === type)
+                  .map((player) => (
+                    <div className="player">
+                      <img
+                        src={
+                          "http://localhost:5000/uploads/player/" + player.img
+                        }
+                        alt={player.name}
+                      ></img>
+                      <div className="player-role">{player.role}</div>
+                    </div>
+                  ))}
+            </div>
+          </div>
+        ))}
       </div>
       <BottomBar />
     </>

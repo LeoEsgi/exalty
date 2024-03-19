@@ -11,7 +11,9 @@ import BasicComponent from "./BasicComponent";
 
 function Recruitment() {
   const [show, setShow] = useState<recruitement_category>();
-  const [showSub, setShowSub] = useState<recruitement_sub_category | null>();
+  const [showSub, setShowSub] = useState<recruitement_sub_category | null>(
+    null
+  );
   const [categories, setCategories] = useState<recruitement_category[]>();
   const [sub_categories, setSubCategories] =
     useState<recruitement_sub_category[]>();
@@ -59,8 +61,9 @@ function Recruitment() {
 
   const handleChangeSub = (id: number) => {
     const value = sub_categories?.find((sub) => sub.id === id);
-    if (value?.id !== showSub?.id) setShowSub(value);
-    else setShowSub(null);
+    if (value?.id !== showSub?.id) {
+      if (value) setShowSub(value);
+    } else setShowSub(null);
   };
 
   const handleInfoClick = (id: number) => {
@@ -88,7 +91,7 @@ function Recruitment() {
         const sub_categories = await getSubCategories(categories[0].id);
         if (Array.isArray(sub_categories) && sub_categories.length > 0) {
           setSubCategories(sub_categories);
-          setShowSub(sub_categories[0]);
+
           const recruitements = await getRecruitements();
           if (Array.isArray(recruitements) && recruitements.length > 0) {
             setRecruitements(recruitements);
@@ -132,10 +135,11 @@ function Recruitment() {
             </div>
             <div className="sub-categories-selector">
               <div className="sub-categories-selector-select">
-                {sub_categories?.map((sub_category) => (
+                {sub_categories?.map((sub_category, index) => (
                   <div
                     onClick={() => handleChangeSub(sub_category.id)}
                     className={showSub?.id === sub_category.id ? "active" : ""}
+                    key={index}
                   >
                     {sub_category.name}
                   </div>
@@ -149,8 +153,8 @@ function Recruitment() {
               {sub_categories
                 ?.filter((sub_category) => sub_category.id === showSub?.id)
 
-                .map((sub_category) => (
-                  <div className="categorie">
+                .map((sub_category, index) => (
+                  <div className="categorie" key={index}>
                     <div className="categorie-title">{sub_category.name}</div>
                     <div className="functions">
                       {recruitements

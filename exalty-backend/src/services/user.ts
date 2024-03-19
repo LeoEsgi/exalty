@@ -71,4 +71,18 @@ export default class UserService {
       },
     });
   }
+
+  public async updatePoints(
+    id: number,
+    fidelity_points: number
+  ): Promise<user> {
+    return await prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        fidelity_points,
+      },
+    });
+  }
 }

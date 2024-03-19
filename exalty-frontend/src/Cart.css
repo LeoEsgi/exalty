@@ -111,3 +111,10 @@
 .dropdown-list-item:hover {
   background-color: #ffffff15;
 }
+
+.cart-pay-valid {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}

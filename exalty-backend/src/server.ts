@@ -42,6 +42,11 @@ app.use(
   "/uploads/match",
   express.static(path.join(__dirname, "public/uploads/match"))
 );
+
+app.use(
+  "/uploads/membership",
+  express.static(path.join(__dirname, "public/uploads/membership"))
+);
 const port = process.env.API_PORT;
 const server = http.createServer(app);
 routePlugin().configureRoute(app);

@@ -44,6 +44,12 @@ router.delete("/cart/:id", (req, res) => __awaiter(void 0, void 0, void 0, funct
     const cart = yield shop_1.default.getInstance().delete_cart_content(id);
     res.json(cart);
 }));
+router.put("/cart/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = parseInt(req.params.id);
+    const { quantity } = req.body;
+    const cart = yield shop_1.default.getInstance().update_cart_content(id, quantity);
+    res.json(cart);
+}));
 router.get("/cart/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = parseInt(req.params.id);
     const cart = yield shop_1.default.getInstance().getCartById(id);
@@ -54,8 +60,16 @@ router.get("/cart/user/:userId", (req, res) => __awaiter(void 0, void 0, void 0,
     const cart = yield shop_1.default.getInstance().getCartByUserId(userId);
     res.json(cart);
 }));
-router.post("/order", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const order = yield shop_1.default.getInstance().createOrder(req.body);
+router.post("/order/:userId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = parseInt(req.params.userId);
+    const { price_ht, price_ttc, paid_price_ht, paid_price_ttc, billing_address_id, shipping_address_id, discount, } = req.body;
+    const order = yield shop_1.default.getInstance().createOrder(price_ht, price_ttc, paid_price_ht, paid_price_ttc, userId, billing_address_id, shipping_address_id, discount);
+    res.json(order);
+}));
+router.post("/order/content/:order_id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const order_id = parseInt(req.params.order_id);
+    const { product_id, quantity } = req.body;
+    const order = yield shop_1.default.getInstance().createOrderContent(quantity, product_id, order_id);
     res.json(order);
 }));
 router.get("/order/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {

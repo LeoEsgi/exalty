@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { user } from "./Models";
+import { user, cart } from "./Models";
 
 const AuthContext = createContext({
   isAuthenticated: false,
@@ -9,6 +9,9 @@ const AuthContext = createContext({
   logout: () => {},
   isLoading: true,
   user: {} as user,
+  cart: {} as cart,
+  setCart: (cart: cart) => {},
+  setUser: (user: user) => {},
 });
 
 export const useAuth = () => useContext(AuthContext);
@@ -20,6 +23,7 @@ export const AuthProvider: React.FC<{ element: React.ReactNode }> = ({
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState({} as user);
+  const [cart, setCart] = useState({} as cart);
 
   useEffect(() => {
     verifyAuthentication();
@@ -47,6 +51,8 @@ export const AuthProvider: React.FC<{ element: React.ReactNode }> = ({
       const user: user = response!.data;
       setIsAdmin(user.role_id === 2);
       setUser(user);
+      const loadedCart = await getCart(user.id);
+      setCart(loadedCart);
     } catch (error) {
       console.error("Failed to check admin status", error);
       setIsAdmin(false);
@@ -63,6 +69,7 @@ export const AuthProvider: React.FC<{ element: React.ReactNode }> = ({
         });
       const isAuthenticated = response!.data.isAuthenticated;
       setIsAuthenticated(isAuthenticated);
+
       if (isAuthenticated) {
         await checkAdmin();
       }
@@ -74,9 +81,29 @@ export const AuthProvider: React.FC<{ element: React.ReactNode }> = ({
     }
   };
 
+  const getCart = async (user_id: number) => {
+    const response = await axios
+      .get("http://localhost:5000/shop/cart/user/" + user_id)
+      .catch((err) => {
+        console.error("Error fetching cart:", err);
+        return { data: [] };
+      });
+    return response.data as cart;
+  };
+
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, isAdmin, login, logout, isLoading, user }}
+      value={{
+        isAuthenticated,
+        isAdmin,
+        login,
+        logout,
+        isLoading,
+        user,
+        cart,
+        setCart,
+        setUser,
+      }}
     >
       {!isLoading ? element : <div>Loading...</div>}
     </AuthContext.Provider>

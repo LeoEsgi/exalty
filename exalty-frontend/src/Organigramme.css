@@ -1,3 +1,7 @@
+.Organigramme {
+  justify-content: center;
+}
+
 .organigramme-schema {
   display: flex;
   flex-direction: column;

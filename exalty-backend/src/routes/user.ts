@@ -26,7 +26,18 @@ router.get("/role/:role_id", async (req, res) => {
 router.put("/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   const deleted = req.body.deleted;
+  console.log(req.body);
   const user = await UserService.getInstance().update(id, req.body, deleted);
+  res.json(user);
+});
+router.put("/update_point/:id", async (req, res) => {
+  const id = parseInt(req.params.id);
+  const { fidelity_points } = req.body;
+
+  const user = await UserService.getInstance().updatePoints(
+    id,
+    fidelity_points
+  );
   res.json(user);
 });
 

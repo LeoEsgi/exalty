@@ -20,8 +20,7 @@ function Shop() {
   const [products, setProducts] = useState<product[]>([]);
   const productRefs = useRef<Array<React.RefObject<HTMLDivElement>>>([]);
   const [productFocus, setProductFocus] = useState<product>();
-  const { isAuthenticated, user } = useAuth();
-  const [cart, setCart] = useState<cart>();
+  const { isAuthenticated, user, setCart } = useAuth();
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -71,23 +70,14 @@ function Shop() {
         return { data: [] };
       });
     setOpen(true);
-    return response.data;
+    const cart = response.data as cart;
+    setCart(cart);
   };
 
   const handleChange = (event: {
     target: { value: SetStateAction<string> };
   }) => {
     setSize(event.target.value);
-  };
-
-  const getCart = async () => {
-    const response = await axios
-      .get("http://localhost:5000/shop/cart/")
-      .catch((err) => {
-        console.error("Error fetching cart:", err);
-        return { data: [] };
-      });
-    return response.data as cart;
   };
 
   useEffect(() => {
@@ -101,9 +91,6 @@ function Shop() {
       } else {
         console.error("Expected an array of products, but got:", products);
       }
-
-      const cart = await getCart();
-      setCart(cart);
     };
 
     fetchProducts();
@@ -140,6 +127,7 @@ function Shop() {
                   src={"http://localhost:5000/uploads/product/" + product.img}
                   alt={product.img}
                 ></img>
+                <div className="product-pres-title">{product.name}</div>
               </div>
             ))}
           </div>

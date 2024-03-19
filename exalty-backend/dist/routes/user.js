@@ -35,7 +35,14 @@ router.get("/role/:role_id", (req, res) => __awaiter(void 0, void 0, void 0, fun
 router.put("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = parseInt(req.params.id);
     const deleted = req.body.deleted;
+    console.log(req.body);
     const user = yield user_1.default.getInstance().update(id, req.body, deleted);
+    res.json(user);
+}));
+router.put("/update_point/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = parseInt(req.params.id);
+    const { fidelity_points } = req.body;
+    const user = yield user_1.default.getInstance().updatePoints(id, fidelity_points);
     res.json(user);
 }));
 router.post("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {

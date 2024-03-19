@@ -1,14 +1,13 @@
 .Member {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
   justify-content: center;
-  width: 100%;
-  height: 100%;
-  background-color: black;
-  color: white;
-  padding-top: 10em;
-  flex-wrap: wrap;
+  width: 100% !important;
+  height: 100% !important;
+  background-color: black !important;
+  color: white !important;
+  padding-top: 10em !important;
 }
 
 .Member .btn {
@@ -20,6 +19,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
 }
 
 .card {
@@ -30,30 +30,17 @@
   justify-content: space-between;
   border: solid 1px #928f57;
   padding: 1rem;
-  padding-top: 3em;
-  padding-bottom: 3em;
+  padding-top: 8.5em;
+  padding-bottom: 8.5em;
   border-radius: 3em;
   flex-wrap: wrap;
   flex-basis: 48%;
   margin-bottom: 2em;
 }
 
-.card-1 {
-  background-color: #25108462;
-}
-
-.card-2 {
-  background-color: #17121960;
-  margin-left: 2em;
-}
-
-.card-3 {
-  background-color: #13084346;
-}
-
 .card-title {
-  font-size: 1.5rem;
-  margin-bottom: 1em;
+  font-size: 2.1rem;
+  text-align: center;
 }
 
 .card:hover {
@@ -65,11 +52,25 @@
   color: white;
 }
 
+@media screen and (max-width: 1400px) {
+  .card {
+    padding-top: 7em;
+    padding-bottom: 7em;
+  }
+  .card-title {
+    font-size: 2em;
+  }
+  .card a {
+    font-size: 0.8em;
+  }
+}
+
 @media screen and (max-width: 800px) {
   .card {
     font-size: 1.1em;
-    margin: 1.5em;
-    padding: 1.5em;
+    flex-basis: 100%;
+    padding-top: 6.5em;
+    padding-bottom: 6.5em;
   }
   .card-title {
     font-size: 1.5em;
