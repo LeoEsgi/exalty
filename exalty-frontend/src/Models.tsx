@@ -24,7 +24,8 @@ export class user {
     public fidelity_points: number,
     public role_id: number,
     public order: order[],
-    public adress: address[],
+    public role: role,
+    public address: address[],
     public membership_id: number,
     public deleted?: boolean
   ) {}
@@ -43,9 +44,10 @@ export class order {
     public created_at: Date,
     public updated_at: Date,
     public user_id: number,
-    public billing_address_id: number,
-    public shipping_address_id: number,
-    public order_content: order_content[]
+    public billing_address: address,
+    public shipping_address: address,
+    public order_content: order_content[],
+    public deleted?: boolean
   ) {}
 }
 
@@ -57,6 +59,8 @@ export class order_content {
     public product: product,
     public created_at: Date,
     public updated_at: Date,
+    public flocking: order_content_flocking[],
+    public size: order_content_size[],
     public deleted_at: Date | null,
     public order_id: number | null,
     public order: order | null
@@ -139,8 +143,8 @@ export class cart_content {
   constructor(
     public id: number,
     public quantity: number,
-    public flocking: string | null,
-    public size: cart_line_size | null,
+    public flocking: cart_content_flocking[],
+    public size: cart_content_size[],
     public created_at: Date,
     public updated_at: Date,
     public product: product,
@@ -148,6 +152,42 @@ export class cart_content {
     public offer_id: number | null,
     public offer: offer | null,
     public cart: cart | null
+  ) {}
+}
+
+export class cart_content_size {
+  constructor(
+    public id: number,
+    public size: string,
+    public cart_content_id: number,
+    public cart_content: cart_content
+  ) {}
+}
+
+export class cart_content_flocking {
+  constructor(
+    public id: number,
+    public value: string,
+    public cart_content_id: number,
+    public cart_content: cart_content
+  ) {}
+}
+
+export class order_content_size {
+  constructor(
+    public id: number,
+    public size: string,
+    public order_content_id: number,
+    public order_content: cart_content
+  ) {}
+}
+
+export class order_content_flocking {
+  constructor(
+    public id: number,
+    public value: string,
+    public order_content_id: number,
+    public order_content: cart_content
   ) {}
 }
 
@@ -349,10 +389,10 @@ export enum payment_status {
   WAITING = "WAITING",
   PROCESSING = "PROCESSING",
   BLOCKED_FUNDS = "BLOCKED_FUNDS",
-  PAID = "PAID",
-  CANCELED = "CANCELED",
+  PAID = "Payee",
+  CANCELED = "Annulee",
   FAILED = "FAILED",
-  REFUNDED = "REFUNDED",
+  REFUNDED = "Remboursee",
   REFUND_PENDING = "REFUND_PENDING",
   PARTIALLY_REFUNDED = "PARTIALLY_REFUNDED",
   REFUND_FAILED = "REFUND_FAILED",
@@ -389,27 +429,27 @@ export enum order_line_size {
 }
 
 export enum order_payment_status {
-  NONE = "NONE",
-  AWAITING = "AWAITING",
-  PARTIALLY = "PARTIALLY",
-  PAID = "PAID",
-  TO_BE_REFUNDED = "TO_BE_REFUNDED",
-  POOLED = "POOLED",
-  PAYMENT_FAILED = "PAYMENT_FAILED",
-  REFUNDED = "REFUNDED",
+  NONE = "Aucun",
+  AWAITING = "En Attente",
+  PARTIALLY = "Partiellement",
+  PAID = "Payee",
+  TO_BE_REFUNDED = "a rembourser",
+  POOLED = "Regroupee",
+  PAYMENT_FAILED = "Echec de paiement",
+  REFUNDED = "Remboursee",
 }
 
 export enum order_status {
-  IN_PROGRESS = "IN_PROGRESS",
-  CANCELLED = "CANCELLED",
-  VALIDATED = "VALIDATED",
-  SHIPPED = "Livré",
+  IN_PROGRESS = "En cours",
+  CANCELLED = "Annulee",
+  VALIDATED = "Validee",
+  SHIPPED = "Livree",
 }
 
 export enum order_subscription {
-  CONTRIBUTOR = "CONTRIBUTOR",
-  ADHERENT = "ADHERENT",
-  PREMIUM_ADHERENT = "PREMIUM_ADHERENT",
+  CONTRIBUTOR = "Contributeur",
+  ADHERENT = "Adherent",
+  PREMIUM_ADHERENT = "Adherent Premium",
 }
 
 export enum player_type {
@@ -434,7 +474,9 @@ export class event {
     public end_date: Date,
     public created_at: Date,
     public updated_at: Date,
-    public deleted_at: Date | null
+    public deleted_at: Date | null,
+    public new_img?: File,
+    public deleted?: boolean
   ) {}
 }
 

@@ -31,6 +31,10 @@
   justify-content: center;
 }
 
+.Topbar .fidelity_point svg {
+  margin-left: 0.2em;
+}
+
 .TopBar a:hover {
   cursor: pointer;
   color: #bbb76e;
@@ -69,7 +73,8 @@
   flex-direction: column;
   position: absolute;
   z-index: 1;
-  transform: translateX(-50%);
+  padding-top: 0.7em;
+  transform: translateX(-40%);
 }
 
 .dropdown-menu-inverted a {

@@ -119,36 +119,40 @@ export default function NewsLetter() {
       title="Gestion de la Newsletter"
       content={
         <>
-          <button onClick={selectAllUsers}>
-            Sélectionner tous les utilisateurs
-          </button>
-          {Array.from(new Set(users.map((user) => user.role_id))).map(
-            (roleId) => (
-              <button key={roleId} onClick={() => selectUsersByRole(roleId)}>
-                Sélectionner Rôle {roleId}
-              </button>
-            )
-          )}
+          <select className="select-users">
+            <option onClick={selectAllUsers} value="0">
+              Tous les utilisateurs
+            </option>
+            {Array.from(new Set(users.map((user) => user.role))).map((role) => (
+              <option
+                key={role.id}
+                onClick={() => selectUsersByRole(role.id)}
+                value={role.id}
+              >
+                Rôle {role.name}
+              </option>
+            ))}
+            {Array.from(
+              new Set(
+                users
+                  .filter((user) => user.membership_id)
+                  .map((user) => user.membership_id)
+              )
+            ).map((membership_id) => (
+              <option
+                key={membership_id}
+                onClick={() => selectUsersByRole(membership_id)}
+                value={membership_id}
+              >
+                {memberShips &&
+                  memberShips.find(
+                    (membership) => membership.id === membership_id
+                  )?.name}
+                s
+              </option>
+            ))}
+          </select>
 
-          {Array.from(
-            new Set(
-              users
-                .filter((user) => user.membership_id)
-                .map((user) => user.membership_id)
-            )
-          ).map((membership_id) => (
-            <button
-              key={membership_id}
-              onClick={() => selectUsersByRole(membership_id)}
-            >
-              Sélectionner{" "}
-              {memberShips &&
-                memberShips.find(
-                  (membership) => membership.id === membership_id
-                )?.name}
-              s
-            </button>
-          ))}
           <select
             multiple
             value={selectedUserEmails}

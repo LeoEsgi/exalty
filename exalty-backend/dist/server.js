@@ -49,6 +49,7 @@ app.use("/uploads/player", express_1.default.static(path_1.default.join(__dirnam
 app.use("/uploads/sponsor", express_1.default.static(path_1.default.join(__dirname, "public/uploads/sponsor")));
 app.use("/uploads/product", express_1.default.static(path_1.default.join(__dirname, "public/uploads/product")));
 app.use("/uploads/match", express_1.default.static(path_1.default.join(__dirname, "public/uploads/match")));
+app.use("/uploads/event", express_1.default.static(path_1.default.join(__dirname, "public/uploads/event")));
 app.use("/uploads/membership", express_1.default.static(path_1.default.join(__dirname, "public/uploads/membership")));
 const port = process.env.API_PORT;
 const server = http.createServer(app);

@@ -61,6 +61,17 @@ router.post("/match", multerConfig_1.upload_match.single("image"), (req, res) =>
         res.status(400).send("No image uploaded");
     }
 });
+router.post("/event", multerConfig_1.upload_event.single("image"), (req, res) => {
+    if (req.file) {
+        res.json({
+            message: "Image uploaded successfully",
+            fileName: req.file.filename,
+        });
+    }
+    else {
+        res.status(400).send("No image uploaded");
+    }
+});
 router.post("/membership", multerConfig_1.upload_membership.single("image"), (req, res) => {
     if (req.file) {
         res.json({

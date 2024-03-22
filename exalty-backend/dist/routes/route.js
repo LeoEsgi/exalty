@@ -15,8 +15,10 @@ const sponsor_1 = __importDefault(require("./sponsor"));
 const product_1 = __importDefault(require("./product"));
 const mail_1 = __importDefault(require("./mail"));
 const shop_1 = __importDefault(require("./shop"));
+const event_1 = __importDefault(require("./event"));
 const stripe_1 = __importDefault(require("./stripe"));
 const upload_image_1 = __importDefault(require("./upload-image"));
+const prisma_1 = require("../errors/prisma");
 function buildRoutes(app) {
     app.use("/user", user_1.default);
     app.use("/auth", authentication_1.default);
@@ -29,8 +31,10 @@ function buildRoutes(app) {
     app.use("/product", product_1.default);
     app.use("/mail", mail_1.default);
     app.use("/shop", shop_1.default);
+    app.use("/event", event_1.default);
     app.use("/stripe", stripe_1.default);
     app.use("/upload-image", upload_image_1.default);
+    app.use((0, prisma_1.prismaErrorHandler)().errorHandler);
 }
 exports.buildRoutes = buildRoutes;
 function routePlugin() {

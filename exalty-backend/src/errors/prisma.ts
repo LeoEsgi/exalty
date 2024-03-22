@@ -1,3 +1,4 @@
+import { Request, Response, NextFunction } from "express";
 import {
   PrismaClientInitializationError,
   PrismaClientKnownRequestError,
@@ -10,10 +11,10 @@ export function prismaErrorHandler() {
   return {
     name: "prisma-error-handler",
     errorHandler: (
-      error: { message: any },
-      req: any,
-      res: any,
-      next: (arg0: any) => void
+      error: Error,
+      req: Request,
+      res: Response,
+      next: NextFunction
     ) => {
       if (error instanceof PrismaClientKnownRequestError) {
         switch (error.code) {
@@ -41,7 +42,6 @@ export function prismaErrorHandler() {
         res.status(500).json({
           message: error.message,
         });
-
       } else if (error instanceof PrismaClientInitializationError) {
         res.status(500).json({
           message: error.message,

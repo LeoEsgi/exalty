@@ -75,7 +75,6 @@ router.post("/order/:userId", async (req, res) => {
     shipping_address_id,
     discount,
   } = req.body;
-
   const order = await ShopService.getInstance().createOrder(
     price_ht,
     price_ttc,
@@ -89,14 +88,32 @@ router.post("/order/:userId", async (req, res) => {
   res.json(order);
 });
 
+router.put("/order/:id", async (req, res) => {
+  const id = parseInt(req.params.id);
+  const { status, payment_status } = req.body;
+  const order = await ShopService.getInstance().updateOrder(
+    id,
+    status,
+    payment_status
+  );
+  res.json(order);
+});
+
 router.post("/order/content/:order_id", async (req, res) => {
   const order_id = parseInt(req.params.order_id);
-  const { product_id, quantity } = req.body;
+  const { product_id, quantity, size, flocking } = req.body;
   const order = await ShopService.getInstance().createOrderContent(
     quantity,
     product_id,
-    order_id
+    order_id,
+    size,
+    flocking
   );
+  res.json(order);
+});
+
+router.get("/order", async (req, res) => {
+  const order = await ShopService.getInstance().getAllOrders();
   res.json(order);
 });
 

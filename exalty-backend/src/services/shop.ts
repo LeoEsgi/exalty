@@ -6,7 +6,9 @@ import {
   credit_card,
   order_content,
   product,
-  cart_line_size,
+  cart_content,
+  order_status,
+  order_payment_status,
 } from "@prisma/client";
 const prisma = new PrismaClient();
 
@@ -48,8 +50,8 @@ export default class ShopService {
     user_id: number,
     product: product,
     quantity: number,
-    size: cart_line_size,
-    flocking?: string
+    size?: string[],
+    flocking?: string[]
   ): Promise<cart | null> {
     let cart = await prisma.cart.findFirst({
       where: {
@@ -62,43 +64,16 @@ export default class ShopService {
           user_id,
         },
       });
-      await prisma.cart_content.create({
-        data: {
-          card_id: cart.id,
-          product_id: product.id,
-          quantity: quantity,
-          size: size,
-          flocking: flocking,
-        },
-      });
-    } else {
-      const cartContent = await prisma.cart_content.findFirst({
-        where: {
-          card_id: cart.id,
-          product_id: product.id,
-        },
-      });
-      if (cartContent) {
-        await prisma.cart_content.update({
-          where: {
-            id: cartContent.id,
-          },
-          data: {
-            quantity: cartContent.quantity + quantity,
-          },
-        });
-      } else {
-        await prisma.cart_content.create({
-          data: {
-            card_id: cart.id,
-            product_id: product.id,
-            quantity: quantity,
-            size: size,
-            flocking: flocking,
-          },
-        });
-      }
     }
+
+    await this.create_cart_content(
+      cart.id,
+      product.id,
+      quantity,
+      size,
+      flocking
+    );
+
     return await prisma.cart.findFirst({
       where: {
         user_id,
@@ -107,13 +82,84 @@ export default class ShopService {
         cart_content: {
           include: {
             product: true,
+            size: true,
+            flocking: true,
           },
         },
       },
     });
   }
 
+  public async create_cart_content(
+    card_id: number,
+    product_id: number,
+    quantity: number,
+    size?: string[],
+    flocking?: string[]
+  ): Promise<cart_content> {
+    const c = await prisma.cart_content.upsert({
+      where: {
+        card_id_product_id: {
+          card_id,
+          product_id,
+        },
+      },
+      create: {
+        card_id,
+        product_id,
+        quantity,
+      },
+      update: {
+        quantity: {
+          increment: quantity,
+        },
+      },
+    });
+
+    if (c) {
+      if (size && size.length > 0) {
+        await Promise.all(
+          size.map((s) =>
+            prisma.cart_content_size.create({
+              data: {
+                cart_content_id: c.id,
+                size: s,
+              },
+            })
+          )
+        );
+      }
+
+      if (flocking && flocking.length > 0) {
+        await Promise.all(
+          flocking.map((f) =>
+            prisma.cart_content_flocking.create({
+              data: {
+                cart_content_id: c.id,
+                value: f,
+              },
+            })
+          )
+        );
+      }
+    }
+
+    return c;
+  }
+
   public async delete_cart_content(id: number) {
+    await prisma.cart_content_size.deleteMany({
+      where: {
+        cart_content_id: id,
+      },
+    });
+
+    await prisma.cart_content_flocking.deleteMany({
+      where: {
+        cart_content_id: id,
+      },
+    });
+
     const c = await prisma.cart_content.delete({
       where: {
         id,
@@ -122,12 +168,14 @@ export default class ShopService {
 
     return await prisma.cart.findFirst({
       where: {
-        user_id: c.card_id,
+        id: c.card_id,
       },
       include: {
         cart_content: {
           include: {
             product: true,
+            size: true,
+            flocking: true,
           },
         },
       },
@@ -135,6 +183,16 @@ export default class ShopService {
   }
 
   public async update_cart_content(id: number, quantity: number) {
+    const cartContent = await prisma.cart_content.findFirst({
+      where: {
+        id,
+      },
+    });
+
+    if (!cartContent) {
+      return null;
+    }
+
     const c = await prisma.cart_content.update({
       where: {
         id,
@@ -144,14 +202,36 @@ export default class ShopService {
       },
     });
 
+    const diff = quantity - cartContent.quantity;
+
+    if (diff > 0) {
+      for (let i = 0; i < diff; i++) {
+        await prisma.cart_content_size.create({
+          data: {
+            cart_content_id: c.id,
+            size: "M",
+          },
+        });
+
+        await prisma.cart_content_flocking.create({
+          data: {
+            cart_content_id: c.id,
+            value: "",
+          },
+        });
+      }
+    }
+
     return await prisma.cart.findFirst({
       where: {
-        user_id: c.card_id,
+        id: c.card_id,
       },
       include: {
         cart_content: {
           include: {
             product: true,
+            size: true,
+            flocking: true,
           },
         },
       },
@@ -175,6 +255,8 @@ export default class ShopService {
         cart_content: {
           include: {
             product: true,
+            size: true,
+            flocking: true,
           },
         },
       },
@@ -207,16 +289,80 @@ export default class ShopService {
     });
   }
 
+  public async updateOrder(
+    id: number,
+    status: order_status,
+    payment_status: order_payment_status
+  ): Promise<order> {
+    return await prisma.order.update({
+      where: {
+        id,
+      },
+      data: {
+        status,
+        payment_status,
+      },
+    });
+  }
+
   public async createOrderContent(
     quantity: number,
     product_id: number,
-    order_id: number
+    order_id: number,
+    size?: string[],
+    flocking?: string[]
   ): Promise<order_content> {
-    return await prisma.order_content.create({
+    const c = await prisma.order_content.create({
       data: {
         quantity,
         product_id,
         order_id,
+      },
+    });
+
+    if (c) {
+      if (size && size.length > 0) {
+        await Promise.all(
+          size.map((s) =>
+            prisma.order_content_size.create({
+              data: {
+                order_content_id: c.id,
+                size: s,
+              },
+            })
+          )
+        );
+      }
+
+      if (flocking && flocking.length > 0) {
+        await Promise.all(
+          flocking.map((f) =>
+            prisma.order_content_flocking.create({
+              data: {
+                order_content_id: c.id,
+                value: f,
+              },
+            })
+          )
+        );
+      }
+    }
+
+    return c;
+  }
+
+  public async getAllOrders(): Promise<order[] | null> {
+    return await prisma.order.findMany({
+      include: {
+        order_content: {
+          include: {
+            product: true,
+            size: true,
+            flocking: true,
+          },
+        },
+        billing_address: true,
+        shipping_address: true,
       },
     });
   }
@@ -239,6 +385,8 @@ export default class ShopService {
             product: true,
           },
         },
+        billing_address: true,
+        shipping_address: true,
       },
     });
   }

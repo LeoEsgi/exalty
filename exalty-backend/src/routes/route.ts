@@ -10,8 +10,10 @@ import sponsorRouter from "./sponsor";
 import productRouter from "./product";
 import mailRouter from "./mail";
 import shopRouter from "./shop";
+import eventRouter from "./event";
 import stripeRouter from "./stripe";
 import uploadImageRouter from "./upload-image";
+import { prismaErrorHandler } from "../errors/prisma";
 
 export function buildRoutes(app: express.Express) {
   app.use("/user", userRouter);
@@ -25,8 +27,10 @@ export function buildRoutes(app: express.Express) {
   app.use("/product", productRouter);
   app.use("/mail", mailRouter);
   app.use("/shop", shopRouter);
+  app.use("/event", eventRouter);
   app.use("/stripe", stripeRouter);
   app.use("/upload-image", uploadImageRouter);
+  app.use(prismaErrorHandler().errorHandler);
 }
 
 export function routePlugin() {

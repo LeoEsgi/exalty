@@ -20,7 +20,7 @@ function Shop() {
   const [products, setProducts] = useState<product[]>([]);
   const productRefs = useRef<Array<React.RefObject<HTMLDivElement>>>([]);
   const [productFocus, setProductFocus] = useState<product>();
-  const { isAuthenticated, user, setCart } = useAuth();
+  const { isAuthenticated, user, cart, setCart } = useAuth();
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -50,15 +50,28 @@ function Shop() {
       "select[name='size']"
     )?.value;
 
+    const flocage = document.querySelector<HTMLSelectElement>(
+      "input[name='flocage']"
+    )?.value;
+
     if (!quantity || !size) {
       alert("Veuillez remplir tous les champs obligatoires");
       return;
     }
 
+    const sizeTab = [];
+    const flockingTab = [];
+
+    for (let i = 0; i < parseInt(quantity); i++) {
+      sizeTab.push(size);
+      flockingTab.push(flocage);
+    }
+
     const content = {
       product: product,
       quantity: parseInt(quantity),
-      size: size as cart_line_size,
+      size: sizeTab,
+      flocking: flockingTab,
     };
 
     const response = await axios
@@ -173,7 +186,8 @@ function Shop() {
                   )}
                   {product.flockingable && (
                     <div className="jersey-tag">
-                      Flocage <input placeholder="Pseudo"></input>
+                      Flocage{" "}
+                      <input name="flocage" placeholder="Pseudo"></input>
                     </div>
                   )}
                   <div className="jersey-quantity">

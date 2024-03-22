@@ -40,7 +40,7 @@ function Contact() {
             </div>
           </div>
           <div className="form">
-            <div className="contact">
+            <div className="contact-form">
               <h1>Nous contacter</h1>
               <form className="formMsg">
                 <label htmlFor="pseudo">Pseudo</label>

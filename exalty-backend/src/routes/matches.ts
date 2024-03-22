@@ -1,6 +1,5 @@
 import { PrismaClient, matches, match_status } from "@prisma/client";
 import express from "express";
-import { prismaErrorHandler } from "../errors/prisma";
 import MatchesService from "../services/matches";
 const prisma = new PrismaClient();
 const router = express.Router();

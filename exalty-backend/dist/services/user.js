@@ -25,7 +25,11 @@ class UserService {
     }
     getAll() {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield prisma.user.findMany();
+            return yield prisma.user.findMany({
+                include: {
+                    role: true,
+                },
+            });
         });
     }
     getByEmail(email) {
@@ -33,6 +37,9 @@ class UserService {
             return yield prisma.user.findFirst({
                 where: {
                     email,
+                },
+                include: {
+                    address: true,
                 },
             });
         });
@@ -42,6 +49,9 @@ class UserService {
             return yield prisma.user.findFirst({
                 where: {
                     id,
+                },
+                include: {
+                    address: true,
                 },
             });
         });
@@ -70,6 +80,9 @@ class UserService {
                 },
                 update: data,
                 create: data,
+                include: {
+                    address: true,
+                },
             });
         });
     }
@@ -95,6 +108,9 @@ class UserService {
                 },
                 data: {
                     fidelity_points,
+                },
+                include: {
+                    address: true,
                 },
             });
         });

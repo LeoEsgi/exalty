@@ -8,4 +8,6 @@ RUN npm install
 
 RUN npx prisma generate
 
-CMD npm run aio
+COPY . .
+
+CMD ["npm", "run", "aio"]

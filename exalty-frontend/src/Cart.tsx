@@ -1,6 +1,6 @@
 import { Elements } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
-import { cart, cart_content, order } from "./Models";
+import { cart, cart_content, order, stock_size, address } from "./Models";
 import BasicComponent from "./BasicComponent";
 import { loadStripe } from "@stripe/stripe-js";
 import { useAuth } from "./AuthContext";
@@ -13,10 +13,12 @@ import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import CircularProgress from "@mui/material/CircularProgress";
+import ArrowDropDownCircleIcon from "@mui/icons-material/ArrowDropDownCircle";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import "./Cart.css";
 import { CheckoutForm } from "./CheckoutForm";
 import StarsIcon from "@mui/icons-material/Stars";
-import React from "react";
+
 const stripePromise = loadStripe(
   "pk_test_51OUHmoF7Ds1MzVzS9YK9cgn32JWD9SjXuhUC1rabUOEFzIlfRLBPzZ10g88rugrbbXyUN7OcDGnPJDW3QNCc04vL00ukMTWuTj"
 );
@@ -31,7 +33,266 @@ function Cart() {
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [open, setOpen] = useState(false);
   const [paymentMessage, setPaymentMessage] = useState("");
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
+  const [unfoldedCart, setUnfoldedCart] = useState<number>(-1);
+  const [showAddressList, setShowAddressList] = useState(false);
+  const [addressShipping, setAddressShipping] = useState<address | null>(null);
+  const [addressBilling, setAddressBilling] = useState<address | null>(null);
+  const [isPointPay, setIsPointPay] = useState(false);
+
+  const handleChangeShipping = (value: number) => {
+    if (value === 0) {
+      setAddressShipping(null);
+      return;
+    }
+    const address_id = user.address.find(
+      (address) => address.id === Number(value)
+    );
+    if (address_id) {
+      setAddressShipping(address_id);
+    }
+  };
+
+  const handleChangeBilling = (value: number) => {
+    if (value === 0) {
+      setAddressBilling(null);
+      return;
+    }
+
+    const address_id = user.address.find(
+      (address) => address.id === Number(value)
+    );
+    if (address_id) {
+      setAddressBilling(address_id);
+    }
+  };
+
+  const createAddress = async (isPointPay: boolean) => {
+    if (!addressShipping && !addressBilling) {
+      const address = document.querySelector<HTMLInputElement>(
+        "input[name='address']"
+      )?.value;
+
+      const city =
+        document.querySelector<HTMLInputElement>("input[name='city']")?.value;
+      const zipcode = document.querySelector<HTMLInputElement>(
+        "input[name='zipcode']"
+      )?.value;
+
+      const title = document.querySelector<HTMLInputElement>(
+        "input[name='title']"
+      )?.value;
+
+      if (!address || !city || !zipcode || !title) {
+        alert(
+          "Veuillez remplir tous les champs obligatoires pour l'addresse de livraison"
+        );
+        return;
+      }
+      const address2 = document.querySelector<HTMLInputElement>(
+        "input[name='address2']"
+      )?.value;
+
+      const city2 = document.querySelector<HTMLInputElement>(
+        "input[name='city2']"
+      )?.value;
+      const zipcode2 = document.querySelector<HTMLInputElement>(
+        "input[name='zipcode2']"
+      )?.value;
+
+      const title2 = document.querySelector<HTMLInputElement>(
+        "input[name='title2']"
+      )?.value;
+
+      if (!address2 || !city2 || !zipcode2 || !title2) {
+        alert(
+          "Veuillez remplir tous les champs obligatoires pour l'addresse de facturation"
+        );
+        return;
+      }
+
+      const newAddress = {
+        address,
+        city,
+        zipcode,
+        title,
+        user_id: user.id,
+      };
+
+      const newAddress2 = {
+        address: address2,
+        city: city2,
+        zipcode: zipcode2,
+        title: title2,
+        user_id: user.id,
+      };
+
+      if (
+        address === address2 &&
+        city === city2 &&
+        zipcode === zipcode2 &&
+        title === title2
+      ) {
+        const addr = await axios
+          .post("http://localhost:5000/shop/address", newAddress)
+          .catch((err) => {
+            console.error("Error creating address:", err);
+            return { data: [] };
+          });
+
+        setAddressShipping(addr.data as address);
+        setAddressBilling(addr.data as address);
+      } else {
+        const shipping = await axios
+          .post("http://localhost:5000/shop/address", newAddress)
+          .catch((err) => {
+            console.error("Error creating address:", err);
+            return { data: [] };
+          });
+
+        setAddressShipping(shipping.data as address);
+
+        const billing = await axios
+          .post("http://localhost:5000/shop/address", newAddress2)
+          .catch((err) => {
+            console.error("Error creating address:", err);
+            return { data: [] };
+          });
+
+        setAddressBilling(billing.data as address);
+      }
+    } else if (!addressShipping && addressBilling) {
+      const address = document.querySelector<HTMLInputElement>(
+        "input[name='address']"
+      )?.value;
+
+      const city =
+        document.querySelector<HTMLInputElement>("input[name='city']")?.value;
+      const zipcode = document.querySelector<HTMLInputElement>(
+        "input[name='zipcode']"
+      )?.value;
+
+      const title = document.querySelector<HTMLInputElement>(
+        "input[name='title']"
+      )?.value;
+
+      if (!address || !city || !zipcode || !title) {
+        alert(
+          "Veuillez remplir tous les champs obligatoires pour l'addresse de livraison"
+        );
+        return;
+      }
+
+      const newAddress = {
+        address,
+        city,
+        zipcode,
+        title,
+        user_id: user.id,
+      };
+
+      const addr = await axios
+        .post("http://localhost:5000/shop/address", newAddress)
+        .catch((err) => {
+          console.error("Error creating address:", err);
+          return { data: [] };
+        });
+
+      setAddressShipping(addr.data as address);
+    } else if (addressShipping && !addressBilling) {
+      const address2 = document.querySelector<HTMLInputElement>(
+        "input[name='address2']"
+      )?.value;
+
+      const city2 = document.querySelector<HTMLInputElement>(
+        "input[name='city2']"
+      )?.value;
+      const zipcode2 = document.querySelector<HTMLInputElement>(
+        "input[name='zipcode2']"
+      )?.value;
+
+      const title2 = document.querySelector<HTMLInputElement>(
+        "input[name='title2']"
+      )?.value;
+
+      if (!address2 || !city2 || !zipcode2 || !title2) {
+        alert(
+          "Veuillez remplir tous les champs obligatoires pour l'addresse de facturation"
+        );
+        return;
+      }
+
+      const newAddress2 = {
+        address: address2,
+        city: city2,
+        zipcode: zipcode2,
+        title: title2,
+        user_id: user.id,
+      };
+
+      const billing = await axios
+        .post("http://localhost:5000/shop/address", newAddress2)
+        .catch((err) => {
+          console.error("Error creating address:", err);
+          return { data: [] };
+        });
+
+      setAddressBilling(billing.data as address);
+    }
+
+    setShowAddressList(false);
+    if (isPointPay) {
+      return handlePaymentWithPoints();
+    } else {
+      return getIntentFromServer();
+    }
+  };
+
+  const handleSizeChange = (
+    content: cart_content,
+    index: number,
+    value: string
+  ) => {
+    const newCart = { ...cart };
+    const contentIndex = newCart.cart_content.findIndex(
+      (c) => c.id === content.id
+    );
+
+    if (contentIndex !== -1) {
+      const sizes = newCart.cart_content[contentIndex].size;
+      if (sizes && sizes.length > index) {
+        sizes[index] = { ...sizes[index], size: value };
+        newCart.cart_content[contentIndex] = {
+          ...newCart.cart_content[contentIndex],
+          size: sizes,
+        };
+        setCart(newCart);
+      }
+    }
+  };
+
+  const handleFlockingChange = (
+    content: cart_content,
+    index: number,
+    value: string
+  ) => {
+    const newCart = { ...cart };
+    const contentIndex = newCart.cart_content.findIndex(
+      (c) => c.id === content.id
+    );
+
+    if (contentIndex !== -1) {
+      const flockings = newCart.cart_content[contentIndex].flocking;
+      if (flockings && flockings.length > index) {
+        flockings[index] = { ...flockings[index], value };
+        newCart.cart_content[contentIndex] = {
+          ...newCart.cart_content[contentIndex],
+          flocking: flockings,
+        };
+        setCart(newCart);
+      }
+    }
+  };
 
   const toggling = (index: number) => () => {
     const newIsOpen = [...isOpen];
@@ -48,7 +309,7 @@ function Cart() {
       });
     const cart = response.data as cart;
     let total = 0;
-    if (cart?.cart_content.length > 0) {
+    if (cart && cart.cart_content && cart.cart_content.length > 0) {
       cart?.cart_content.forEach((content) => {
         total += content.product.basePrice * content.quantity;
       });
@@ -113,21 +374,36 @@ function Cart() {
       await deleteCartitem(content.id);
     });
 
+    if (addressBilling === null || addressShipping === null) {
+      setPaymentMessage(
+        "Veuillez renseigner une adresse de facturation et de livraison"
+      );
+      return;
+    }
     const order = await createOrder(
       cartTotal,
       cartTotal,
       cartTotal,
       cartTotal,
-      1,
-      1,
+      addressBilling.id,
+      addressShipping.id,
       0
     );
 
     const order_content = cart?.cart_content.map((content) => {
+      const sizeTab = [];
+      const flockingTab = [];
+
+      for (let i = 0; i < content.quantity; i++) {
+        sizeTab.push(content.size[i].size);
+        flockingTab.push(content.flocking[i].value);
+      }
       return {
         quantity: content.quantity,
         product_id: content.product.id,
         order_id: order.id,
+        size: sizeTab,
+        flocking: flockingTab,
       };
     });
 
@@ -136,6 +412,8 @@ function Cart() {
         .post("http://localhost:5000/shop/order/content/" + order.id, {
           product_id: content.product_id,
           quantity: content.quantity,
+          size: content.size,
+          flocking: content.flocking,
         })
         .catch((err) => {
           console.error("Error creating order content:", err);
@@ -179,14 +457,14 @@ function Cart() {
           });
         const cart = response.data as cart;
         let total = 0;
-        if (cart?.cart_content.length > 0) {
+        if (cart && cart.cart_content && cart.cart_content.length > 0) {
           cart?.cart_content.forEach((content) => {
             total += content.product.basePrice * content.quantity;
           });
         } else {
           total = 0;
         }
-        setCartTotal(total);
+        setCartTotal(Number(Number(total).toFixed(2)));
         setCart(cart);
       }
 
@@ -200,7 +478,7 @@ function Cart() {
     try {
       const response = await axios
         .post("http://localhost:5000/stripe/create-payment-intent", {
-          amount: cartTotal * 100,
+          amount: Number(cartTotal * 100).toFixed(0),
           currency: "eur",
         })
         .catch((err) => {
@@ -222,16 +500,16 @@ function Cart() {
     }
 
     let total = 0;
-    if (cart && cart.cart_content != null) {
-      if (cart.cart_content.length > 0) {
-        cart?.cart_content.forEach((content) => {
-          total += content.product.basePrice * content.quantity;
-        });
-      } else {
-        total = 0;
-      }
+
+    if (cart && cart.cart_content && cart.cart_content.length > 0) {
+      cart?.cart_content.forEach((content) => {
+        total += content.product.basePrice * content.quantity;
+      });
+    } else {
+      total = 0;
     }
-    setCartTotal(total);
+
+    setCartTotal(Number(Number(total).toFixed(2)));
   }, []);
 
   useEffect(() => {
@@ -262,58 +540,180 @@ function Cart() {
                   cart.cart_content != null &&
                   cart.cart_content.length > 0 &&
                   cart.cart_content.map((content, index) => (
-                    <div className="cart-product" key={index}>
-                      <div className="cart-product-img">
-                        <img
-                          src={
-                            "http://localhost:5000/uploads/product/" +
-                            content.product.img
-                          }
-                          alt={content.product.img}
-                        ></img>
-                      </div>
-                      <div>{content.product.name}</div>
-
-                      <div className="cart-product-quantity">
-                        <div className="dropdown-container">
+                    <div>
+                      <div className="cart-product" key={index}>
+                        {content.quantity > 1 && unfoldedCart !== index && (
                           <div
-                            className="dropdown-header"
-                            onClick={toggling(index)}
+                            className="cart-unfold"
+                            onClick={() => setUnfoldedCart(index)}
                           >
-                            Qté : {content.quantity}
+                            <ArrowDropDownCircleIcon
+                              style={{ fontSize: "3.5rem" }}
+                            />
                           </div>
-                          {isOpen[index] && (
-                            <div className="dropdown-list-container">
-                              <ul className="dropdown-list">
-                                {options.map((option) => (
-                                  <li
-                                    className="dropdown-list-item"
-                                    onClick={onOptionClicked(
-                                      index,
-                                      option,
-                                      content
-                                    )}
-                                    key={Math.random()}
-                                  >
-                                    {option !== 0
-                                      ? option
-                                      : option + " (Supprimer)"}
-                                  </li>
-                                ))}
-                              </ul>
+                        )}
+                        {content.quantity > 1 && unfoldedCart === index && (
+                          <div
+                            className="cart-unfold"
+                            onClick={() => setUnfoldedCart(-1)}
+                          >
+                            <ArrowDropUpIcon style={{ fontSize: "3.5rem" }} />
+                          </div>
+                        )}
+                        <div className="cart-product-img">
+                          <img
+                            src={
+                              "http://localhost:5000/uploads/product/" +
+                              content.product.img
+                            }
+                            alt={content.product.img}
+                          ></img>
+                        </div>
+                        <div>{content.product.name}</div>
+
+                        {content.quantity <= 1 && content.product.sizable && (
+                          <div className="cart-size">
+                            <select
+                              className="cart-product-select"
+                              value={content.size[0].size}
+                              onChange={(e) =>
+                                handleSizeChange(content, index, e.target.value)
+                              }
+                            >
+                              {Object.values(stock_size).map((size, index) => (
+                                <option key={index} value={size}>
+                                  {size}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        )}
+                        {content.quantity <= 1 &&
+                          content.product.flockingable && (
+                            <div className="cart-flocking">
+                              <input
+                                onChange={(e) =>
+                                  handleFlockingChange(
+                                    content,
+                                    index,
+                                    e.target.value
+                                  )
+                                }
+                                placeholder="Floquage"
+                                value={content.flocking[0].value}
+                              ></input>
                             </div>
                           )}
+                        <div className="cart-product-quantity">
+                          <div className="dropdown-container">
+                            <div
+                              className="dropdown-header"
+                              onClick={toggling(index)}
+                            >
+                              Qté : {content.quantity}
+                            </div>
+                            {isOpen[index] && (
+                              <div className="dropdown-list-container">
+                                <ul className="dropdown-list">
+                                  {options.map((option) => (
+                                    <li
+                                      className="dropdown-list-item"
+                                      onClick={onOptionClicked(
+                                        index,
+                                        option,
+                                        content
+                                      )}
+                                      key={Math.random()}
+                                    >
+                                      {option !== 0
+                                        ? option
+                                        : option + " (Supprimer)"}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        <div>
+                          {Number(
+                            content.product.basePrice * content.quantity
+                          ).toFixed(2)}
+                          €
                         </div>
                       </div>
-                      <div>
-                        {Number(content.product.basePrice).toFixed(2)} €
-                      </div>
+                      {content.quantity > 1 && (
+                        <div
+                          className="cart-product-unfold"
+                          style={{
+                            display: unfoldedCart === index ? "flex" : "none",
+                          }}
+                        >
+                          {Array.from({ length: content.quantity }, (_, i) => (
+                            <div className="cart-product" key={i}>
+                              <div className="cart-product-img">
+                                <img
+                                  src={
+                                    "http://localhost:5000/uploads/product/" +
+                                    content.product.img
+                                  }
+                                  alt={content.product.img}
+                                ></img>
+                              </div>
+                              {content.size !== null && (
+                                <div className="cart-size">
+                                  <select
+                                    className="cart-product-select"
+                                    value={content.size[i].size}
+                                    onChange={(e) =>
+                                      handleSizeChange(
+                                        content,
+                                        i,
+                                        e.target.value
+                                      )
+                                    }
+                                  >
+                                    {Object.values(stock_size).map(
+                                      (size, index) => (
+                                        <option key={index} value={size}>
+                                          {size}
+                                        </option>
+                                      )
+                                    )}
+                                  </select>
+                                </div>
+                              )}
+                              {content.flocking !== null && (
+                                <div className="cart-flocking">
+                                  <input
+                                    onChange={(e) =>
+                                      handleFlockingChange(
+                                        content,
+                                        i,
+                                        e.target.value
+                                      )
+                                    }
+                                    placeholder="Floquage"
+                                    value={content.flocking[i].value}
+                                  ></input>
+                                </div>
+                              )}
+
+                              <div>
+                                {Number(content.product.basePrice).toFixed(2)} €
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   ))}
 
-                {cart.cart_content.length === 0 && (
-                  <div>Votre panier est vide</div>
-                )}
+                {cart &&
+                  cart.cart_content &&
+                  cart.cart_content.length === 0 && (
+                    <div>Votre panier est vide</div>
+                  )}
               </div>
 
               <div className="cart-pay">
@@ -330,7 +730,7 @@ function Cart() {
                           <CircularProgress className="progress-bar" />
                         ) : (
                           <button
-                            onClick={() => getIntentFromServer()}
+                            onClick={() => setShowAddressList(true)}
                             className="btn"
                           >
                             Passer la commande
@@ -339,10 +739,21 @@ function Cart() {
                       </div>
                       <div>
                         <button
-                          onClick={() => handlePaymentWithPoints()}
+                          disabled={user.fidelity_points < cartTotal * 10}
+                          onClick={() => {
+                            setIsPointPay(true);
+                            setShowAddressList(true);
+                          }}
                           className="btn"
+                          title={
+                            user.fidelity_points < cartTotal * 10
+                              ? "Vous n'avez pas assez de points pour payer cette commande ( " +
+                                (cartTotal * 10 - user.fidelity_points) +
+                                " points manquants )"
+                              : ""
+                          }
                         >
-                          Payer avec vos points <StarsIcon />
+                          Payer avec {cartTotal * 10} points <StarsIcon />
                         </button>
                       </div>
                     </>
@@ -392,6 +803,123 @@ function Cart() {
                     </DialogActions>
                   </Dialog>
                 )}
+
+                <Dialog
+                  fullScreen={fullScreen}
+                  open={showAddressList}
+                  onClose={() => setShowAddressList(false)}
+                  aria-labelledby="responsive-dialog-title"
+                >
+                  <DialogTitle id="responsive-dialog-title">
+                    {"Choisir une adresse de facturation et de livraison"}
+                  </DialogTitle>
+                  <DialogContent>
+                    <div>
+                      <div>
+                        {user.address && user.address.length > 0 ? (
+                          <div>
+                            <select
+                              onChange={(e) =>
+                                handleChangeShipping(Number(e.target.value))
+                              }
+                              className="cart-product-select"
+                            >
+                              <option value={0}>
+                                Choisir une adresse de livraison
+                              </option>
+                              {user.address.map((address, index) => (
+                                <option key={index} value={address.id}>
+                                  {address.title} - {address.address} -{" "}
+                                  {address.city} - {address.zipcode}
+                                </option>
+                              ))}
+                            </select>
+                            <select
+                              onChange={(e) =>
+                                handleChangeBilling(Number(e.target.value))
+                              }
+                              className="cart-product-select"
+                            >
+                              <option value={0}>
+                                Choisir une adresse de facturation
+                              </option>
+                              {user.address.map((address, index) => (
+                                <option key={index} value={address.id}>
+                                  {address.title} - {address.address} -{" "}
+                                  {address.city} - {address.zipcode}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        ) : (
+                          <p>Vous n'avez pas d'adresse enregistrée</p>
+                        )}
+
+                        <div className="cart-address-add-list">
+                          {addressShipping === null && (
+                            <div className="cart-address_add">
+                              <div>
+                                <p>Adresse de livraison</p>
+                                <div className="cart-address_add_form">
+                                  <input
+                                    name="title"
+                                    placeholder="Nom de l'addresse"
+                                  ></input>
+                                  <input
+                                    name="address"
+                                    placeholder="Adresse"
+                                  ></input>
+                                  <input
+                                    name="city"
+                                    placeholder="Ville"
+                                  ></input>
+                                  <input
+                                    name="zipcode"
+                                    placeholder="Code postal"
+                                  ></input>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                          {addressBilling === null && (
+                            <div className="cart-address_add">
+                              <div>
+                                <p>Adresse de facturation</p>
+                                <div className="cart-address_add_form">
+                                  <input
+                                    name="title2"
+                                    placeholder="Nom de l'addresse"
+                                  ></input>
+                                  <input
+                                    name="address2"
+                                    placeholder="Adresse"
+                                  ></input>
+                                  <input
+                                    name="city2"
+                                    placeholder="Ville"
+                                  ></input>
+                                  <input
+                                    name="zipcode2"
+                                    placeholder="Code postal"
+                                  ></input>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={() => {
+                          createAddress(isPointPay);
+                        }}
+                        className="btn btn-full"
+                      >
+                        Valider
+                      </button>
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </div>
             </div>
           )}

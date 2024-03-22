@@ -67,6 +67,9 @@ model address {
     updated_at DateTime @default(now()) @db.DateTime(6)
     user_id    Int?
     user       user?    @relation(fields: [user_id], references: [id])
+
+    billing_orders  order[] @relation("BillingAddress")
+    shipping_orders order[] @relation("ShippingAddress")
 }
 
 model cart {
@@ -80,17 +83,55 @@ model cart {
 }
 
 model cart_content {
-    id         Int            @id @default(autoincrement())
-    quantity   Int            @default(1)
+    id         Int                     @id @default(autoincrement())
+    quantity   Int                     @default(1)
     product_id Int
-    product    product        @relation(fields: [product_id], references: [id])
-    size       cart_line_size
-    created_at DateTime       @default(now()) @db.DateTime(6)
-    updated_at DateTime       @default(now()) @db.DateTime(6)
-    deleted_at DateTime?      @db.DateTime(6)
-    flocking   String?        @db.VarChar(255)
-    cart       cart           @relation(fields: [card_id], references: [id])
+    product    product                 @relation(fields: [product_id], references: [id])
+    created_at DateTime                @default(now()) @db.DateTime(6)
+    updated_at DateTime                @default(now()) @db.DateTime(6)
+    deleted_at DateTime?               @db.DateTime(6)
+    flocking   cart_content_flocking[]
+    size       cart_content_size[]
+    cart       cart                    @relation(fields: [card_id], references: [id])
     card_id    Int
+
+    @@unique([card_id, product_id], name: "card_id_product_id")
+}
+
+model cart_content_size {
+    id              Int          @id @default(autoincrement())
+    cart_content_id Int
+    size            String       @db.VarChar(255)
+    cart_content    cart_content @relation(fields: [cart_content_id], references: [id])
+
+    @@index([cart_content_id], name: "idx_cart_content_size")
+}
+
+model cart_content_flocking {
+    id              Int          @id @default(autoincrement())
+    cart_content_id Int
+    value           String       @db.VarChar(255)
+    cart_content    cart_content @relation(fields: [cart_content_id], references: [id])
+
+    @@index([cart_content_id], name: "idx_cart_content_flocking")
+}
+
+model order_content_size {
+    id               Int            @id @default(autoincrement())
+    order_content_id Int
+    size             String         @db.VarChar(255)
+    order_content    order_content? @relation(fields: [order_content_id], references: [id])
+
+    @@index([order_content_id], name: "idx_order_content_size")
+}
+
+model order_content_flocking {
+    id               Int            @id @default(autoincrement())
+    order_content_id Int
+    value            String         @db.VarChar(255)
+    order_content    order_content? @relation(fields: [order_content_id], references: [id])
+
+    @@index([order_content_id], name: "idx_order_content_flocking")
 }
 
 model message {
@@ -113,10 +154,10 @@ model migrations {
 model order {
     id                  Int                  @id @default(autoincrement())
     discount            Int
-    price_ht            Int
-    price_ttc           Int
-    paid_price_ht       Int
-    paid_price_ttc      Int
+    price_ht            Decimal              @db.Decimal(10, 2)
+    price_ttc           Decimal              @db.Decimal(10, 2)
+    paid_price_ht       Decimal              @db.Decimal(10, 2)
+    paid_price_ttc      Decimal              @db.Decimal(10, 2)
     order_content       order_content[]
     payment_status      order_payment_status @default(NONE)
     status              order_status         @default(IN_PROGRESS)
@@ -124,23 +165,27 @@ model order {
     created_at          DateTime             @default(now()) @db.DateTime(6)
     updated_at          DateTime             @default(now()) @db.DateTime(6)
     user_id             Int?
-    billing_address_id  Int
-    shipping_address_id Int
+    billing_address     address?             @relation(name: "BillingAddress", fields: [billing_address_id], references: [id])
+    shipping_address    address?             @relation(name: "ShippingAddress", fields: [shipping_address_id], references: [id])
     user                user?                @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_199e32a02ddc0f47cd93181d8fd")
+    billing_address_id  Int?
+    shipping_address_id Int?
 
     @@index([user_id], map: "FK_199e32a02ddc0f47cd93181d8fd")
 }
 
 model order_content {
-    id         Int       @id @default(autoincrement())
-    quantity   Int       @default(1)
+    id         Int                      @id @default(autoincrement())
+    quantity   Int                      @default(1)
     product_id Int
-    product    product   @relation(fields: [product_id], references: [id])
-    created_at DateTime  @default(now()) @db.DateTime(6)
-    updated_at DateTime  @default(now()) @db.DateTime(6)
-    deleted_at DateTime? @db.DateTime(6)
-    order      order?    @relation(fields: [order_id], references: [id])
+    product    product                  @relation(fields: [product_id], references: [id])
+    created_at DateTime                 @default(now()) @db.DateTime(6)
+    updated_at DateTime                 @default(now()) @db.DateTime(6)
+    deleted_at DateTime?                @db.DateTime(6)
+    order      order?                   @relation(fields: [order_id], references: [id])
     order_id   Int?
+    size       order_content_size[]
+    flocking   order_content_flocking[]
 }
 
 model credit_card {

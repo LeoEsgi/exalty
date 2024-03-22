@@ -23,6 +23,7 @@
   border: 1px solid #ced4da;
   margin: 20px 0;
   height: 150px;
+  display: none;
   /* Adjust based on your needs */
 }
 
@@ -61,4 +62,23 @@
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   height: 200px;
+}
+
+.select-users {
+  width: 50%;
+  padding: 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #282c34;
+  color: #ffffff;
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="%23333" d="M5.5,7.5 L10,12 L14.5,7.5 L5.5,7.5 Z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  cursor: pointer;
 }

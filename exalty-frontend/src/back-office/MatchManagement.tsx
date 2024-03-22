@@ -45,7 +45,6 @@ function MatchManagement() {
       const file = event.target.files[0];
 
       reader.onload = function (e) {
-        console.log(e.target!.result);
         const imgDataUrl = e.target!.result;
         const img = document.getElementById(
           "matchImage-" + event.target.id.split("-")[3]
@@ -165,7 +164,7 @@ function MatchManagement() {
                     <th>Lien</th>
                     <th>Timezone</th>
                     <th>Logo</th>
-                    <th>Delete</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>

@@ -57,45 +57,8 @@ class ShopService {
                         user_id,
                     },
                 });
-                yield prisma.cart_content.create({
-                    data: {
-                        card_id: cart.id,
-                        product_id: product.id,
-                        quantity: quantity,
-                        size: size,
-                        flocking: flocking,
-                    },
-                });
             }
-            else {
-                const cartContent = yield prisma.cart_content.findFirst({
-                    where: {
-                        card_id: cart.id,
-                        product_id: product.id,
-                    },
-                });
-                if (cartContent) {
-                    yield prisma.cart_content.update({
-                        where: {
-                            id: cartContent.id,
-                        },
-                        data: {
-                            quantity: cartContent.quantity + quantity,
-                        },
-                    });
-                }
-                else {
-                    yield prisma.cart_content.create({
-                        data: {
-                            card_id: cart.id,
-                            product_id: product.id,
-                            quantity: quantity,
-                            size: size,
-                            flocking: flocking,
-                        },
-                    });
-                }
-            }
+            yield this.create_cart_content(cart.id, product.id, quantity, size, flocking);
             return yield prisma.cart.findFirst({
                 where: {
                     user_id,
@@ -104,14 +67,67 @@ class ShopService {
                     cart_content: {
                         include: {
                             product: true,
+                            size: true,
+                            flocking: true,
                         },
                     },
                 },
             });
         });
     }
+    create_cart_content(card_id, product_id, quantity, size, flocking) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const c = yield prisma.cart_content.upsert({
+                where: {
+                    card_id_product_id: {
+                        card_id,
+                        product_id,
+                    },
+                },
+                create: {
+                    card_id,
+                    product_id,
+                    quantity,
+                },
+                update: {
+                    quantity: {
+                        increment: quantity,
+                    },
+                },
+            });
+            if (c) {
+                if (size && size.length > 0) {
+                    yield Promise.all(size.map((s) => prisma.cart_content_size.create({
+                        data: {
+                            cart_content_id: c.id,
+                            size: s,
+                        },
+                    })));
+                }
+                if (flocking && flocking.length > 0) {
+                    yield Promise.all(flocking.map((f) => prisma.cart_content_flocking.create({
+                        data: {
+                            cart_content_id: c.id,
+                            value: f,
+                        },
+                    })));
+                }
+            }
+            return c;
+        });
+    }
     delete_cart_content(id) {
         return __awaiter(this, void 0, void 0, function* () {
+            yield prisma.cart_content_size.deleteMany({
+                where: {
+                    cart_content_id: id,
+                },
+            });
+            yield prisma.cart_content_flocking.deleteMany({
+                where: {
+                    cart_content_id: id,
+                },
+            });
             const c = yield prisma.cart_content.delete({
                 where: {
                     id,
@@ -119,12 +135,14 @@ class ShopService {
             });
             return yield prisma.cart.findFirst({
                 where: {
-                    user_id: c.card_id,
+                    id: c.card_id,
                 },
                 include: {
                     cart_content: {
                         include: {
                             product: true,
+                            size: true,
+                            flocking: true,
                         },
                     },
                 },
@@ -133,6 +151,14 @@ class ShopService {
     }
     update_cart_content(id, quantity) {
         return __awaiter(this, void 0, void 0, function* () {
+            const cartContent = yield prisma.cart_content.findFirst({
+                where: {
+                    id,
+                },
+            });
+            if (!cartContent) {
+                return null;
+            }
             const c = yield prisma.cart_content.update({
                 where: {
                     id,
@@ -141,15 +167,33 @@ class ShopService {
                     quantity,
                 },
             });
-            console.log(c);
+            const diff = quantity - cartContent.quantity;
+            if (diff > 0) {
+                for (let i = 0; i < diff; i++) {
+                    yield prisma.cart_content_size.create({
+                        data: {
+                            cart_content_id: c.id,
+                            size: "M",
+                        },
+                    });
+                    yield prisma.cart_content_flocking.create({
+                        data: {
+                            cart_content_id: c.id,
+                            value: "",
+                        },
+                    });
+                }
+            }
             return yield prisma.cart.findFirst({
                 where: {
-                    user_id: c.card_id,
+                    id: c.card_id,
                 },
                 include: {
                     cart_content: {
                         include: {
                             product: true,
+                            size: true,
+                            flocking: true,
                         },
                     },
                 },
@@ -175,6 +219,8 @@ class ShopService {
                     cart_content: {
                         include: {
                             product: true,
+                            size: true,
+                            flocking: true,
                         },
                     },
                 },
@@ -199,13 +245,62 @@ class ShopService {
             });
         });
     }
-    createOrderContent(quantity, product_id, order_id) {
+    updateOrder(id, status, payment_status) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield prisma.order_content.create({
+            return yield prisma.order.update({
+                where: {
+                    id,
+                },
+                data: {
+                    status,
+                    payment_status,
+                },
+            });
+        });
+    }
+    createOrderContent(quantity, product_id, order_id, size, flocking) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const c = yield prisma.order_content.create({
                 data: {
                     quantity,
                     product_id,
                     order_id,
+                },
+            });
+            if (c) {
+                if (size && size.length > 0) {
+                    yield Promise.all(size.map((s) => prisma.order_content_size.create({
+                        data: {
+                            order_content_id: c.id,
+                            size: s,
+                        },
+                    })));
+                }
+                if (flocking && flocking.length > 0) {
+                    yield Promise.all(flocking.map((f) => prisma.order_content_flocking.create({
+                        data: {
+                            order_content_id: c.id,
+                            value: f,
+                        },
+                    })));
+                }
+            }
+            return c;
+        });
+    }
+    getAllOrders() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield prisma.order.findMany({
+                include: {
+                    order_content: {
+                        include: {
+                            product: true,
+                            size: true,
+                            flocking: true,
+                        },
+                    },
+                    billing_address: true,
+                    shipping_address: true,
                 },
             });
         });
@@ -231,6 +326,8 @@ class ShopService {
                             product: true,
                         },
                     },
+                    billing_address: true,
+                    shipping_address: true,
                 },
             });
         });

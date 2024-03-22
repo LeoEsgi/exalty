@@ -38,6 +38,9 @@ function TopBarManagement({ isLogoVisible = true }: TopBarProps) {
                 <Link to="/management/matches">Gestion Matchs</Link>
               </div>
               <div>
+                <Link to="/management/matches">Gestion Evenements</Link>
+              </div>
+              <div>
                 <Link to="/management/team">Gestion Equipes</Link>
               </div>
               <div>
@@ -45,6 +48,9 @@ function TopBarManagement({ isLogoVisible = true }: TopBarProps) {
               </div>
               <div>
                 <Link to="/management/user">Gestion des Utilisateurs</Link>
+              </div>
+              <div>
+                <Link to="/management/order">Gestion des Commandes</Link>
               </div>
               <div>
                 <Link to="/management/newsletter">Gestion NewsLetter</Link>
@@ -57,16 +63,21 @@ function TopBarManagement({ isLogoVisible = true }: TopBarProps) {
           <div className="left-panel">
             <div>
               <Link to="/management/shop" className="nav-item">
-                Gestion Boutique
+                Boutique
               </Link>
             </div>
             <div>
-              <Link to="/management/team">Gestion Equipes</Link>
+              <Link to="/management/team">Equipes</Link>
             </div>
 
             <div>
               <Link to="/management/match" className="nav-item">
-                Gestion Matchs
+                Matchs
+              </Link>
+            </div>
+            <div>
+              <Link to="/management/event" className="nav-item">
+                Evenements
               </Link>
             </div>
           </div>
@@ -83,18 +94,21 @@ function TopBarManagement({ isLogoVisible = true }: TopBarProps) {
           <div className="right-panel">
             <div>
               <Link to="/management/sponsor" className="nav-item">
-                Gestion Partenaires
+                Partenaires
               </Link>
             </div>
 
             <div>
               <Link to="/management/user" className="nav-item">
-                Gestion Utilisateurs
+                Utilisateurs
               </Link>
             </div>
             <div>
+              <Link to="/management/order">Commandes</Link>
+            </div>
+            <div>
               <Link to="/management/newsletter" className="nav-item">
-                Gestion NewsLetter
+                NewsLetter
               </Link>
             </div>
           </div>

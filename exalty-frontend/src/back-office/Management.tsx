@@ -4,6 +4,8 @@ import SponsorManagement from "./SponsorManagement";
 import TeamManagement from "./TeamManagement";
 import UserManagement from "./UserManagement";
 import MatchManagement from "./MatchManagement";
+import OrderManagement from "./OrderManagement";
+import EventManagement from "./EventManagement";
 import NewsLetter from "./NewsLetter";
 import ProtectedRoute from "./ProtectedRoute";
 function Management() {
@@ -28,6 +30,15 @@ function Management() {
       <Route
         path="/match"
         element={<ProtectedRoute element={<MatchManagement />} />}
+      />
+      <Route
+        path="/event"
+        element={<ProtectedRoute element={<EventManagement />} />}
+      />
+
+      <Route
+        path="/order"
+        element={<ProtectedRoute element={<OrderManagement />} />}
       />
 
       <Route

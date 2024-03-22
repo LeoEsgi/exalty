@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.upload_membership = exports.upload_match = exports.upload_product = exports.upload_sponsor = exports.upload_game = exports.upload_player = void 0;
+exports.upload_event = exports.upload_membership = exports.upload_match = exports.upload_product = exports.upload_sponsor = exports.upload_game = exports.upload_player = void 0;
 const multer_1 = __importDefault(require("multer"));
 const path_1 = __importDefault(require("path"));
 const storage_player = multer_1.default.diskStorage({
@@ -102,9 +102,26 @@ const storage_membership = multer_1.default.diskStorage({
         cb(null, fileName + fileExt);
     },
 });
+const storage_event = multer_1.default.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path_1.default.join(__dirname, "../public/uploads/event"));
+    },
+    filename: (req, file, cb) => {
+        const fileExt = path_1.default.extname(file.originalname);
+        const fileName = file.originalname
+            .replace(fileExt, "")
+            .toLowerCase()
+            .split(" ")
+            .join("-") +
+            "-" +
+            Date.now();
+        cb(null, fileName + fileExt);
+    },
+});
 exports.upload_player = (0, multer_1.default)({ storage: storage_player });
 exports.upload_game = (0, multer_1.default)({ storage: storage_game });
 exports.upload_sponsor = (0, multer_1.default)({ storage: storage_sponsor });
 exports.upload_product = (0, multer_1.default)({ storage: storage_product });
 exports.upload_match = (0, multer_1.default)({ storage: storage_match });
 exports.upload_membership = (0, multer_1.default)({ storage: storage_membership });
+exports.upload_event = (0, multer_1.default)({ storage: storage_event });

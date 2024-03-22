@@ -66,10 +66,20 @@ router.post("/order/:userId", (req, res) => __awaiter(void 0, void 0, void 0, fu
     const order = yield shop_1.default.getInstance().createOrder(price_ht, price_ttc, paid_price_ht, paid_price_ttc, userId, billing_address_id, shipping_address_id, discount);
     res.json(order);
 }));
+router.put("/order/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = parseInt(req.params.id);
+    const { status, payment_status } = req.body;
+    const order = yield shop_1.default.getInstance().updateOrder(id, status, payment_status);
+    res.json(order);
+}));
 router.post("/order/content/:order_id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const order_id = parseInt(req.params.order_id);
-    const { product_id, quantity } = req.body;
-    const order = yield shop_1.default.getInstance().createOrderContent(quantity, product_id, order_id);
+    const { product_id, quantity, size, flocking } = req.body;
+    const order = yield shop_1.default.getInstance().createOrderContent(quantity, product_id, order_id, size, flocking);
+    res.json(order);
+}));
+router.get("/order", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const order = yield shop_1.default.getInstance().getAllOrders();
     res.json(order);
 }));
 router.get("/order/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {

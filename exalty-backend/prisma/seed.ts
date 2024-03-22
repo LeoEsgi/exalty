@@ -845,6 +845,22 @@ async function main() {
       amount: 50,
     },
   });
+
+  await prisma.event.upsert({
+    where: { id: 1 },
+    update: {
+      title: "Gamers Assembly",
+      description: "Gamers Assembly",
+      img: "ga.jpg",
+      link: "https://ga2024.gamers-assembly.net/",
+    },
+    create: {
+      title: "Gamers Assembly",
+      description: "Gamers Assembly",
+      img: "ga.jpg",
+      link: "https://ga2024.gamers-assembly.net/",
+    },
+  });
 }
 main()
   .then(async () => {

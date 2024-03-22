@@ -109,6 +109,24 @@ const storage_membership: StorageEngine = multer.diskStorage({
   },
 });
 
+const storage_event: StorageEngine = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "../public/uploads/event"));
+  },
+  filename: (req, file, cb) => {
+    const fileExt = path.extname(file.originalname);
+    const fileName =
+      file.originalname
+        .replace(fileExt, "")
+        .toLowerCase()
+        .split(" ")
+        .join("-") +
+      "-" +
+      Date.now();
+    cb(null, fileName + fileExt);
+  },
+});
+
 export const upload_player = multer({ storage: storage_player });
 
 export const upload_game = multer({ storage: storage_game });
@@ -120,3 +138,5 @@ export const upload_product = multer({ storage: storage_product });
 export const upload_match = multer({ storage: storage_match });
 
 export const upload_membership = multer({ storage: storage_membership });
+
+export const upload_event = multer({ storage: storage_event });

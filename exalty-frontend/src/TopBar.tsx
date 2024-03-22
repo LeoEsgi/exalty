@@ -126,9 +126,9 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
                   <Link to="/recruitment">Rejoindre Exalty</Link>
                 </div>
               )}
-              <div>
+              {/* <div>
                 <Link to="/organigramme">Organigramme</Link>
-              </div>
+              </div> */}
               <div>
                 <Link to="/contact">Contact</Link>
               </div>
@@ -160,7 +160,7 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
                         Adresses
                       </Link>
                       <Link className="nav-item" to="/account/payment">
-                        Moyens de paiement
+                        Paiement
                       </Link>
                       {isAdmin && (
                         <Link className="nav-item" to="/management/team">
@@ -249,11 +249,11 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
                 </div>
               )}
             </div>
-            <div>
+            {/* <div>
               <Link to="/organigramme" className="nav-item">
                 Organigramme
               </Link>
-            </div>
+            </div> */}
             <div>
               <Link to="/contact" className="nav-item">
                 Contact
@@ -299,7 +299,7 @@ function TopBar({ isLogoVisible = true }: TopBarProps) {
                       Adresses
                     </Link>
                     <Link className="nav-item" to="/account/payment">
-                      Moyens de paiement
+                      Paiement
                     </Link>
                     {isAdmin && (
                       <Link className="nav-item" to="/management/team">

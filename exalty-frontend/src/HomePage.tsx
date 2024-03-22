@@ -3,7 +3,6 @@ import logo from "./asset/start-bg.jpg";
 import "./HomePage.css";
 import TopBar from "./TopBar";
 import jersey from "./asset/home-shirt.png";
-import ga from "./asset/ga.jpg";
 import BottomBar from "./BottomBar";
 import { Link } from "react-router-dom";
 import balmain from "./asset/balmain.svg";
@@ -11,13 +10,15 @@ import svgExa from "./asset/exalty.svg";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import exaltyLogo from "./asset/Logo_blanc.png";
 import axios from "axios";
-import { match, match_status } from "./Models";
+import { event, match, match_status } from "./Models";
 
 function HomePage() {
   const [open, setOpen] = React.useState(true);
   const [show, setShow] = useState(match_status.IN_PROGRESS);
   const [isLogoVisible, setIsLogoVisible] = useState(false);
   const [matches, setMatches] = useState<match[]>([]);
+  const [events, setEvents] = useState<event[]>([]);
+  const [selectedEvent, setSelectedEvent] = useState<event | null>(null);
   const triangleRef = useRef<HTMLDivElement>(null);
   const historyRef = useRef<HTMLDivElement>(null);
   const homeRef = useRef<HTMLDivElement>(null);
@@ -52,6 +53,16 @@ function HomePage() {
         }, 1000);
       }
     }
+  };
+
+  const getEvents = async () => {
+    const response = await axios
+      .get("http://localhost:5000/event/")
+      .catch((err) => {
+        console.error("Error fetching events:", err);
+        return { data: [] };
+      });
+    return response.data;
   };
 
   const getMatches = async () => {
@@ -90,7 +101,18 @@ function HomePage() {
       }
     };
 
+    const fetchEvents = async () => {
+      const events = await getEvents();
+      if (Array.isArray(events)) {
+        setEvents(events);
+        if (events.length > 0) setSelectedEvent(events[0]);
+      } else {
+        console.error("Expected an array of events, but got:", events);
+      }
+    };
+
     fetchMatches();
+    fetchEvents();
   }, []);
   useEffect(() => {
     window.addEventListener("scroll", handleScrollDown);
@@ -353,16 +375,47 @@ function HomePage() {
       >
         <div className="event-content">
           <h1 className="event-title">Evenement a venir</h1>
-          <div className="event-list">
-            <img className="event1" src={ga} alt="GA"></img>
-            <div className="event1-content">
-              Si vous souhaitez venir encourager nos joueurs à la Gamers
-              Assembly,{" "}
-              <a href="https://ga2024.gamers-assembly.net/">
-                voici le lien de la billeterie
-              </a>
-            </div>
-          </div>
+          {events.length === 0 && <div>Pas d'événements à venir</div>}
+          {events.length > 0 && (
+            <>
+              <div className="select-events">
+                <select
+                  onChange={(e) => {
+                    setSelectedEvent(
+                      events.find(
+                        (event) => event.id === parseInt(e.target.value)
+                      ) || null
+                    );
+                  }}
+                  className="matches-selector-select"
+                >
+                  {events.map((event, index) => {
+                    return (
+                      <option key={index} value={event.id}>
+                        {event.title}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+              <div className="event-list">
+                <img
+                  className="event1"
+                  src={
+                    "http://localhost:5000/uploads/event/" + selectedEvent?.img
+                  }
+                  alt="GA"
+                ></img>
+                <div className="event1-content">
+                  Si vous souhaitez venir encourager nos joueurs a la{" "}
+                  {selectedEvent?.title},{" "}
+                  <a href={selectedEvent?.link}>
+                    voici le lien de la billeterie
+                  </a>
+                </div>
+              </div>
+            </>
+          )}
           <BottomBar />
         </div>
 

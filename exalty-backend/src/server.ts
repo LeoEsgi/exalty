@@ -42,6 +42,10 @@ app.use(
   "/uploads/match",
   express.static(path.join(__dirname, "public/uploads/match"))
 );
+app.use(
+  "/uploads/event",
+  express.static(path.join(__dirname, "public/uploads/event"))
+);
 
 app.use(
   "/uploads/membership",

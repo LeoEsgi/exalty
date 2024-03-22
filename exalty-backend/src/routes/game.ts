@@ -10,12 +10,14 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   const id = parseInt(req.params.id);
+
   const game = (await GameService.getInstance().getById(id)) as game | null;
   res.json(game);
 });
 
 router.post("/", async (req, res) => {
   const { name, title, desc, img } = req.body;
+
   const game = await GameService.getInstance().create(title, name, desc, img);
   res.json(game);
 });
@@ -23,6 +25,7 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   const { name, title, desc, img } = req.body;
+
   if (isNaN(id)) {
     res.status(400).json({ message: "Invalid id" });
     return;

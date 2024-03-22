@@ -26,7 +26,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const express_1 = __importDefault(require("express"));
-const prisma_1 = require("../errors/prisma");
 const middlewares_1 = require("../middlewares");
 const jwt_1 = __importDefault(require("../services/jwt"));
 const user_1 = __importDefault(require("../services/user"));
@@ -58,8 +57,7 @@ router.post("/register", (req, res, next) => __awaiter(void 0, void 0, void 0, f
         return;
     }
     try {
-        const userCreated = yield prisma.user
-            .create({
+        const userCreated = yield prisma.user.create({
             data: {
                 pseudo: pseudo,
                 password: yield bcryptjs_1.default.hash(password, 10),
@@ -69,28 +67,17 @@ router.post("/register", (req, res, next) => __awaiter(void 0, void 0, void 0, f
                 discord_tag: tag,
                 role_id: type_id_to_use,
             },
-        })
-            .catch((e) => {
-            (0, prisma_1.prismaErrorHandler)().errorHandler(e, req, res, (e) => {
-                console.log(e);
-            });
         });
         if (!userCreated)
             throw new Error("Error while creating the user");
         const verificationToken = yield bcryptjs_1.default.hash(userCreated.id.toString(), 8);
-        const verificationUpdated = yield prisma.user
-            .update({
+        const verificationUpdated = yield prisma.user.update({
             where: {
                 id: userCreated.id,
             },
             data: {
                 token_verification: verificationToken,
             },
-        })
-            .catch((e) => {
-            (0, prisma_1.prismaErrorHandler)().errorHandler(e, req, res, (e) => {
-                console.log(e);
-            });
         });
         if (!verificationUpdated)
             throw new Error("Error while updating the user token verification");
@@ -110,26 +97,19 @@ router.post("/register", (req, res, next) => __awaiter(void 0, void 0, void 0, f
 }));
 router.post("/validate", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { token } = req.body;
-    try {
-        const user = yield prisma.user.update({
-            where: {
-                token_verification: token,
-            },
-            data: {
-                active: true,
-            },
-        });
-        if (!user) {
-            res.status(404).json({ message: "User not found" });
-            return;
-        }
-        res.json({ message: "User validated" });
+    const user = yield prisma.user.update({
+        where: {
+            token_verification: token,
+        },
+        data: {
+            active: true,
+        },
+    });
+    if (!user) {
+        res.status(404).json({ message: "User not found" });
+        return;
     }
-    catch (e) {
-        (0, prisma_1.prismaErrorHandler)().errorHandler(e, req, res, (e) => {
-            console.log(e);
-        });
-    }
+    res.json({ message: "User validated" });
 }));
 router.get("/me", middlewares_1.verifyJwt, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.user;
